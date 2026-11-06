@@ -24,6 +24,42 @@ Your library and reading progress live on the microSD card. Everyday reading wor
 offline, with no account or subscription. The project is free, open source and
 community-powered, with detailed settings and room to experiment.
 
+## rsvpnow: what this fork adds
+
+**rsvpnow** is a personal fork of [RSVP Nano](https://github.com/ionutdecebal/rsvpnano) for the
+Waveshare ESP32-S3-Touch-LCD-3.49 Rev2. It builds on the New UI and adds:
+
+- **Free books over Wi-Fi.** Library → **+ Add** → **Free books** downloads 70 public-domain classics
+  from Project Gutenberg on six shelves. Gutenberg's licence pages are skipped, so a book opens on the
+  work itself. See [docs/free-books.md](docs/free-books.md).
+- **Add books, in one place.** Free books, USB transfer, the companion, and a short list of shops that
+  sell books without DRM.
+- **Rigels Studio** ([desktop/](desktop/README.md)), a desktop app that times every word exactly like the
+  reader, charts where reading slows down, trims front and back matter, and installs EPUBs over USB.
+- A new startup wordmark, and chapter titles that stay valid text when they're shortened.
+
+<table>
+  <tr>
+    <td width="50%"><strong>Startup</strong><br><img src="docs/images/rsvpnow/startup.png" alt="Startup screen with the rigels wordmark and a star over the i" width="640"></td>
+    <td width="50%"><strong>Add books</strong><br><img src="docs/images/rsvpnow/add-books.png" alt="Add books: free books, from a computer, companion, where to buy" width="640"></td>
+  </tr>
+  <tr>
+    <td><strong>Free books</strong><br><img src="docs/images/rsvpnow/free-books.png" alt="Six shelves of public-domain books" width="640"></td>
+    <td><strong>Pick a title and download</strong><br><img src="docs/images/rsvpnow/free-shelf.png" alt="Classics shelf with Pride and Prejudice selected and a Download button" width="640"></td>
+  </tr>
+  <tr>
+    <td><strong>Already on your reader</strong><br><img src="docs/images/rsvpnow/free-shelf-owned.png" alt="A downloaded title marked on your reader with a Read now button" width="640"></td>
+    <td><strong>Where to buy</strong><br><img src="docs/images/rsvpnow/where-to-buy.png" alt="Shops and publishers that sell books without DRM" width="640"></td>
+  </tr>
+  <tr>
+    <td><strong>Library</strong><br><img src="docs/images/rsvpnow/library.png" alt="Library with the current book, progress and + Add" width="640"></td>
+    <td><strong>Menu</strong><br><img src="docs/images/rsvpnow/menu.png" alt="Main menu with the current book, chapters, library and settings" width="640"></td>
+  </tr>
+</table>
+
+Screenshots are rendered by the firmware's own drawing code at the panel's 640 × 172 resolution
+(`test/native_modern_preview/run.py`), with sample books.
+
 ## Choose your software
 
 **Two interfaces, one RSVP Nano project.** Choose the experience that suits you.
