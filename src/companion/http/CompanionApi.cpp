@@ -127,7 +127,7 @@ std::string_view CompanionApi::statusLine2() const {
 }
 
 CompanionApi::OperationResult CompanionApi::startAccessPoint() {
-    accessPointSsid_ = "RSVP-Nano-" + deviceSuffix();
+    accessPointSsid_ = "RSVP-Now-" + deviceSuffix();
 
     WiFi.persistent(false);
     WiFi.setAutoReconnect(false);
@@ -233,7 +233,7 @@ CompanionApi::OperationResult CompanionApi::startMdns() {
 
     const std::string suffix = deviceSuffix();
     std::string hostname = "rsvp-nano-" + suffix;
-    const std::string instanceName = "RSVP-Nano-" + suffix;
+    const std::string instanceName = "RSVP-Now-" + suffix;
     std::ranges::transform(hostname, hostname.begin(), AsciiText::toLower);
 
     if (!MDNS.begin(hostname.c_str()))
@@ -265,7 +265,7 @@ companion::api::Result<companion::api::DeviceInfo> CompanionApi::getDevice(httpd
 
 companion::api::DeviceInfo CompanionApi::deviceInfo() const {
     return companion::api::DeviceInfo{
-        .ssid = accessPointSsid_.empty() ? "RSVP-Nano-" + deviceSuffix() : accessPointSsid_,
+        .ssid = accessPointSsid_.empty() ? "RSVP-Now-" + deviceSuffix() : accessPointSsid_,
         .firmwareVersion = std::string{OtaUpdater::currentVersion()},
         .otaAsset = Board::Config::OTA_ASSET_NAME,
     };

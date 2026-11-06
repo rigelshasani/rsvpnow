@@ -60,7 +60,7 @@ std::expected<size_t, std::string> download(
         config.disable_auto_redirect = true;
         config.event_handler = headers;
         config.user_data = &response;
-        config.user_agent = "RSVP-Nano/0.2";
+        config.user_agent = "RSVP-Now/0.2";
         Client client{esp_http_client_init(&config)};
         if (!client.value) return std::unexpected("Download memory unavailable");
         esp_http_client_set_header(client.value, "Accept-Encoding", "identity");

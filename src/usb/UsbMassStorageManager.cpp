@@ -122,7 +122,7 @@ const char* UsbMassStorageManager::statusMessage() const {
 
 bool UsbMassStorageManager::configureMsc() {
 #if RSVP_USB_MSC_ENABLED
-    msc_.vendorID("RSVPNANO");
+    msc_.vendorID("RSVPNOW");
     msc_.productID("SD Transfer");
     msc_.productRevision("0.1");
     msc_.onRead(onRead);

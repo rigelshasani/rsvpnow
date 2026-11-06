@@ -6,8 +6,9 @@
 #include <vector>
 
 namespace update {
-inline constexpr char kCatalogUrl[] = "https://ionutdecebal.github.io/rsvpnano/firmware/channels.json";
-inline constexpr char kOfficialRepo[] = "ionutdecebal/rsvpnano";
+// rsvpnow updates only from its own repository, never from upstream RSVP Nano releases.
+inline constexpr char kCatalogUrl[] = "https://rigelshasani.github.io/rsvpnow/firmware/channels.json";
+inline constexpr char kOfficialRepo[] = "rigelshasani/rsvpnow";
 inline constexpr char kNewUiBoard[] = "waveshare_esp32s3_touch_lcd_3_49";
 inline constexpr char kNewUiRev2Board[] = "waveshare_esp32s3_touch_lcd_3_49_rev2";
 constexpr bool supportsNewUi(std::string_view board) {

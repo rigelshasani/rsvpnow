@@ -43,7 +43,7 @@ void Dictionary::lookupOnline(settings::SettingsStore& settings) {
         std::string reply;
         if(!http.begin(client,url.c_str()))message="Could not open dictionary connection";
         else{
-            http.addHeader("User-Agent","RSVPNano/0.2 (https://github.com/ionutdecebal/rsvpnano)");
+            http.addHeader("User-Agent","RSVPNow/0.2 (https://github.com/rigelshasani/rsvpnow)");
             const int code=http.GET();Sink sink(reply);const int count=code>0?http.writeToStream(&sink):-1;http.end();
             if(code==404)message="No online entry found";
             else if(code!=200||count<0||sink.failed)message="Dictionary unavailable · try again later";

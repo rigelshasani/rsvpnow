@@ -957,8 +957,10 @@ void App::updateBackgroundJob() {
         }
         if (completed == JobKind::OtaCheck) {
             if (otaAutomatic_ && !otaOffer_.ready) {
+                // The startup check only speaks up when there is something to install.
                 otaAutomatic_ = false;
-                showTransientStatus("OTA", update.line1, update.line2, 1800, screens::Screen::Reader);
+                screen_ = screens::Screen::Reader; statusUntilMs_ = 0;
+                immediateUi_.invalidate(); renderScreen(millis());
                 return;
             }
             otaAutomatic_ = false;

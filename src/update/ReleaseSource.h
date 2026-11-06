@@ -23,7 +23,7 @@ struct ReleaseSource {std::string owner,repo,tag;};
     inline ReleaseSource releaseSourceForSettings(const settings::UpdateSettings& settings) {
         ReleaseSource source{settings.repositoryOwner.empty() ? std::string{settings::kDefaultRepositoryOwner}
                                                               : std::string{AsciiText::trim(settings.repositoryOwner)},
-                             "rsvpnano", std::string{AsciiText::trim(settings.releaseTag)}};
+                             "rsvpnow", std::string{AsciiText::trim(settings.releaseTag)}};
 
         splitOwnerRepo(source.owner, source.owner, source.repo);
         splitOwnerRepo(source.repo, source.owner, source.repo);

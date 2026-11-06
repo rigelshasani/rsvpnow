@@ -37,7 +37,7 @@ namespace {
     constexpr uint8_t kMaxFeedsPerCheck = 8;
     constexpr uint8_t kMaxFeedRedirects = 3;
 
-    constexpr const char* kUserAgent = "RSVP-Nano-RSS/1.0";
+    constexpr const char* kUserAgent = "RSVP-Now-RSS/1.0";
 
     std::string feedProgressLabel(uint8_t feedIndex, uint8_t feedCount) {
         return "Feed " + std::to_string(feedIndex) + "/" + std::to_string(feedCount);
