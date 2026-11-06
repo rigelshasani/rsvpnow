@@ -4,9 +4,11 @@
 #include <Preferences.h>
 
 #include <string>
+#include <atomic>
 #include <string_view>
 
 #include "board/BoardDisplay.h"
+#include "dictionary/Dictionary.h"
 #include "board/BoardPower.h"
 #include "companion/http/CompanionApi.h"
 #include "companion/serial/CompanionSerial.h"
@@ -17,11 +19,16 @@
 #include "feeds/RssFeeds.h"
 #include "settings/SettingsStore.h"
 #include "library/StorageManager.h"
+#include "library/BookSettingsEditor.h"
 #include "ui/Ui.h"
 #include "ui/screens/ChaptersScreen.h"
+#include "ui/screens/FreeBooksScreen.h"
 #include "ui/screens/LibraryScreen.h"
 #include "ui/screens/ReaderScreen.h"
+#include "ui/screens/OnboardingScreen.h"
+#include "ui/screens/TouchCheckScreen.h"
 #include "ui/screens/Screens.h"
+#include "ui/screens/ModernScreens.h"
 #include "ui/screens/StandbyScreen.h"
 #include "update/OtaUpdater.h"
 #include "usb/UsbMassStorageManager.h"
@@ -39,7 +46,13 @@ private:
         OtaCheck,
         OtaInstall,
         Book,
+        Library,
         Typography,
+        OnboardingStorage,
+        OnlineDictionary,
+        BookSettings,
+        DictionaryInstall,
+        FreeBook,
     };
 
     struct JobUpdate {
@@ -49,6 +62,8 @@ private:
         char line2[96] = {};
         int progressPercent = -1;
         bool rebootRequired = false;
+        uint32_t storageRequest = 0;
+        OnboardingStorage::Progress storage;
     };
 
     void renderScreen(uint32_t nowMs);
@@ -62,6 +77,7 @@ private:
     bool startBackgroundJob(JobKind kind);
     static void backgroundJobEntry(void* context);
     void runBackgroundJob();
+    void recoverOnboardingStorage();
     void enqueueJobUpdate(JobUpdate update, bool mustSucceed = false);
     void showTransientStatus(std::string_view title, std::string_view line1, std::string_view line2,
                              uint32_t durationMs, screens::Screen destination, int progressPercent = -1);
@@ -70,7 +86,7 @@ private:
     void reloadUiAssets();
     void enterUsbTransfer(uint32_t nowMs);
     void exitUsbTransfer(screens::Screen destination = screens::Screen::Reader);
-    void runOtaCheck(bool install);
+    void runOtaCheck(bool install, bool switching = false, bool automatic = false);
     void enterStandby(uint32_t nowMs);
     void exitStandby(uint32_t nowMs);
     void lightSleepFromStandby();
@@ -83,6 +99,7 @@ private:
     bool typographyJobActive() const {
         return jobKind_ == JobKind::Typography;
     }
+    bool onboardingJobActive() const {return jobKind_==JobKind::OnboardingStorage;}
 
     ui::Context immediateUi_{Board::Display::gfx()};
     settings::SettingsStore settingsStore_;
@@ -90,12 +107,25 @@ private:
     Board::Power::BatteryState battery_;
     screens::ReaderScreen readerScreen_{Board::Display::gfx(), settingsStore_.settings().reading};
     screens::LibraryScreen libraryScreen_;
+    BookSettingsEditor bookSettings_;
     screens::ChaptersScreen chaptersScreen_;
     screens::InterfaceScreen interfaceScreen_;
     screens::NetworkScreen networkScreen_;
     StorageManager storage_;
     Preferences prefs_;
     screens::FocusScreen focusScreen_;
+    screens::OnboardingScreen onboardingScreen_;
+    screens::TouchCheckScreen touchCheckScreen_;
+    dictionary::Dictionary dictionary_;
+    screens::modern::DictionarySetup dictionarySetup_;
+    std::atomic<bool> dictionaryCancel_{false};
+    bool dictionaryWifiReturn_ = false;
+    screens::FreeBooksScreen freeBooksScreen_;
+    bool freeBooksWifiReturn_ = false;
+    std::atomic<bool> freeBookCancel_{false};
+    OtaUpdater::Offer otaOffer_;
+    bool otaAutomatic_ = false;
+    OtaUpdater::Target otaTarget_ = OtaUpdater::Target::Current;
     CompanionApi companionApi_{settingsStore_,   storage_,       localeCatalog_, immediateUi_, readerScreen_,
                                interfaceScreen_, networkScreen_, libraryScreen_, focusScreen_};
     UsbMassStorageManager usbTransfer_;
@@ -116,4 +146,7 @@ private:
     uint32_t standbyEnteredMs_ = 0;
     uint32_t statusUntilMs_ = 0;
     bool restartAfterStatus_ = false;
+    std::atomic<bool> onboardingStorageCancel_{false};
+    uint32_t onboardingJobRequest_=0,onboardingJobStartedMs_=0;
+    bool onboardingJobWasMounted_=false,onboardingStorageNeedsRecovery_=false,onboardingReloadUiPending_=false;
 };

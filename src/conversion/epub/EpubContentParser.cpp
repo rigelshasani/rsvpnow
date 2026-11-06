@@ -24,6 +24,7 @@ namespace EpubContent {
             std::string locale;
             std::string direction;
             bool vertical = false;
+            bool boilerplate = false;
             bool closing = false;
             bool selfClosing = false;
         };
@@ -94,6 +95,20 @@ namespace EpubContent {
             return {};
         }
 
+        bool hasClassToken(std::string_view classes, std::string_view token) {
+            for (size_t start = 0; start < classes.size();) {
+                while (start < classes.size() && AsciiText::isWhitespace(classes[start]))
+                    ++start;
+                size_t end = start;
+                while (end < classes.size() && !AsciiText::isWhitespace(classes[end]))
+                    ++end;
+                if (classes.substr(start, end - start) == token)
+                    return true;
+                start = end;
+            }
+            return false;
+        }
+
         TagInfo parseTagInfo(std::string_view tag) {
             TagInfo info;
 
@@ -137,6 +152,8 @@ namespace EpubContent {
             style.erase(std::remove_if(style.begin(), style.end(), AsciiText::isWhitespace), style.end());
             info.vertical = style.contains("writing-mode:vertical-rl")
                          || style.contains("-epub-writing-mode:vertical-rl");
+            // Project Gutenberg wraps its header and licence in these blocks.
+            info.boilerplate = hasClassToken(tagAttributeValue(tag, "class"), "pg-boilerplate");
 
             for (int i = static_cast<int>(tag.length()) - 1; i >= 0; --i) {
                 if (AsciiText::isWhitespace(tag[i]) || tag[i] == '>') {
@@ -357,6 +374,8 @@ namespace EpubContent {
     }
 
     bool Parser::processDecodedText(char c) {
+        if (boilerplateDepth_ > 0)
+            return true;
         if (skipDepth_ > 0) {
             if (inStyle_ && !styleVertical_ && !AsciiText::isWhitespace(c)) {
                 constexpr std::string_view pattern = "writing-mode:vertical-rl";
@@ -385,7 +404,7 @@ namespace EpubContent {
         }
 
         if (c == '&') {
-            if (skipDepth_ > 0) {
+            if (skipDepth_ > 0 || boilerplateDepth_ > 0) {
                 return true;
             }
             entity_.clear();
@@ -434,6 +453,22 @@ namespace EpubContent {
                     return false;
                 }
                 skipDepth_ = 1;
+                return true;
+            }
+        }
+
+        // Drop boilerplate subtrees whole: no words, chapters or language changes.
+        {
+            if (boilerplateDepth_ > 0) {
+                if (tagInfo.name == boilerplateTag_ && !tagInfo.selfClosing)
+                    boilerplateDepth_ += tagInfo.closing ? -1 : 1;
+                return true;
+            }
+            if (tagInfo.boilerplate && !tagInfo.closing && !tagInfo.selfClosing && !isVoidTag(tagInfo.name)) {
+                if (!flushLine())
+                    return false;
+                boilerplateTag_ = tagInfo.name;
+                boilerplateDepth_ = 1;
                 return true;
             }
         }

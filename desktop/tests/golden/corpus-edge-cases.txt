@@ -1,0 +1,19 @@
+a b I. it. go. up. Mr. Smith met Dr. Jones vs. Prof. X at St. Paul's, etc. e.g. this, i.e. that.
+The U.S.A. and the U.K. signed. J. R. R. Tolkien wrote it. No. 5 is fig. 3 on p. 12.
+He paused... then ran. Wait.... What? Really?! Yes! "Quoted." 'Single.' (Parenthetical.) [Bracketed.] {Braced.}
+Well-known state-of-the-art mother-in-law self-driving co-op e-mail and/or path/to/file snake_case_name.
+A dash - here, and--there, and — an em dash —here— and a lone –en dash.
+Numbers: 7 42 1999 2024-10-28 3.14159 COVID-19 B2B 4x4 MP3 iPhone15 v2.0.1 C++ node.js a/b/c x+y back\slash
+NASA FBI USA OK I A NATO-led UN-backed ALL-CAPS-WORD
+Unbelievably incomprehensibilities antidisestablishmentarianism pneumonoultramicroscopicsilicovolcanoconiosis supercalifragilisticexpialidocious.
+Short: cat dog sun. Medium: cleverly, elephant; marvelous: lemonade! Longer: extraordinary? remarkable...
+Accents: café naïve résumé Zürich São Paulo Øresund façade jalapeño smörgåsbord Ærøskøbing.
+Cyrillic and Greek: Привет мир, Ελληνικά γράμματα. Mixed: Zoë's naïveté.
+Curly “quotes,” ‘apostrophes’ — and ellipsis… and the end’s nigh.” She said: “Go!”
+Abbreviations then lowercase: approx. three, est. five, misc. items, dept. heads, Inc. later.
+Ends with initials: said A. and B. Then C. ran; Mt. Everest; Ft. Worth; Co. Ltd.
+Tab	separated	words and  double  spaces   triple.
+Trailing quote after period." Next sentence.' Another one!) And (more?) here.]
+Soft­hyphen zero​width BOM﻿here and nbsp between words, thin space, ideographic　space.
+Controlchar and C1next-line and line separator end.
+CJK: 你好，世界。日本語の文章です！한국어 문장입니다?

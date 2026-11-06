@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rigels Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Cormorant+Garamond:wght@700&display=swap">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cpath d=%22M16 2Q18 14 30 16Q18 18 16 30Q14 18 2 16Q14 14 16 2Z%22 fill=%22%23fd6f42%22/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <header class="brand">
+      <span class="wordmark">r<span class="dotless">ı<span class="star" aria-hidden="true">✦</span></span>gels</span>
+      <span class="brand-sub">studio</span>
+    </header>
+    <input id="search" type="search" placeholder="Search books" autocomplete="off">
+    <nav id="library" class="library" aria-label="Books"><p class="muted pad">Looking for books…</p></nav>
+    <section class="device" aria-labelledby="device-title">
+      <h2 id="device-title">Reader</h2>
+      <p id="device-status" class="muted small">Not checked yet. Plug the reader in over USB.</p>
+      <div class="device-actions">
+        <button id="device-read" class="secondary">Load from reader</button>
+        <button id="device-write" class="primary" disabled>Send to reader</button>
+      </div>
+      <dl id="device-settings" class="device-settings" hidden></dl>
+      <label id="drop" class="drop">
+        <input id="drop-input" type="file" accept=".epub,.txt,.md,.rsvp" multiple hidden>
+        <strong>Add books</strong>
+        <span class="muted small">Drop EPUB or TXT files here, or click to choose. Gutenberg licences and
+          contents pages are trimmed like “Start and end”.</span>
+      </label>
+      <ol id="drop-list" class="drop-list"></ol>
+    </section>
+  </aside>
+
+  <main>
+    <section id="empty" class="empty">
+      <h1>Pick a book to analyze</h1>
+      <p class="muted">Rigels Studio times every word exactly like your reader does, so you can see where reading slows down,
+        feel it in the preview, and send the settings you like to the reader.</p>
+      <p class="muted small">Books on the SD card (when it is in this Mac) use the reader's own converted text and match it word for word.</p>
+    </section>
+
+    <div id="workspace" hidden>
+      <header class="book-header">
+        <div>
+          <h1 id="book-title"></h1>
+          <p id="book-meta" class="muted"></p>
+        </div>
+        <div id="stats" class="stats"></div>
+      </header>
+
+      <section class="card trim-card" aria-labelledby="trim-title">
+        <div class="card-head">
+          <h2 id="trim-title">Start and end</h2>
+          <span id="trim-summary" class="muted small"></span>
+        </div>
+        <p class="muted small trim-help">Front and back matter that isn't part of the work is unticked. Commentary
+          (forewords, prefaces, introductions) stays unless you untick it. Hover a row to see how it starts.</p>
+        <ol id="trim-list" class="trim-list"></ol>
+        <div class="trim-actions">
+          <span id="trim-status" class="muted small"></span>
+          <button id="trim-downloads" class="secondary">Save copy to Downloads</button>
+          <button id="trim-card" class="primary">Save trimmed book to SD card</button>
+        </div>
+      </section>
+
+      <div class="grid-top">
+        <section class="card preview-card" aria-label="Preview">
+          <div id="screen" class="screen" tabindex="0" aria-live="off">
+            <div class="guides"><span class="guide top"></span><span class="guide bottom"></span></div>
+            <div id="word" class="word"></div>
+            <div id="screen-chapter" class="screen-chapter"></div>
+            <div id="screen-progress" class="screen-progress"><span></span></div>
+          </div>
+          <div class="transport">
+            <button id="back" class="icon" title="Previous sentence ( [ )">⏮</button>
+            <button id="play" class="icon play" title="Play / pause (space)">▶</button>
+            <button id="forward" class="icon" title="Next sentence ( ] )">⏭</button>
+            <input id="scrub" type="range" min="0" value="0" aria-label="Position in book">
+            <span id="position" class="muted small mono"></span>
+          </div>
+          <div id="breakdown-word" class="word-breakdown"></div>
+        </section>
+
+        <section class="card settings-card" aria-labelledby="settings-title">
+          <h2 id="settings-title">Pacing</h2>
+          <div id="sliders"></div>
+          <div class="presets">
+            <button data-preset="default" class="chip">Reader defaults</button>
+            <button data-preset="reader" class="chip" disabled>Match reader</button>
+            <button data-preset="flat" class="chip">No pacing</button>
+          </div>
+          <p class="muted small hint">Each delay is multiplied by how long, complex or pause-worthy a word is
+            (0–170%). Hover a chart to see where it matters.</p>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="timeline-title">
+        <div class="card-head">
+          <h2 id="timeline-title">Pace through the book</h2>
+          <span class="legend"><i class="sw accent"></i>effective WPM <i class="sw dashed"></i>your WPM setting</span>
+        </div>
+        <div class="timeline-wrap">
+          <canvas id="timeline" height="180" aria-label="Effective reading speed across the book"></canvas>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </div>
+      </section>
+
+      <div class="grid-bottom">
+        <section class="card" aria-labelledby="share-title">
+          <h2 id="share-title">Where the time goes</h2>
+          <div id="share" class="share"></div>
+          <div id="share-legend" class="share-legend"></div>
+          <h2 class="spaced">Slowest words</h2>
+          <ol id="slowest" class="slowest"></ol>
+        </section>
+        <section class="card" aria-labelledby="chapters-title">
+          <h2 id="chapters-title">Chapters</h2>
+          <div class="table-wrap"><table id="chapters" class="chapters"></table></div>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="inspect-title">
+        <h2 id="inspect-title">Try a sentence</h2>
+        <textarea id="inspect-input" rows="2" spellcheck="false">Antidisestablishmentarianism, however, was never the point—was it? Dr. Smith said so in 1999.</textarea>
+        <div id="inspect-output" class="inspect"></div>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

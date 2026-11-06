@@ -1,0 +1,558 @@
+a b I. it. go. up. Mr. Smith met Dr. Jones vs. Prof. X at St. Paul's, etc. e.g. this, i.e. that.
+The U.S.A. and the U.K. signed. J. R. R. Tolkien wrote it. No. 5 is fig. 3 on p. 12.
+He paused... then ran. Wait.... What? Really?! Yes! "Quoted." 'Single.' (Parenthetical.) [Bracketed.] {Braced.}
+Well-known state-of-the-art mother-in-law self-driving co-op e-mail and/or path/to/file snake_case_name.
+A dash - here, and--there, and — an em dash —here— and a lone –en dash.
+Numbers: 7 42 1999 2024-10-28 3.14159 COVID-19 B2B 4x4 MP3 iPhone15 v2.0.1 C++ node.js a/b/c x+y back\slash
+NASA FBI USA OK I A NATO-led UN-backed ALL-CAPS-WORD
+Unbelievably incomprehensibilities antidisestablishmentarianism pneumonoultramicroscopicsilicovolcanoconiosis supercalifragilisticexpialidocious.
+Short: cat dog sun. Medium: cleverly, elephant; marvelous: lemonade! Longer: extraordinary? remarkable...
+Accents: café naïve résumé Zürich São Paulo Øresund façade jalapeño smörgåsbord Ærøskøbing.
+Cyrillic and Greek: Привет мир, Ελληνικά γράμματα. Mixed: Zoë's naïveté.
+Curly “quotes,” ‘apostrophes’ — and ellipsis… and the end’s nigh.” She said: “Go!”
+Abbreviations then lowercase: approx. three, est. five, misc. items, dept. heads, Inc. later.
+Ends with initials: said A. and B. Then C. ran; Mt. Everest; Ft. Worth; Co. Ltd.
+Tab	separated	words and  double  spaces   triple.
+Trailing quote after period." Next sentence.' Another one!) And (more?) here.]
+Soft­hyphen zero​width BOM﻿here and nbsp between words, thin space, ideographic　space.
+Controlchar and C1next-line and line separator end.
+CJK: 你好，世界。日本語の文章です！한국어 문장입니다?
+We will leave Villefort on the road to Paris, travelling—thanks to trebled fees—with all speed, and passing through two or three apartments, enter at the Tuileries the little room with the arched window, so well known as having been the favorite closet of Napoleon and Louis XVIII., and now of Louis Philippe.
+There, seated before a walnut table he had brought with him from Hartwell, and to which, from one of those fancies not uncommon to great people, he was particularly attached, the king, Louis XVIII., was carelessly listening to a man of fifty or fifty-two years of age, with gray hair, aristocratic bearing, and exceedingly gentlemanly attire, and meanwhile making a marginal note in a volume of Gryphius’s rather inaccurate, but much sought-after, edition of Horace—a work which was much indebted to the sagacious observations of the philosophical monarch.
+“You say, sir——” said the king.
+“That I am exceedingly disquieted, sire.”
+“Really, have you had a vision of the seven fat kine and the seven lean kine?”
+“No, sire, for that would only betoken for us seven years of plenty and seven years of scarcity; and with a king as full of foresight as your majesty, scarcity is not a thing to be feared.”
+“Then of what other scourge are you afraid, my dear Blacas?”
+“Sire, I have every reason to believe that a storm is brewing in the south.”
+“Well, my dear duke,” replied Louis XVIII., “I think you are wrongly informed, and know positively that, on the contrary, it is very fine weather in that direction.” Man of ability as he was, Louis XVIII. liked a pleasant jest.
+“Sire,” continued M. de Blacas, “if it only be to reassure a faithful servant, will your majesty send into Languedoc, Provence, and Dauphiné, trusty men, who will bring you back a faithful report as to the feeling in these three provinces?”
+“Canimus surdis,” replied the king, continuing the annotations in his Horace.
+“Sire,” replied the courtier, laughing, in order that he might seem to comprehend the quotation, “your majesty may be perfectly right in relying on the good feeling of France, but I fear I am not altogether wrong in dreading some desperate attempt.”
+“By whom?”
+“By Bonaparte, or, at least, by his adherents.”
+“My dear Blacas,” said the king, “you with your alarms prevent me from working.”
+“And you, sire, prevent me from sleeping with your security.”
+“Wait, my dear sir, wait a moment; for I have such a delightful note on the Pastor quum traheret—wait, and I will listen to you afterwards.”
+There was a brief pause, during which Louis XVIII. wrote, in a hand as small as possible, another note on the margin of his Horace, and then looking at the duke with the air of a man who thinks he has an idea of his own, while he is only commenting upon the idea of another, said:
+“Go on, my dear duke, go on—I listen.”
+“Sire,” said Blacas, who had for a moment the hope of sacrificing Villefort to his own profit, “I am compelled to tell you that these are not mere rumors destitute of foundation which thus disquiet me; but a serious-minded man, deserving all my confidence, and charged by me to watch over the south” (the duke hesitated as he pronounced these words), “has arrived by post to tell me that a great peril threatens the king, and so I hastened to you, sire.”
+“Mala ducis avi domum,” continued Louis XVIII., still annotating.
+“Does your majesty wish me to drop the subject?”
+“By no means, my dear duke; but just stretch out your hand.”
+“Which?”
+“Whichever you please—there to the left.”
+“Here, sire?”
+“I tell you to the left, and you are looking to the right; I mean on my left—yes, there. You will find yesterday’s report of the minister of police. But here is M. Dandré himself;” and M. Dandré, announced by the chamberlain-in-waiting, entered.
+“Come in,” said Louis XVIII., with repressed smile, “come in, Baron, and tell the duke all you know—the latest news of M. de Bonaparte; do not conceal anything, however serious,—let us see, the Island of Elba is a volcano, and we may expect to have issuing thence flaming and bristling war—bella, horrida bella.”
+M. Dandré leaned very respectfully on the back of a chair with his two hands, and said:
+“Has your majesty perused yesterday’s report?”
+“Yes, yes; but tell the duke himself, who cannot find anything, what the report contains—give him the particulars of what the usurper is doing in his islet.”
+“Monsieur,” said the baron to the duke, “all the servants of his majesty must approve of the latest intelligence which we have from the Island of Elba. Bonaparte——”
+M. Dandré looked at Louis XVIII., who, employed in writing a note, did not even raise his head. “Bonaparte,” continued the baron, “is mortally wearied, and passes whole days in watching his miners at work at Porto-Longone.”
+“And scratches himself for amusement,” added the king.
+“Scratches himself?” inquired the duke, “what does your majesty mean?”
+“Yes, indeed, my dear duke. Did you forget that this great man, this hero, this demigod, is attacked with a malady of the skin which worries him to death, prurigo?”
+“And, moreover, my dear duke,” continued the minister of police, “we are almost assured that, in a very short time, the usurper will be insane.”
+“Insane?”
+“Raving mad; his head becomes weaker. Sometimes he weeps bitterly, sometimes laughs boisterously, at other time he passes hours on the seashore, flinging stones in the water and when the flint makes ‘duck-and-drake’ five or six times, he appears as delighted as if he had gained another Marengo or Austerlitz. Now, you must agree that these are indubitable symptoms of insanity.”
+“Or of wisdom, my dear baron—or of wisdom,” said Louis XVIII., laughing; “the greatest captains of antiquity amused themselves by casting pebbles into the ocean—see Plutarch’s life of Scipio Africanus.”
+M. de Blacas pondered deeply between the confident monarch and the truthful minister. Villefort, who did not choose to reveal the whole secret, lest another should reap all the benefit of the disclosure, had yet communicated enough to cause him the greatest uneasiness.
+“Well, well, Dandré,” said Louis XVIII., “Blacas is not yet convinced; let us proceed, therefore, to the usurper’s conversion.” The minister of police bowed.
+“The usurper’s conversion!” murmured the duke, looking at the king and Dandré, who spoke alternately, like Virgil’s shepherds. “The usurper converted!”
+“Decidedly, my dear duke.”
+“In what way converted?”
+“To good principles. Tell him all about it, baron.”
+“Why, this is the way of it,” said the minister, with the gravest air in the world: “Napoleon lately had a review, and as two or three of his old veterans expressed a desire to return to France, he gave them their dismissal, and exhorted them to ‘serve the good king.’ These were his own words, of that I am certain.”
+“Well, Blacas, what think you of this?” inquired the king triumphantly, and pausing for a moment from the voluminous scholiast before him.
+“I say, sire, that the minister of police is greatly deceived or I am; and as it is impossible it can be the minister of police as he has the guardianship of the safety and honor of your majesty, it is probable that I am in error. However, sire, if I might advise, your majesty will interrogate the person of whom I spoke to you, and I will urge your majesty to do him this honor.”
+“Most willingly, duke; under your auspices I will receive any person you please, but you must not expect me to be too confiding. Baron, have you any report more recent than this, dated the 20th February, and this is the 3rd of March?”
+“No, sire, but I am hourly expecting one; it may have arrived since I left my office.”
+“Go thither, and if there be none—well, well,” continued Louis XVIII., “make one; that is the usual way, is it not?” and the king laughed facetiously.
+“Oh, sire,” replied the minister, “we have no occasion to invent any; every day our desks are loaded with most circumstantial denunciations, coming from hosts of people who hope for some return for services which they seek to render, but cannot; they trust to fortune, and rely upon some unexpected event in some way to justify their predictions.”
+“Well, sir, go,” said Louis XVIII., “and remember that I am waiting for you.”
+“I will but go and return, sire; I shall be back in ten minutes.”
+“And I, sire,” said M. de Blacas, “will go and find my messenger.”
+“Wait, sir, wait,” said Louis XVIII. “Really, M. de Blacas, I must change your armorial bearings; I will give you an eagle with outstretched wings, holding in its claws a prey which tries in vain to escape, and bearing this device—Tenax.”
+“Sire, I listen,” said De Blacas, biting his nails with impatience.
+“I wish to consult you on this passage, ‘Molli fugiens anhelitu,’ you know it refers to a stag flying from a wolf. Are you not a sportsman and a great wolf-hunter? Well, then, what do you think of the molli anhelitu?”
+“Admirable, sire; but my messenger is like the stag you refer to, for he has posted two hundred and twenty leagues in scarcely three days.”
+“Which is undergoing great fatigue and anxiety, my dear duke, when we have a telegraph which transmits messages in three or four hours, and that without getting in the least out of breath.”
+“Ah, sire, you recompense but badly this poor young man, who has come so far, and with so much ardor, to give your majesty useful information. If only for the sake of M. de Salvieux, who recommends him to me, I entreat your majesty to receive him graciously.”
+“M. de Salvieux, my brother’s chamberlain?”
+“Yes, sire.”
+“He is at Marseilles.”
+“And writes me thence.”
+“Does he speak to you of this conspiracy?”
+“No; but strongly recommends M. de Villefort, and begs me to present him to your majesty.”
+“M. de Villefort!” cried the king, “is the messenger’s name M. de Villefort?”
+“Yes, sire.”
+“And he comes from Marseilles?”
+“In person.”
+“Why did you not mention his name at once?” replied the king, betraying some uneasiness.
+“Sire, I thought his name was unknown to your majesty.”
+“No, no, Blacas; he is a man of strong and elevated understanding, ambitious, too, and, pardieu! you know his father’s name!”
+“His father?”
+“Yes, Noirtier.”
+“Noirtier the Girondin?—Noirtier the senator?”
+“He himself.”
+“And your majesty has employed the son of such a man?”
+“Blacas, my friend, you have but limited comprehension. I told you Villefort was ambitious, and to attain this ambition Villefort would sacrifice everything, even his father.”
+“Then, sire, may I present him?”
+“This instant, duke! Where is he?”
+“Waiting below, in my carriage.”
+“Seek him at once.”
+“I hasten to do so.”
+The duke left the royal presence with the speed of a young man; his really sincere royalism made him youthful again. Louis XVIII. remained alone, and turning his eyes on his half-opened Horace, muttered:
+“Justum et tenacem propositi virum.”
+M. de Blacas returned as speedily as he had departed, but in the antechamber he was forced to appeal to the king’s authority. Villefort’s dusty garb, his costume, which was not of courtly cut, excited the susceptibility of M. de Brezé, who was all astonishment at finding that this young man had the audacity to enter before the king in such attire. The duke, however, overcame all difficulties with a word—his majesty’s order; and, in spite of the protestations which the master of ceremonies made for the honor of his office and principles, Villefort was introduced.
+The king was seated in the same place where the duke had left him. On opening the door, Villefort found himself facing him, and the young magistrate’s first impulse was to pause.
+“Come in, M. de Villefort,” said the king, “come in.”
+Villefort bowed, and advancing a few steps, waited until the king should interrogate him.
+“M. de Villefort,” said Louis XVIII., “the Duc de Blacas assures me you have some interesting information to communicate.”
+“Sire, the duke is right, and I believe your majesty will think it equally important.”
+“In the first place, and before everything else, sir, is the news as bad in your opinion as I am asked to believe?”
+“Sire, I believe it to be most urgent, but I hope, by the speed I have used, that it is not irreparable.”
+“Speak as fully as you please, sir,” said the king, who began to give way to the emotion which had showed itself in Blacas’s face and affected Villefort’s voice. “Speak, sir, and pray begin at the beginning; I like order in everything.”
+“Sire,” said Villefort, “I will render a faithful report to your majesty, but I must entreat your forgiveness if my anxiety leads to some obscurity in my language.” A glance at the king after this discreet and subtle exordium, assured Villefort of the benignity of his august auditor, and he went on:
+“Sire, I have come as rapidly to Paris as possible, to inform your majesty that I have discovered, in the exercise of my duties, not a commonplace and insignificant plot, such as is every day got up in the lower ranks of the people and in the army, but an actual conspiracy—a storm which menaces no less than your majesty’s throne. Sire, the usurper is arming three ships, he meditates some project, which, however mad, is yet, perhaps, terrible. At this moment he will have left Elba, to go whither I know not, but assuredly to attempt a landing either at Naples, or on the coast of Tuscany, or perhaps on the shores of France. Your majesty is well aware that the sovereign of the Island of Elba has maintained his relations with Italy and France?”
+“I am, sir,” said the king, much agitated; “and recently we have had information that the Bonapartist clubs have had meetings in the Rue Saint-Jacques. But proceed, I beg of you. How did you obtain these details?”
+“Sire, they are the results of an examination which I have made of a man of Marseilles, whom I have watched for some time, and arrested on the day of my departure. This person, a sailor, of turbulent character, and whom I suspected of Bonapartism, has been secretly to the Island of Elba. There he saw the grand-marshal, who charged him with an oral message to a Bonapartist in Paris, whose name I could not extract from him; but this mission was to prepare men’s minds for a return (it is the man who says this, sire)—a return which will soon occur.”
+“And where is this man?”
+“In prison, sire.”
+“And the matter seems serious to you?”
+“So serious, sire, that when the circumstance surprised me in the midst of a family festival, on the very day of my betrothal, I left my bride and friends, postponing everything, that I might hasten to lay at your majesty’s feet the fears which impressed me, and the assurance of my devotion.”
+“True,” said Louis XVIII., “was there not a marriage engagement between you and Mademoiselle de Saint-Méran?”
+“Daughter of one of your majesty’s most faithful servants.”
+“Yes, yes; but let us talk of this plot, M. de Villefort.”
+“Sire, I fear it is more than a plot; I fear it is a conspiracy.”
+“A conspiracy in these times,” said Louis XVIII., smiling, “is a thing very easy to meditate, but more difficult to conduct to an end, inasmuch as, re-established so recently on the throne of our ancestors, we have our eyes open at once upon the past, the present, and the future. For the last ten months my ministers have redoubled their vigilance, in order to watch the shore of the Mediterranean. If Bonaparte landed at Naples, the whole coalition would be on foot before he could even reach Piombino; if he land in Tuscany, he will be in an unfriendly territory; if he land in France, it must be with a handful of men, and the result of that is easily foretold, execrated as he is by the population. Take courage, sir; but at the same time rely on our royal gratitude.”
+“Ah, here is M. Dandré!” cried de Blacas. At this instant the minister of police appeared at the door, pale, trembling, and as if ready to faint. Villefort was about to retire, but M. de Blacas, taking his hand, restrained him.
+Three days after the scene we have just described, namely towards five o’clock in the afternoon of the day fixed for the signature of the contract between Mademoiselle Eugénie Danglars and Andrea Cavalcanti, whom the banker persisted in calling prince, a fresh breeze was stirring the leaves in the little garden in front of the Count of Monte Cristo’s house, and the count was preparing to go out. While his horses were impatiently pawing the ground, held in by the coachman, who had been seated a quarter of an hour on his box, the elegant phaeton with which we are familiar rapidly turned the angle of the entrance-gate, and cast out on the doorsteps M. Andrea Cavalcanti, as decked up and gay as if he were going to marry a princess.
+He inquired after the count with his usual familiarity, and ascending lightly to the first story met him at the top of the stairs.
+The count stopped on seeing the young man. As for Andrea, he was launched, and when he was once launched nothing stopped him.
+“Ah, good morning, my dear count,” said he.
+“Ah, M. Andrea,” said the latter, with his half-jesting tone; “how do you do?”
+“Charmingly, as you see. I am come to talk to you about a thousand things; but, first tell me, were you going out or just returned?”
+“I was going out, sir.”
+“Then, in order not to hinder you, I will get up with you if you please in your carriage, and Tom shall follow with my phaeton in tow.”
+“No,” said the count, with an imperceptible smile of contempt, for he had no wish to be seen in the young man’s society,—“no; I prefer listening to you here, my dear M. Andrea; we can chat better in-doors, and there is no coachman to overhear our conversation.”
+The count returned to a small drawing-room on the first floor, sat down, and crossing his legs motioned to the young man to take a seat also. Andrea assumed his gayest manner.
+“You know, my dear count,” said he, “the ceremony is to take place this evening. At nine o’clock the contract is to be signed at my father-in-law’s.”
+“Ah, indeed?” said Monte Cristo.
+“What; is it news to you? Has not M. Danglars informed you of the ceremony?”
+“Oh, yes,” said the count; “I received a letter from him yesterday, but I do not think the hour was mentioned.”
+“Possibly my father-in-law trusted to its general notoriety.”
+“Well,” said Monte Cristo, “you are fortunate, M. Cavalcanti; it is a most suitable alliance you are contracting, and Mademoiselle Danglars is a handsome girl.”
+“Yes, indeed she is,” replied Cavalcanti, in a very modest tone.
+“Above all, she is very rich,—at least, I believe so,” said Monte Cristo.
+“Very rich, do you think?” replied the young man.
+“Doubtless; it is said M. Danglars conceals at least half of his fortune.”
+“And he acknowledges fifteen or twenty millions,” said Andrea with a look sparkling with joy.
+“Without reckoning,” added Monte Cristo, “that he is on the eve of entering into a sort of speculation already in vogue in the United States and in England, but quite novel in France.”
+“Yes, yes, I know what you mean,—the railway, of which he has obtained the grant, is it not?”
+“Precisely; it is generally believed he will gain ten millions by that affair.”
+“Ten millions! Do you think so? It is magnificent!” said Cavalcanti, who was quite confounded at the metallic sound of these golden words.
+“Without reckoning,” replied Monte Cristo, “that all his fortune will come to you, and justly too, since Mademoiselle Danglars is an only daughter. Besides, your own fortune, as your father assured me, is almost equal to that of your betrothed. But enough of money matters. Do you know, M. Andrea, I think you have managed this affair rather skilfully?”
+“Not badly, by any means,” said the young man; “I was born for a diplomatist.”
+“Well, you must become a diplomatist; diplomacy, you know, is something that is not to be acquired; it is instinctive. Have you lost your heart?”
+“Indeed, I fear it,” replied Andrea, in the tone in which he had heard Dorante or Valère reply to Alceste[21] at the Théâtre Français.
+“Is your love returned?”
+“I suppose so,” said Andrea with a triumphant smile, “since I am accepted. But I must not forget one grand point.”
+“Which?”
+“That I have been singularly assisted.”
+“Nonsense.”
+“I have, indeed.”
+“By circumstances?”
+“No; by you.”
+“By me? Not at all, prince,” said Monte Cristo laying a marked stress on the title, “what have I done for you? Are not your name, your social position, and your merit sufficient?”
+“No,” said Andrea,—“no; it is useless for you to say so, count. I maintain that the position of a man like you has done more than my name, my social position, and my merit.”
+“You are completely mistaken, sir,” said Monte Cristo coldly, who felt the perfidious manœuvre of the young man, and understood the bearing of his words; “you only acquired my protection after the influence and fortune of your father had been ascertained; for, after all, who procured for me, who had never seen either you or your illustrious father, the pleasure of your acquaintance?—two of my good friends, Lord Wilmore and the Abbé Busoni. What encouraged me not to become your surety, but to patronize you?—your father’s name, so well known in Italy and so highly honored. Personally, I do not know you.”
+This calm tone and perfect ease made Andrea feel that he was, for the moment, restrained by a more muscular hand than his own, and that the restraint could not be easily broken through.
+“Oh, then my father has really a very large fortune, count?”
+“It appears so, sir,” replied Monte Cristo.
+“Do you know if the marriage settlement he promised me has come?”
+“I have been advised of it.”
+“But the three millions?”
+“The three millions are probably on the road.”
+“Then I shall really have them?”
+“Oh, well,” said the count, “I do not think you have yet known the want of money.”
+Andrea was so surprised that he pondered the matter for a moment. Then, arousing from his reverie:
+“Now, sir, I have one request to make to you, which you will understand, even if it should be disagreeable to you.”
+“Proceed,” said Monte Cristo.
+“I have formed an acquaintance, thanks to my good fortune, with many noted persons, and have, at least for the moment, a crowd of friends. But marrying, as I am about to do, before all Paris, I ought to be supported by an illustrious name, and in the absence of the paternal hand some powerful one ought to lead me to the altar; now, my father is not coming to Paris, is he?”
+“He is old, covered with wounds, and suffers dreadfully, he says, in travelling.”
+“I understand; well, I am come to ask a favor of you.”
+“Of me?”
+“Yes, of you.”
+“And pray what may it be?”
+“Well, to take his part.”
+“Ah, my dear sir! What?—after the varied relations I have had the happiness to sustain towards you, can it be that you know me so little as to ask such a thing? Ask me to lend you half a million and, although such a loan is somewhat rare, on my honor, you would annoy me less! Know, then, what I thought I had already told you, that in participation in this world’s affairs, more especially in their moral aspects, the Count of Monte Cristo has never ceased to entertain the scruples and even the superstitions of the East. I, who have a seraglio at Cairo, one at Smyrna, and one at Constantinople, preside at a wedding?—never!”
+“Then you refuse me?”
+“Decidedly; and were you my son or my brother I would refuse you in the same way.”
+“But what must be done?” said Andrea, disappointed.
+“You said just now that you had a hundred friends.”
+“Very true, but you introduced me at M. Danglars’.”
+“Not at all! Let us recall the exact facts. You met him at a dinner party at my house, and you introduced yourself at his house; that is a totally different affair.”
+“Yes, but, by my marriage, you have forwarded that.”
+“I?—not in the least, I beg you to believe. Recollect what I told you when you asked me to propose you. ‘Oh, I never make matches, my dear prince, it is my settled principle.’” Andrea bit his lips.
+“But, at least, you will be there?”
+“Will all Paris be there?”
+“Oh, certainly.”
+“Well, like all Paris, I shall be there too,” said the count.
+“And will you sign the contract?”
+“I see no objection to that; my scruples do not go thus far.”
+“Well, since you will grant me no more, I must be content with what you give me. But one word more, count.”
+“What is it?”
+“Advice.”
+“Be careful; advice is worse than a service.”
+“Oh, you can give me this without compromising yourself.”
+“Tell me what it is.”
+“Is my wife’s fortune five hundred thousand livres?”
+“That is the sum M. Danglars himself announced.”
+“Must I receive it, or leave it in the hands of the notary?”
+“This is the way such affairs are generally arranged when it is wished to do them stylishly: Your two solicitors appoint a meeting, when the contract is signed, for the next or the following day; then they exchange the two portions, for which they each give a receipt; then, when the marriage is celebrated, they place the amount at your disposal as the chief member of the alliance.”
+“Because,” said Andrea, with a certain ill-concealed uneasiness, “I thought I heard my father-in-law say that he intended embarking our property in that famous railway affair of which you spoke just now.”
+“Well,” replied Monte Cristo, “it will be the way, everybody says, of trebling your fortune in twelve months. Baron Danglars is a good father, and knows how to calculate.”
+“In that case,” said Andrea, “everything is all right, excepting your refusal, which quite grieves me.”
+“You must attribute it only to natural scruples under similar circumstances.”
+“Well,” said Andrea, “let it be as you wish. This evening, then, at nine o’clock.”
+“Adieu till then.”
+Notwithstanding a slight resistance on the part of Monte Cristo, whose lips turned pale, but who preserved his ceremonious smile, Andrea seized the count’s hand, pressed it, jumped into his phaeton, and disappeared.
+The four or five remaining hours before nine o’clock arrived, Andrea employed in riding, paying visits,—designed to induce those of whom he had spoken to appear at the banker’s in their gayest equipages,—dazzling them by promises of shares in schemes which have since turned every brain, and in which Danglars was just taking the initiative.
+In fact, at half-past eight in the evening the grand salon, the gallery adjoining, and the three other drawing-rooms on the same floor, were filled with a perfumed crowd, who sympathized but little in the event, but who all participated in that love of being present wherever there is anything fresh to be seen. An Academician would say that the entertainments of the fashionable world are collections of flowers which attract inconstant butterflies, famished bees, and buzzing drones.
+No one could deny that the rooms were splendidly illuminated; the light streamed forth on the gilt mouldings and the silk hangings; and all the bad taste of decorations, which had only their richness to boast of, shone in its splendor. Mademoiselle Eugénie was dressed with elegant simplicity in a figured white silk dress, and a white rose half concealed in her jet black hair was her only ornament, unaccompanied by a single jewel. Her eyes, however, betrayed that perfect confidence which contradicted the girlish simplicity of this modest attire.
+Madame Danglars was chatting at a short distance with Debray, Beauchamp, and Château-Renaud. Debray was admitted to the house for this grand ceremony, but on the same plane with everyone else, and without any particular privilege. M. Danglars, surrounded by deputies and men connected with the revenue, was explaining a new theory of taxation which he intended to adopt when the course of events had compelled the government to call him into the ministry. Andrea, on whose arm hung one of the most consummate dandies of the Opera, was explaining to him rather cleverly, since he was obliged to be bold to appear at ease, his future projects, and the new luxuries he meant to introduce to Parisian fashions with his hundred and seventy-five thousand livres per annum.
+The crowd moved to and fro in the rooms like an ebb and flow of turquoises, rubies, emeralds, opals, and diamonds. As usual, the oldest women were the most decorated, and the ugliest the most conspicuous. If there was a beautiful lily, or a sweet rose, you had to search for it, concealed in some corner behind a mother with a turban, or an aunt with a bird-of-paradise.
+At each moment, in the midst of the crowd, the buzzing, and the laughter, the door-keeper’s voice was heard announcing some name well known in the financial department, respected in the army, or illustrious in the literary world, and which was acknowledged by a slight movement in the different groups. But for one whose privilege it was to agitate that ocean of human waves, how many were received with a look of indifference or a sneer of disdain!
+At the moment when the hand of the massive time-piece, representing Endymion asleep, pointed to nine on its golden face, and the hammer, the faithful type of mechanical thought, struck nine times, the name of the Count of Monte Cristo resounded in its turn, and as if by an electric shock all the assembly turned towards the door. The count was dressed in black and with his habitual simplicity; his white waistcoat displayed his expansive noble chest and his black stock was singularly noticeable because of its contrast with the deadly paleness of his face. His only jewellery was a chain, so fine that the slender gold thread was scarcely perceptible on his white waistcoat.
+A circle was immediately formed around the door. The count perceived at one glance Madame Danglars at one end of the drawing-room, M. Danglars at the other, and Eugénie in front of him. He first advanced towards the baroness, who was chatting with Madame de Villefort, who had come alone, Valentine being still an invalid; and without turning aside, so clear was the road left for him, he passed from the baroness to Eugénie, whom he complimented in such rapid and measured terms, that the proud artist was quite struck. Near her was Mademoiselle Louise d’Armilly, who thanked the count for the letters of introduction he had so kindly given her for Italy, which she intended immediately to make use of. On leaving these ladies he found himself with Danglars, who had advanced to meet him.
+Having accomplished these three social duties, Monte Cristo stopped, looking around him with that expression peculiar to a certain class, which seems to say, “I have done my duty, now let others do theirs.”
+Andrea, who was in an adjoining room, had shared in the sensation caused by the arrival of Monte Cristo, and now came forward to pay his respects to the count. He found him completely surrounded; all were eager to speak to him, as is always the case with those whose words are few and weighty. The solicitors arrived at this moment and arranged their scrawled papers on the velvet cloth embroidered with gold which covered the table prepared for the signature; it was a gilt table supported on lions’ claws. One of the notaries sat down, the other remained standing. They were about to proceed to the reading of the contract, which half Paris assembled was to sign. All took their places, or rather the ladies formed a circle, while the gentlemen (more indifferent to the restraints of what Boileau calls the style énergique) commented on the feverish agitation of Andrea, on M. Danglars’ riveted attention, Eugénie’s composure, and the light and sprightly manner in which the baroness treated this important affair.
+The contract was read during a profound silence. But as soon as it was finished, the buzz was redoubled through all the drawing-rooms; the brilliant sums, the rolling millions which were to be at the command of the two young people, and which crowned the display of the wedding presents and the young lady’s diamonds, which had been made in a room entirely appropriated for that purpose, had exercised to the full their delusions over the envious assembly.
+Mademoiselle Danglars’ charms were heightened in the opinion of the young men, and for the moment seemed to outvie the sun in splendor. As for the ladies, it is needless to say that while they coveted the millions, they thought they did not need them for themselves, as they were beautiful enough without them. Andrea, surrounded by his friends, complimented, flattered, beginning to believe in the reality of his dream, was almost bewildered. The notary solemnly took the pen, flourished it above his head, and said:
+“Gentlemen, we are about to sign the contract.”
+The baron was to sign first, then the representative of M. Cavalcanti, senior, then the baroness, afterwards the “future couple,” as they are styled in the abominable phraseology of legal documents.
+The baron took the pen and signed, then the representative. The baroness approached, leaning on Madame de Villefort’s arm.
+“My dear,” said she, as she took the pen, “is it not vexatious? An unexpected incident, in the affair of murder and theft at the Count of Monte Cristo’s, in which he nearly fell a victim, deprives us of the pleasure of seeing M. de Villefort.”
+“Indeed?” said M. Danglars, in the same tone in which he would have said, “Oh, well, what do I care?”
+“As a matter of fact,” said Monte Cristo, approaching, “I am much afraid that I am the involuntary cause of his absence.”
+“What, you, count?” said Madame Danglars, signing; “if you are, take care, for I shall never forgive you.”
+Andrea pricked up his ears.
+“But it is not my fault, as I shall endeavor to prove.”
+Everyone listened eagerly; Monte Cristo who so rarely opened his lips, was about to speak.
+“You remember,” said the count, during the most profound silence, “that the unhappy wretch who came to rob me died at my house; the supposition is that he was stabbed by his accomplice, on attempting to leave it.”
+“Yes,” said Danglars.
+“In order that his wounds might be examined he was undressed, and his clothes were thrown into a corner, where the police picked them up, with the exception of the waistcoat, which they overlooked.”
+Andrea turned pale, and drew towards the door; he saw a cloud rising in the horizon, which appeared to forebode a coming storm.
+“Well, this waistcoat was discovered today, covered with blood, and with a hole over the heart.” The ladies screamed, and two or three prepared to faint. “It was brought to me. No one could guess what the dirty rag could be; I alone suspected that it was the waistcoat of the murdered man. My valet, in examining this mournful relic, felt a paper in the pocket and drew it out; it was a letter addressed to you, baron.”
+“To me?” cried Danglars.
+“Yes, indeed, to you; I succeeded in deciphering your name under the blood with which the letter was stained,” replied Monte Cristo, amid the general outburst of amazement.
+“But,” asked Madame Danglars, looking at her husband with uneasiness, “how could that prevent M. de Villefort——”
+“In this simple way, madame,” replied Monte Cristo; “the waistcoat and the letter were both what is termed circumstantial evidence; I therefore sent them to the king’s attorney. You understand, my dear baron, that legal methods are the safest in criminal cases; it was, perhaps, some plot against you.” Andrea looked steadily at Monte Cristo and disappeared in the second drawing-room.
+“Possibly,” said Danglars; “was not this murdered man an old galley-slave?”
+“Yes,” replied the count; “a felon named Caderousse.” Danglars turned slightly pale; Andrea reached the anteroom beyond the little drawing-room.
+“But go on signing,” said Monte Cristo; “I perceive that my story has caused a general emotion, and I beg to apologize to you, baroness, and to Mademoiselle Danglars.”
+The baroness, who had signed, returned the pen to the notary.
+“Prince Cavalcanti,” said the latter; “Prince Cavalcanti, where are you?”
+“Andrea, Andrea,” repeated several young people, who were already on sufficiently intimate terms with him to call him by his Christian name.
+“Call the prince; inform him that it is his turn to sign,” cried Danglars to one of the floorkeepers.
+But at the same instant the crowd of guests rushed in alarm into the principal salon as if some frightful monster had entered the apartments, quærens quem devoret. There was, indeed, reason to retreat, to be alarmed, and to scream. An officer was placing two soldiers at the door of each drawing-room, and was advancing towards Danglars, preceded by a commissary of police, girded with his scarf. Madame Danglars uttered a scream and fainted. Danglars, who thought himself threatened (certain consciences are never calm),—Danglars even before his guests showed a countenance of abject terror.
+“What is the matter, sir?” asked Monte Cristo, advancing to meet the commissioner.
+“Which of you gentlemen,” asked the magistrate, without replying to the count, “answers to the name of Andrea Cavalcanti?”
+A cry of astonishment was heard from all parts of the room. They searched; they questioned.
+“But who then is Andrea Cavalcanti?” asked Danglars in amazement.
+“A galley-slave, escaped from confinement at Toulon.”
+“And what crime has he committed?”
+“He is accused,” said the commissary with his inflexible voice, “of having assassinated the man named Caderousse, his former companion in prison, at the moment he was making his escape from the house of the Count of Monte Cristo.”
+Monte Cristo cast a rapid glance around him. Andrea was gone.
+A few minutes after the scene of confusion produced in the salons of M. Danglars by the unexpected appearance of the brigade of soldiers, and by the disclosure which had followed, the mansion was deserted with as much rapidity as if a case of plague or of cholera morbus had broken out among the guests.
+In a few minutes, through all the doors, down all the staircases, by every exit, everyone hastened to retire, or rather to fly; for it was a situation where the ordinary condolences,—which even the best friends are so eager to offer in great catastrophes,—were seen to be utterly futile. There remained in the banker’s house only Danglars, closeted in his study, and making his statement to the officer of gendarmes; Madame Danglars, terrified, in the boudoir with which we are acquainted; and Eugénie, who with haughty air and disdainful lip had retired to her room with her inseparable companion, Mademoiselle Louise d’Armilly.
+As for the numerous servants (more numerous that evening than usual, for their number was augmented by cooks and butlers from the Café de Paris), venting on their employers their anger at what they termed the insult to which they had been subjected, they collected in groups in the hall, in the kitchens, or in their rooms, thinking very little of their duty, which was thus naturally interrupted. Of all this household, only two persons deserve our notice; these are Mademoiselle Eugénie Danglars and Mademoiselle Louise d’Armilly.
+The betrothed had retired, as we said, with haughty air, disdainful lip, and the demeanor of an outraged queen, followed by her companion, who was paler and more disturbed than herself. On reaching her room Eugénie locked her door, while Louise fell on a chair.
+“Ah, what a dreadful thing,” said the young musician; “who would have suspected it? M. Andrea Cavalcanti a murderer—a galley-slave escaped—a convict!”
+An ironical smile curled the lip of Eugénie. “In truth, I was fated,” said she. “I escaped the Morcerf only to fall into the Cavalcanti.”
+“Oh, do not confound the two, Eugénie.”
+“Hold your tongue! The men are all infamous, and I am happy to be able now to do more than detest them—I despise them.”
+“What shall we do?” asked Louise.
+“What shall we do?”
+“Yes.”
+“Why, the same we had intended doing three days since—set off.”
+“What?—although you are not now going to be married, you intend still——”
+“Listen, Louise. I hate this life of the fashionable world, always ordered, measured, ruled, like our music-paper. What I have always wished for, desired, and coveted, is the life of an artist, free and independent, relying only on my own resources, and accountable only to myself. Remain here? What for?—that they may try, a month hence, to marry me again; and to whom?—M. Debray, perhaps, as it was once proposed. No, Louise, no! This evening’s adventure will serve for my excuse. I did not seek one, I did not ask for one. God sends me this, and I hail it joyfully!”
+“How strong and courageous you are!” said the fair, frail girl to her brunette companion.
+“Did you not yet know me? Come, Louise, let us talk of our affairs. The post-chaise——”
+“Was happily bought three days since.”
+“Have you had it sent where we are to go for it?”
+“Yes.”
+“Our passport?”
+“Here it is.”
+And Eugénie, with her usual precision, opened a printed paper, and read:
+“M. Léon d’Armilly, twenty years of age; profession, artist; hair black, eyes black; travelling with his sister.”
+“Capital! How did you get this passport?”
+“When I went to ask M. de Monte Cristo for letters to the directors of the theatres at Rome and Naples, I expressed my fears of travelling as a woman; he perfectly understood them, and undertook to procure for me a man’s passport, and two days after I received this, to which I have added with my own hand, ‘travelling with his sister.’”
+“Well,” said Eugénie cheerfully, “we have then only to pack up our trunks; we shall start the evening of the signing of the contract, instead of the evening of the wedding—that is all.”
+“But consider the matter seriously, Eugénie!”
+“Oh, I am done with considering! I am tired of hearing only of market reports, of the end of the month, of the rise and fall of Spanish funds, of Haitian bonds. Instead of that, Louise—do you understand?—air, liberty, melody of birds, plains of Lombardy, Venetian canals, Roman palaces, the Bay of Naples. How much have we, Louise?”
+The young girl to whom this question was addressed drew from an inlaid secretaire a small portfolio with a lock, in which she counted twenty-three bank-notes.
+“Twenty-three thousand francs,” said she.
+“And as much, at least, in pearls, diamonds, and jewels,” said Eugénie. “We are rich. With forty-five thousand francs we can live like princesses for two years, and comfortably for four; but before six months—you with your music, and I with my voice—we shall double our capital. Come, you shall take charge of the money, I of the jewel-box; so that if one of us had the misfortune to lose her treasure, the other would still have hers left. Now, the portmanteau—let us make haste—the portmanteau!”
+“Stop!” said Louise, going to listen at Madame Danglars’ door.
+“What do you fear?”
+“That we may be discovered.”
+“The door is locked.”
+“They may tell us to open it.”
+“They may if they like, but we will not.”
+“You are a perfect Amazon, Eugénie!” And the two young girls began to heap into a trunk all the things they thought they should require.
+“There now,” said Eugénie, “while I change my costume do you lock the portmanteau.” Louise pressed with all the strength of her little hands on the top of the portmanteau.
+“But I cannot,” said she; “I am not strong enough; do you shut it.”
+“Ah, you do well to ask,” said Eugénie, laughing; “I forgot that I was Hercules, and you only the pale Omphale!”
+And the young girl, kneeling on the top, pressed the two parts of the portmanteau together, and Mademoiselle d’Armilly passed the bolt of the padlock through. When this was done, Eugénie opened a drawer, of which she kept the key, and took from it a wadded violet silk travelling cloak.
+“Here,” said she, “you see I have thought of everything; with this cloak you will not be cold.”
+“But you?”
+“Oh, I am never cold, you know! Besides, with these men’s clothes——”
+“Will you dress here?”
+“Certainly.”
+“Shall you have time?”
+“Do not be uneasy, you little coward! All our servants are busy, discussing the grand affair. Besides, what is there astonishing, when you think of the grief I ought to be in, that I shut myself up?—tell me!”
+“No, truly—you comfort me.”
+“Come and help me.”
+From the same drawer she took a man’s complete costume, from the boots to the coat, and a provision of linen, where there was nothing superfluous, but every requisite. Then, with a promptitude which indicated that this was not the first time she had amused herself by adopting the garb of the opposite sex, Eugénie drew on the boots and pantaloons, tied her cravat, buttoned her waistcoat up to the throat, and put on a coat which admirably fitted her beautiful figure.
+“Oh, that is very good—indeed, it is very good!” said Louise, looking at her with admiration; “but that beautiful black hair, those magnificent braids, which made all the ladies sigh with envy,—will they go under a man’s hat like the one I see down there?”
+“You shall see,” said Eugénie. And with her left hand seizing the thick mass, which her long fingers could scarcely grasp, she took in her right hand a pair of long scissors, and soon the steel met through the rich and splendid hair, which fell in a cluster at her feet as she leaned back to keep it from her coat. Then she grasped the front hair, which she also cut off, without expressing the least regret; on the contrary, her eyes sparkled with greater pleasure than usual under her ebony eyebrows.
+“Oh, the magnificent hair!” said Louise, with regret.
+“And am I not a hundred times better thus?” cried Eugénie, smoothing the scattered curls of her hair, which had now quite a masculine appearance; “and do you not think me handsomer so?”
+“Oh, you are beautiful—always beautiful!” cried Louise. “Now, where are you going?”
+“To Brussels, if you like; it is the nearest frontier. We can go to Brussels, Liège, Aix-la-Chapelle; then up the Rhine to Strasbourg. We will cross Switzerland, and go down into Italy by the Saint-Gothard. Will that do?”
+“Yes.”
+“What are you looking at?”
+“I am looking at you; indeed you are adorable like that! One would say you were carrying me off.”
+“And they would be right, pardieu!”
+“Oh, I think you swore, Eugénie.”
+And the two young girls, whom everyone might have thought plunged in grief, the one on her own account, the other from interest in her friend, burst out laughing, as they cleared away every visible trace of the disorder which had naturally accompanied the preparations for their escape. Then, having blown out the lights, the two fugitives, looking and listening eagerly, with outstretched necks, opened the door of a dressing-room which led by a side staircase down to the yard,—Eugénie going first, and holding with one arm the portmanteau, which by the opposite handle Mademoiselle d’Armilly scarcely raised with both hands. The yard was empty; the clock was striking twelve. The porter was not yet gone to bed. Eugénie approached softly, and saw the old man sleeping soundly in an armchair in his lodge. She returned to Louise, took up the portmanteau, which she had placed for a moment on the ground, and they reached the archway under the shadow of the wall.
+Eugénie concealed Louise in an angle of the gateway, so that if the porter chanced to awake he might see but one person. Then placing herself in the full light of the lamp which lit the yard:
+“Gate!” cried she, with her finest contralto voice, and rapping at the window.
+The porter got up as Eugénie expected, and even advanced some steps to recognize the person who was going out, but seeing a young man striking his boot impatiently with his riding-whip, he opened it immediately. Louise slid through the half-open gate like a snake, and bounded lightly forward. Eugénie, apparently calm, although in all probability her heart beat somewhat faster than usual, went out in her turn.
+A porter was passing and they gave him the portmanteau; then the two young girls, having told him to take it to No. 36, Rue de la Victoire, walked behind this man, whose presence comforted Louise. As for Eugénie, she was as strong as a Judith or a Delilah. They arrived at the appointed spot. Eugénie ordered the porter to put down the portmanteau, gave him some pieces of money, and having rapped at the shutter sent him away. The shutter where Eugénie had rapped was that of a little laundress, who had been previously warned, and was not yet gone to bed. She opened the door.
+“Mademoiselle,” said Eugénie, “let the porter get the post-chaise from the coach-house, and fetch some post-horses from the hotel. Here are five francs for his trouble.”
+“Indeed,” said Louise, “I admire you, and I could almost say respect you.” The laundress looked on in astonishment, but as she had been promised twenty louis, she made no remark.
+In a quarter of an hour the porter returned with a post-boy and horses, which were harnessed, and put in the post-chaise in a minute, while the porter fastened the portmanteau on with the assistance of a cord and strap.
+“Here is the passport,” said the postilion, “which way are we going, young gentleman?”
+“To Fontainebleau,” replied Eugénie with an almost masculine voice.
+“What do you say?” said Louise.
+“I am giving them the slip,” said Eugénie; “this woman to whom we have given twenty louis may betray us for forty; we will soon alter our direction.”
+And the young girl jumped into the britzka, which was admirably arranged for sleeping in, without scarcely touching the step.
+“You are always right,” said the music teacher, seating herself by the side of her friend.
+A quarter of an hour afterwards the postilion, having been put in the right road, passed with a crack of his whip through the gateway of the Barrière Saint-Martin.
+“Ah,” said Louise, breathing freely, “here we are out of Paris.”
+“Yes, my dear, the abduction is an accomplished fact,” replied Eugénie.
+“Yes, and without violence,” said Louise.
+“I shall bring that forward as an extenuating circumstance,” replied Eugénie.
+These words were lost in the noise which the carriage made in rolling over the pavement of La Villette. M. Danglars no longer had a daughter.
+And now let us leave Mademoiselle Danglars and her friend pursuing their way to Brussels, and return to poor Andrea Cavalcanti, so inopportunely interrupted in his rise to fortune. Notwithstanding his youth, Master Andrea was a very skilful and intelligent boy. We have seen that on the first rumor which reached the salon he had gradually approached the door, and crossing two or three rooms at last disappeared. But we have forgotten to mention one circumstance, which nevertheless ought not to be omitted; in one of the rooms he crossed, the trousseau of the bride-elect was on exhibition. There were caskets of diamonds, cashmere shawls, Valenciennes lace, English veils, and in fact all the tempting things, the bare mention of which makes the hearts of young girls bound with joy, and which is called the corbeille.[22] Now, in passing through this room, Andrea proved himself not only to be clever and intelligent, but also provident, for he helped himself to the most valuable of the ornaments before him.
+Furnished with this plunder, Andrea leaped with a lighter heart from the window, intending to slip through the hands of the gendarmes. Tall and well proportioned as an ancient gladiator, and muscular as a Spartan, he walked for a quarter of an hour without knowing where to direct his steps, actuated by the sole idea of getting away from the spot where if he lingered he knew that he would surely be taken. Having passed through the Rue du Mont-Blanc, guided by the instinct which leads thieves always to take the safest path, he found himself at the end of the Rue La Fayette. There he stopped, breathless and panting. He was quite alone; on one side was the vast wilderness of the Saint-Lazare, on the other, Paris enshrouded in darkness.
+“Am I to be captured?” he cried; “no, not if I can use more activity than my enemies. My safety is now a mere question of speed.”
+At this moment he saw a cab at the top of the Faubourg Poissonnière. The dull driver, smoking his pipe, was plodding along toward the limits of the Faubourg Saint-Denis, where no doubt he ordinarily had his station.
+“Ho, friend!” said Benedetto.
+“What do you want, sir?” asked the driver.
+“Is your horse tired?”
+“Tired? oh, yes, tired enough—he has done nothing the whole of this blessed day! Four wretched fares, and twenty sous over, making in all seven francs, are all that I have earned, and I ought to take ten to the owner.”
+“Will you add these twenty francs to the seven you have?”
+“With pleasure, sir; twenty francs are not to be despised. Tell me what I am to do for this.”
+“A very easy thing, if your horse isn’t tired.”
+“I tell you he’ll go like the wind,—only tell me which way to drive.”
+“Towards the Louvres.”
+“Ah, I know the way—you get good sweetened rum over there.”
+“Exactly so; I merely wish to overtake one of my friends, with whom I am going to hunt tomorrow at Chapelle-en-Serval. He should have waited for me here with a cabriolet till half-past eleven; it is twelve, and, tired of waiting, he must have gone on.”
+“It is likely.”
+“Well, will you try and overtake him?”
+“Nothing I should like better.”
+“If you do not overtake him before we reach Bourget you shall have twenty francs; if not before Louvres, thirty.”
+“And if we do overtake him?”
+“Forty,” said Andrea, after a moment’s hesitation, at the end of which he remembered that he might safely promise.
+“That’s all right,” said the man; “hop in, and we’re off! Who-o-o-pla!”
+Andrea got into the cab, which passed rapidly through the Faubourg Saint-Denis, along the Faubourg Saint-Martin, crossed the barrier, and threaded its way through the interminable Villette. They never overtook the chimerical friend, yet Andrea frequently inquired of people on foot whom he passed and at the inns which were not yet closed, for a green cabriolet and bay horse; and as there are a great many cabriolets to be seen on the road to the Low Countries, and as nine-tenths of them are green, the inquiries increased at every step. Everyone had just seen it pass; it was only five hundred, two hundred, one hundred steps in advance; at length they reached it, but it was not the friend. Once the cab was also passed by a calash rapidly whirled along by two post-horses.
+“Ah,” said Cavalcanti to himself, “if I only had that britzka, those two good post-horses, and above all the passport that carries them on!” And he sighed deeply.
+The calash contained Mademoiselle Danglars and Mademoiselle d’Armilly.
+“Hurry, hurry!” said Andrea, “we must overtake him soon.”
+And the poor horse resumed the desperate gallop it had kept up since leaving the barrier, and arrived steaming at Louvres.
+“Certainly,” said Andrea, “I shall not overtake my friend, but I shall kill your horse, therefore I had better stop. Here are thirty francs; I will sleep at the Cheval Rouge, and will secure a place in the first coach. Good-night, friend.”
+And Andrea, after placing six pieces of five francs each in the man’s hand, leaped lightly on to the pathway. The cabman joyfully pocketed the sum, and turned back on his road to Paris. Andrea pretended to go towards the hotel of the Cheval Rouge, but after leaning an instant against the door, and hearing the last sound of the cab, which was disappearing from view, he went on his road, and with a lusty stride soon traversed the space of two leagues. Then he rested; he must be near Chapelle-en-Serval, where he pretended to be going.
+It was not fatigue that stayed Andrea here; it was that he might form some resolution, adopt some plan. It would be impossible to make use of a diligence, equally so to engage post-horses; to travel either way a passport was necessary. It was still more impossible to remain in the department of the Oise, one of the most open and strictly guarded in France; this was quite out of the question, especially to a man like Andrea, perfectly conversant with criminal matters.
+He sat down by the side of the moat, buried his face in his hands and reflected. Ten minutes after he raised his head; his resolution was made. He threw some dust over the topcoat, which he had found time to unhook from the antechamber and button over his ball costume, and going to Chapelle-en-Serval he knocked loudly at the door of the only inn in the place.
+The host opened.
+“My friend,” said Andrea, “I was coming from Mortefontaine to Senlis, when my horse, which is a troublesome creature, stumbled and threw me. I must reach Compiègne tonight, or I shall cause deep anxiety to my family. Could you let me hire a horse of you?”
+An innkeeper has always a horse to let, whether it be good or bad. The host called the stable-boy, and ordered him to saddle Le Blanc then he awoke his son, a child of seven years, whom he ordered to ride before the gentleman and bring back the horse. Andrea gave the innkeeper twenty francs, and in taking them from his pocket dropped a visiting card. This belonged to one of his friends at the Café de Paris, so that the innkeeper, picking it up after Andrea had left, was convinced that he had let his horse to the Count of Mauléon, 25 Rue Saint-Dominique, that being the name and address on the card.
+Le Blanc was not a fast animal, but he kept up an easy, steady pace; in three hours and a half Andrea had traversed the nine leagues which separated him from Compiègne, and four o’clock struck as he reached the place where the coaches stop. There is an excellent tavern at Compiègne, well remembered by those who have ever been there. Andrea, who had often stayed there in his rides about Paris, recollected the Bell and Bottle inn; he turned around, saw the sign by the light of a reflected lamp, and having dismissed the child, giving him all the small coin he had about him, he began knocking at the door, very reasonably concluding that having now three or four hours before him he had best fortify himself against the fatigues of the morrow by a sound sleep and a good supper. A waiter opened the door.
+“My friend,” said Andrea, “I have been dining at Saint-Jean-aux-Bois, and expected to catch the coach which passes by at midnight, but like a fool I have lost my way, and have been walking for the last four hours in the forest. Show me into one of those pretty little rooms which overlook the court, and bring me a cold fowl and a bottle of Bordeaux.”
+The waiter had no suspicions; Andrea spoke with perfect composure, he had a cigar in his mouth, and his hands in the pocket of his top coat; his clothes were fashionably made, his chin smooth, his boots irreproachable; he looked merely as if he had stayed out very late, that was all. While the waiter was preparing his room, the hostess arose; Andrea assumed his most charming smile, and asked if he could have No. 3, which he had occupied on his last stay at Compiègne. Unfortunately, No. 3 was engaged by a young man who was travelling with his sister. Andrea appeared in despair, but consoled himself when the hostess assured him that No. 7, prepared for him, was situated precisely the same as No. 3, and while warming his feet and chatting about the last races at Chantilly, he waited until they announced his room to be ready.
+Andrea had not spoken without cause of the pretty rooms looking out upon the court of the Bell Hotel, which with its triple galleries like those of a theatre, with the jessamine and clematis twining round the light columns, forms one of the prettiest entrances to an inn that you can imagine. The fowl was tender, the wine old, the fire clear and sparkling, and Andrea was surprised to find himself eating with as good an appetite as though nothing had happened. Then he went to bed and almost immediately fell into that deep sleep which is sure to visit men of twenty years of age, even when they are torn with remorse. Now, here we are obliged to own that Andrea ought to have felt remorse, but that he did not.
+This was the plan which had appealed to him to afford the best chance of his security. Before daybreak he would awake, leave the inn after rigorously paying his bill, and reaching the forest, he would, under pretence of making studies in painting, test the hospitality of some peasants, procure himself the dress of a woodcutter and a hatchet, casting off the lion’s skin to assume that of the woodman; then, with his hands covered with dirt, his hair darkened by means of a leaden comb, his complexion embrowned with a preparation for which one of his old comrades had given him the recipe, he intended, by following the wooded districts, to reach the nearest frontier, walking by night and sleeping in the day in the forests and quarries, and only entering inhabited regions to buy a loaf from time to time.
+Once past the frontier, Andrea proposed making money of his diamonds; and by uniting the proceeds to ten bank-notes he always carried about with him in case of accident, he would then find himself possessor of about 50,000 livres, which he philosophically considered as no very deplorable condition after all. Moreover, he reckoned much on the interest of the Danglars to hush up the rumor of their own misadventures. These were the reasons which, added to the fatigue, caused Andrea to sleep so soundly. In order that he might wake early he did not close the shutters, but contented himself with bolting the door and placing on the table an unclasped and long-pointed knife, whose temper he well knew, and which was never absent from him.
+About seven in the morning Andrea was awakened by a ray of sunlight, which played, warm and brilliant, upon his face. In all well-organized brains, the predominating idea—and there always is one—is sure to be the last thought before sleeping, and the first upon waking in the morning. Andrea had scarcely opened his eyes when his predominating idea presented itself, and whispered in his ear that he had slept too long. He jumped out of bed and ran to the window. A gendarme was crossing the court. A gendarme is one of the most striking objects in the world, even to a man void of uneasiness; but for one who has a timid conscience, and with good cause too, the yellow, blue, and white uniform is really very alarming.
+“Why is that gendarme there?” asked Andrea of himself.
+Then, all at once, he replied, with that logic which the reader has, doubtless, remarked in him, “There is nothing astonishing in seeing a gendarme at an inn; instead of being astonished, let me dress myself.” And the youth dressed himself with a facility his valet de chambre had failed to rob him of during the two months of fashionable life he had led in Paris.
+“Now then,” said Andrea, while dressing himself, “I’ll wait till he leaves, and then I’ll slip away.”
+And, saying this, Andrea, who had now put on his boots and cravat, stole gently to the window, and a second time lifted up the muslin curtain. Not only was the first gendarme still there, but the young man now perceived a second yellow, blue, and white uniform at the foot of the staircase, the only one by which he could descend, while a third, on horseback, holding a musket in his fist, was posted as a sentinel at the great street-door which alone afforded the means of egress. The appearance of the third gendarme settled the matter, for a crowd of curious loungers was extended before him, effectually blocking the entrance to the hotel.
+“They’re after me!” was Andrea’s first thought. “Diable!”
+A pallor overspread the young man’s forehead, and he looked around him with anxiety. His room, like all those on the same floor, had but one outlet to the gallery in the sight of everybody. “I am lost!” was his second thought; and, indeed, for a man in Andrea’s situation, an arrest meant the assizes, trial, and death,—death without mercy or delay.
+For a moment he convulsively pressed his head within his hands, and during that brief period he became nearly mad with terror; but soon a ray of hope glimmered in the multitude of thoughts which bewildered his mind, and a faint smile played upon his white lips and pallid cheeks. He looked around and saw the objects of his search upon the chimney-piece; they were a pen, ink, and paper. With forced composure he dipped the pen in the ink, and wrote the following lines upon a sheet of paper:
+“I have no money to pay my bill, but I am not a dishonest man; I leave behind me as a pledge this pin, worth ten times the amount. I shall be excused for leaving at daybreak, for I was ashamed.”
+He then drew the pin from his cravat and placed it on the paper. This done, instead of leaving the door fastened, he drew back the bolts and even placed the door ajar, as though he had left the room, forgetting to close it, and slipping into the chimney like a man accustomed to that kind of gymnastic exercise, after replacing the chimney-board, which represented Achilles with Deidamia, and effacing the very marks of his feet upon the ashes, he commenced climbing the hollow tunnel, which afforded him the only means of escape left.
+At this precise time, the first gendarme Andrea had noticed walked upstairs, preceded by the commissary of police, and supported by the second gendarme who guarded the staircase and was himself reinforced by the one stationed at the door.
+Andrea was indebted for this visit to the following circumstances. At daybreak, the telegraphs were set at work in all directions, and almost immediately the authorities in every district had exerted their utmost endeavors to arrest the murderer of Caderousse. Compiègne, that royal residence and fortified town, is well furnished with authorities, gendarmes, and commissaries of police; they therefore began operations as soon as the telegraphic despatch arrived, and the Bell and Bottle being the best-known hotel in the town, they had naturally directed their first inquiries there.
+Now, besides the reports of the sentinels guarding the Hôtel de Ville, which is next door to the Bell and Bottle, it had been stated by others that a number of travellers had arrived during the night. The sentinel who was relieved at six o’clock in the morning, remembered perfectly that, just as he was taking his post a few minutes past four, a young man arrived on horseback, with a little boy before him. The young man, having dismissed the boy and horse, knocked at the door of the hotel, which was opened, and again closed after his entrance. This late arrival had attracted much suspicion, and the young man being no other than Andrea, the commissary and gendarme, who was a brigadier, directed their steps towards his room. They found the door ajar.
+“Oh, oh,” said the brigadier, who thoroughly understood the trick; “a bad sign to find the door open! I would rather find it triply bolted.”
+And, indeed, the little note and pin upon the table confirmed, or rather corroborated, the sad truth. Andrea had fled. We say corroborated, because the brigadier was too experienced to be convinced by a single proof. He glanced around, looked in the bed, shook the curtains, opened the closets, and finally stopped at the chimney. Andrea had taken the precaution to leave no traces of his feet in the ashes, but still it was an outlet, and in this light was not to be passed over without serious investigation.
+The brigadier sent for some sticks and straw, and having filled the chimney with them, set a light to it. The fire crackled, and the smoke ascended like the dull vapor from a volcano; but still no prisoner fell down, as they expected. The fact was, that Andrea, at war with society ever since his youth, was quite as deep as a gendarme, even though he were advanced to the rank of brigadier, and quite prepared for the fire, he had climbed out on the roof and was crouching down against the chimney-pots.
+At one time he thought he was saved, for he heard the brigadier exclaim in a loud voice, to the two gendarmes, “He is not here!” But venturing to peep, he perceived that the latter, instead of retiring, as might have been reasonably expected upon this announcement, were watching with increased attention.
+It was now his turn to look about him; the Hôtel de Ville, a massive sixteenth century building, was on his right; anyone could descend from the openings in the tower, and examine every corner of the roof below, and Andrea expected momentarily to see the head of a gendarme appear at one of these openings. If once discovered, he knew he would be lost, for the roof afforded no chance of escape; he therefore resolved to descend, not through the same chimney by which he had come up, but by a similar one conducting to another room.
+He looked around for a chimney from which no smoke issued, and having reached it, he disappeared through the orifice without being seen by anyone. At the same minute, one of the little windows of the Hôtel de Ville was thrown open, and the head of a gendarme appeared. For an instant it remained motionless as one of the stone decorations of the building, then after a long sigh of disappointment the head disappeared. The brigadier, calm and dignified as the law he represented, passed through the crowd, without answering the thousand questions addressed to him, and re-entered the hotel.
+“Well?” asked the two gendarmes.
+“Well, my boys,” said the brigadier, “the brigand must really have escaped early this morning; but we will send to the Villers-Coterets and Noyon roads, and search the forest, when we shall catch him, no doubt.”
+The honorable functionary had scarcely expressed himself thus, in that intonation which is peculiar to brigadiers of the gendarmerie, when a loud scream, accompanied by the violent ringing of a bell, resounded through the court of the hotel.
+“Ah, what is that?” cried the brigadier.
+“Some traveller seems impatient,” said the host. “What number was it that rang?”
+“Number 3.”
+“Run, waiter!”
+At this moment the screams and ringing were redoubled.
+“Aha!” said the brigadier, stopping the servant, “the person who is ringing appears to want something more than a waiter; we will attend upon him with a gendarme. Who occupies Number 3?”
+“The little fellow who arrived last night in a post-chaise with his sister, and who asked for an apartment with two beds.”
+The bell here rang for the third time, with another shriek of anguish.
+“Follow me, Mr. Commissary!” said the brigadier; “tread in my steps.”
+“Wait an instant,” said the host; “Number 3 has two staircases,—inside and outside.”
+“Good,” said the brigadier. “I will take charge of the inside one. Are the carbines loaded?”
+“Yes, brigadier.”
+“Well, you guard the exterior, and if he attempts to fly, fire upon him; he must be a great criminal, from what the telegraph says.”
+The brigadier, followed by the commissary, disappeared by the inside staircase, accompanied by the noise which his assertions respecting Andrea had excited in the crowd.
+This is what had happened: Andrea had very cleverly managed to descend two-thirds of the chimney, but then his foot slipped, and notwithstanding his endeavors, he came into the room with more speed and noise than he intended. It would have signified little had the room been empty, but unfortunately it was occupied. Two ladies, sleeping in one bed, were awakened by the noise, and fixing their eyes upon the spot whence the sound proceeded, they saw a man. One of these ladies, the fair one, uttered those terrible shrieks which resounded through the house, while the other, rushing to the bell-rope, rang with all her strength. Andrea, as we can see, was surrounded by misfortune.
+“For pity’s sake,” he cried, pale and bewildered, without seeing whom he was addressing,—“for pity’s sake do not call assistance! Save me!—I will not harm you.”
+“Andrea, the murderer!” cried one of the ladies.
+“Eugénie! Mademoiselle Danglars!” exclaimed Andrea, stupefied.
+“Help, help!” cried Mademoiselle d’Armilly, taking the bell from her companion’s hand, and ringing it yet more violently.
+“Save me, I am pursued!” said Andrea, clasping his hands. “For pity, for mercy’s sake do not deliver me up!”
+“It is too late, they are coming,” said Eugénie.
+“Well, conceal me somewhere; you can say you were needlessly alarmed; you can turn their suspicions and save my life!”
+The two ladies, pressing closely to one another, and drawing the bedclothes tightly around them, remained silent to this supplicating voice, repugnance and fear taking possession of their minds.
+“Well, be it so,” at length said Eugénie; “return by the same road you came, and we will say nothing about you, unhappy wretch.”
+“Here he is, here he is!” cried a voice from the landing; “here he is! I see him!”
+The brigadier had put his eye to the keyhole, and had discovered Andrea in a posture of entreaty. A violent blow from the butt end of the musket burst open the lock, two more forced out the bolts, and the broken door fell in. Andrea ran to the other door, leading to the gallery, ready to rush out; but he was stopped short, and he stood with his body a little thrown back, pale, and with the useless knife in his clenched hand.
+“Fly, then!” cried Mademoiselle d’Armilly, whose pity returned as her fears diminished; “fly!”
+“Or kill yourself!” said Eugénie (in a tone which a Vestal in the amphitheatre would have used, when urging the victorious gladiator to finish his vanquished adversary). Andrea shuddered, and looked on the young girl with an expression which proved how little he understood such ferocious honor.
+“Kill myself?” he cried, throwing down his knife; “why should I do so?”
+“Why, you said,” answered Mademoiselle Danglars, “that you would be condemned to die like the worst criminals.”
+“Bah,” said Cavalcanti, crossing his arms, “one has friends.”
+The brigadier advanced to him, sword in hand.
+“Come, come,” said Andrea, “sheathe your sword, my fine fellow; there is no occasion to make such a fuss, since I give myself up;” and he held out his hands to be manacled.
+The two girls looked with horror upon this shameful metamorphosis, the man of the world shaking off his covering and appearing as a galley-slave. Andrea turned towards them, and with an impertinent smile asked, “Have you any message for your father, Mademoiselle Danglars, for in all probability I shall return to Paris?”
+Eugénie covered her face with her hands.
+“Oh, oh!” said Andrea, “you need not be ashamed, even though you did post after me. Was I not nearly your husband?”
+And with this raillery Andrea went out, leaving the two girls a prey to their own feelings of shame, and to the comments of the crowd. An hour after they stepped into their calash, both dressed in feminine attire. The gate of the hotel had been closed to screen them from sight, but they were forced, when the door was open, to pass through a throng of curious glances and whispering voices.
+Eugénie closed her eyes; but though she could not see, she could hear, and the sneers of the crowd reached her in the carriage.
+“Oh, why is not the world a wilderness?” she exclaimed, throwing herself into the arms of Mademoiselle d’Armilly, her eyes sparkling with the same kind of rage which made Nero wish that the Roman world had but one neck, that he might sever it at a single blow.
+The next day they stopped at the Hôtel de Flandre, at Brussels. The same evening Andrea was incarcerated in the Conciergerie.
+We have seen how quietly Mademoiselle Danglars and Mademoiselle d’Armilly accomplished their transformation and flight; the fact being that everyone was too much occupied in his or her own affairs to think of theirs.
+We will leave the banker contemplating the enormous magnitude of his debt before the phantom of bankruptcy, and follow the baroness, who after being momentarily crushed under the weight of the blow which had struck her, had gone to seek her usual adviser, Lucien Debray. The baroness had looked forward to this marriage as a means of ridding her of a guardianship which, over a girl of Eugénie’s character, could not fail to be rather a troublesome undertaking; for in the tacit relations which maintain the bond of family union, the mother, to maintain her ascendancy over her daughter, must never fail to be a model of wisdom and a type of perfection.
+Now, Madame Danglars feared Eugénie’s sagacity and the influence of Mademoiselle d’Armilly; she had frequently observed the contemptuous expression with which her daughter looked upon Debray,—an expression which seemed to imply that she understood all her mother’s amorous and pecuniary relationships with the intimate secretary; moreover, she saw that Eugénie detested Debray, not only because he was a source of dissension and scandal under the paternal roof, but because she had at once classed him in that catalogue of bipeds whom Plato endeavors to withdraw from the appellation of men, and whom Diogenes designated as animals upon two legs without feathers.
+Unfortunately, in this world of ours, each person views things through a certain medium, and so is prevented from seeing in the same light as others, and Madame Danglars, therefore, very much regretted that the marriage of Eugénie had not taken place, not only because the match was good, and likely to insure the happiness of her child, but because it would also set her at liberty. She ran therefore to Debray, who, after having, like the rest of Paris, witnessed the contract scene and the scandal attending it, had retired in haste to his club, where he was chatting with some friends upon the events which served as a subject of conversation for three-fourths of that city known as the capital of the world.
+At the precise time when Madame Danglars, dressed in black and concealed in a long veil, was ascending the stairs leading to Debray’s apartments, notwithstanding the assurances of the concierge that the young man was not at home, Debray was occupied in repelling the insinuations of a friend, who tried to persuade him that after the terrible scene which had just taken place he ought, as a friend of the family, to marry Mademoiselle Danglars and her two millions. Debray did not defend himself very warmly, for the idea had sometimes crossed his mind; still, when he recollected the independent, proud spirit of Eugénie, he positively rejected it as utterly impossible, though the same thought again continually recurred and found a resting-place in his heart. Tea, play, and the conversation, which had become interesting during the discussion of such serious affairs, lasted till one o’clock in the morning.
+Meanwhile Madame Danglars, veiled and uneasy, awaited the return of Debray in the little green room, seated between two baskets of flowers, which she had that morning sent, and which, it must be confessed, Debray had himself arranged and watered with so much care that his absence was half excused in the eyes of the poor woman.
+At twenty minutes to twelve, Madame Danglars, tired of waiting, returned home. Women of a certain grade are like prosperous grisettes in one respect, they seldom return home after twelve o’clock. The baroness returned to the hotel with as much caution as Eugénie used in leaving it; she ran lightly upstairs, and with an aching heart entered her apartment, contiguous, as we know, to that of Eugénie. She was fearful of exciting any remark, and believed firmly in her daughter’s innocence and fidelity to the paternal roof. She listened at Eugénie’s door, and hearing no sound tried to enter, but the bolts were in place. Madame Danglars then concluded that the young girl had been overcome with the terrible excitement of the evening, and had gone to bed and to sleep. She called the maid and questioned her.
+“Mademoiselle Eugénie,” said the maid, “retired to her apartment with Mademoiselle d’Armilly; they then took tea together, after which they desired me to leave, saying that they needed me no longer.”
+Since then the maid had been below, and like everyone else she thought the young ladies were in their own room; Madame Danglars, therefore, went to bed without a shadow of suspicion, and began to muse over the recent events. In proportion as her memory became clearer, the occurrences of the evening were revealed in their true light; what she had taken for confusion was a tumult; what she had regarded as something distressing, was in reality a disgrace. And then the baroness remembered that she had felt no pity for poor Mercédès, who had been afflicted with as severe a blow through her husband and son.
+“Eugénie,” she said to herself, “is lost, and so are we. The affair, as it will be reported, will cover us with shame; for in a society such as ours satire inflicts a painful and incurable wound. How fortunate that Eugénie is possessed of that strange character which has so often made me tremble!”
+And her glance was turned towards heaven, where a mysterious Providence disposes all things, and out of a fault, nay, even a vice, sometimes produces a blessing. And then her thoughts, cleaving through space like a bird in the air, rested on Cavalcanti. This Andrea was a wretch, a robber, an assassin, and yet his manners showed the effects of a sort of education, if not a complete one; he had been presented to the world with the appearance of an immense fortune, supported by an honorable name. How could she extricate herself from this labyrinth? To whom would she apply to help her out of this painful situation? Debray, to whom she had run, with the first instinct of a woman towards the man she loves, and who yet betrays her,—Debray could but give her advice, she must apply to someone more powerful than he.
+The baroness then thought of M. de Villefort. It was M. de Villefort who had remorselessly brought misfortune into her family, as though they had been strangers. But, no; on reflection, the procureur was not a merciless man; and it was not the magistrate, slave to his duties, but the friend, the loyal friend, who roughly but firmly cut into the very core of the corruption; it was not the executioner, but the surgeon, who wished to withdraw the honor of Danglars from ignominious association with the disgraced young man they had presented to the world as their son-in-law. And since Villefort, the friend of Danglars, had acted in this way, no one could suppose that he had been previously acquainted with, or had lent himself to, any of Andrea’s intrigues. Villefort’s conduct, therefore, upon reflection, appeared to the baroness as if shaped for their mutual advantage. But the inflexibility of the procureur should stop there; she would see him the next day, and if she could not make him fail in his duties as a magistrate, she would, at least, obtain all the indulgence he could allow. She would invoke the past, recall old recollections; she would supplicate him by the remembrance of guilty, yet happy days. M. de Villefort would stifle the affair; he had only to turn his eyes on one side, and allow Andrea to fly, and follow up the crime under that shadow of guilt called contempt of court. And after this reasoning she slept easily.
+At nine o’clock next morning she arose, and without ringing for her maid or giving the least sign of her activity, she dressed herself in the same simple style as on the previous night; then running downstairs, she left the hotel, walked to the Rue de Provence, called a cab, and drove to M. de Villefort’s house.
+For the last month this wretched house had presented the gloomy appearance of a lazaretto infected with the plague. Some of the apartments were closed within and without; the shutters were only opened to admit a minute’s air, showing the scared face of a footman, and immediately afterwards the window would be closed, like a gravestone falling on a sepulchre, and the neighbors would say to each other in a low voice, “Will there be another funeral today at the procureur’s house?”
+Madame Danglars involuntarily shuddered at the desolate aspect of the mansion; descending from the cab, she approached the door with trembling knees, and rang the bell. Three times did the bell ring with a dull, heavy sound, seeming to participate, in the general sadness, before the concierge appeared and peeped through the door, which he opened just wide enough to allow his words to be heard. He saw a lady, a fashionable, elegantly dressed lady, and yet the door remained almost closed.
+“Do you intend opening the door?” said the baroness.
+“First, madame, who are you?”
+“Who am I? You know me well enough.”
+“We no longer know anyone, madame.”
+“You must be mad, my friend,” said the baroness.
+“Where do you come from?”
+“Oh, this is too much!”
+“Madame, these are my orders; excuse me. Your name?”
+“The baroness Danglars; you have seen me twenty times.”
+“Possibly, madame. And now, what do you want?”
+“Oh, how extraordinary! I shall complain to M. de Villefort of the impertinence of his servants.”
+“Madame, this is precaution, not impertinence; no one enters here without an order from M. d’Avrigny, or without speaking to the procureur.”
+“Well, I have business with the procureur.”
+“Is it pressing business?”
+“You can imagine so, since I have not even brought my carriage out yet. But enough of this—here is my card, take it to your master.”
+“Madame will await my return?”
+“Yes; go.”
+The concierge closed the door, leaving Madame Danglars in the street. She had not long to wait; directly afterwards the door was opened wide enough to admit her, and when she had passed through, it was again shut. Without losing sight of her for an instant, the concierge took a whistle from his pocket as soon as they entered the court, and blew it. The valet de chambre appeared on the door-steps.
+“You will excuse this poor fellow, madame,” he said, as he preceded the baroness, “but his orders are precise, and M. de Villefort begged me to tell you that he could not act otherwise.”
+In the court showing his merchandise, was a tradesman who had been admitted with the same precautions. The baroness ascended the steps; she felt herself strongly infected with the sadness which seemed to magnify her own, and still guided by the valet de chambre, who never lost sight of her for an instant, she was introduced to the magistrate’s study.
+Preoccupied as Madame Danglars had been with the object of her visit, the treatment she had received from these underlings appeared to her so insulting, that she began by complaining of it. But Villefort, raising his head, bowed down by grief, looked up at her with so sad a smile that her complaints died upon her lips.
+“Forgive my servants,” he said, “for a terror I cannot blame them for; from being suspected they have become suspicious.”
+Madame Danglars had often heard of the terror to which the magistrate alluded, but without the evidence of her own eyesight she could never have believed that the sentiment had been carried so far.
+“You too, then, are unhappy?” she said.
+“Yes, madame,” replied the magistrate.
+“Then you pity me!”
+“Sincerely, madame.”
+“And you understand what brings me here?”
+“You wish to speak to me about the circumstance which has just happened?”
+“Yes, sir,—a fearful misfortune.”
+“You mean a mischance.”
+“A mischance?” repeated the baroness.
+“Alas, madame,” said the procureur with his imperturbable calmness of manner, “I consider those alone misfortunes which are irreparable.”
+“And do you suppose this will be forgotten?”
+“Everything will be forgotten, madame,” said Villefort. “Your daughter will be married tomorrow, if not today—in a week, if not tomorrow; and I do not think you can regret the intended husband of your daughter.”
+Madame Danglars gazed on Villefort, stupefied to find him so almost insultingly calm. “Am I come to a friend?” she asked in a tone full of mournful dignity.
+“You know that you are, madame,” said Villefort, whose pale cheeks became slightly flushed as he gave her the assurance. And truly this assurance carried him back to different events from those now occupying the baroness and him.
+“Well, then, be more affectionate, my dear Villefort,” said the baroness. “Speak to me not as a magistrate, but as a friend; and when I am in bitter anguish of spirit, do not tell me that I ought to be gay.” Villefort bowed.
+“When I hear misfortunes named, madame,” he said, “I have within the last few months contracted the bad habit of thinking of my own, and then I cannot help drawing up an egotistical parallel in my mind. That is the reason that by the side of my misfortunes yours appear to me mere mischances; that is why my dreadful position makes yours appear enviable. But this annoys you; let us change the subject. You were saying, madame——”
+“I came to ask you, my friend,” said the baroness, “what will be done with this impostor?”
+“Impostor,” repeated Villefort; “certainly, madame, you appear to extenuate some cases, and exaggerate others. Impostor, indeed!—M. Andrea Cavalcanti, or rather M. Benedetto, is nothing more nor less than an assassin!”
+“Sir, I do not deny the justice of your correction, but the more severely you arm yourself against that unfortunate man, the more deeply will you strike our family. Come, forget him for a moment, and instead of pursuing him, let him go.”
+“You are too late, madame; the orders are issued.”
+“Well, should he be arrested—do they think they will arrest him?”
+“I hope so.”
+“If they should arrest him (I know that sometimes prisons afford means of escape), will you leave him in prison?”
+The procureur shook his head.
+“At least keep him there till my daughter be married.”
+“Impossible, madame; justice has its formalities.”
+“What, even for me?” said the baroness, half jesting, half in earnest.
+“For all, even for myself among the rest,” replied Villefort.
+“Ah!” exclaimed the baroness, without expressing the ideas which the exclamation betrayed. Villefort looked at her with that piercing glance which reads the secrets of the heart.
+“Yes, I know what you mean,” he said; “you refer to the terrible rumors spread abroad in the world, that the deaths which have kept me in mourning for the last three months, and from which Valentine has only escaped by a miracle, have not happened by natural means.”
+“I was not thinking of that,” replied Madame Danglars quickly.
+“Yes, you were thinking of it, and with justice. You could not help thinking of it, and saying to yourself, ‘you, who pursue crime so vindictively, answer now, why are there unpunished crimes in your dwelling?’” The baroness became pale. “You were saying this, were you not?”
+“Well, I own it.”
+“I will answer you.”
+Villefort drew his armchair nearer to Madame Danglars; then resting both hands upon his desk he said in a voice more hollow than usual:
+“There are crimes which remain unpunished because the criminals are unknown, and we might strike the innocent instead of the guilty; but when the culprits are discovered” (Villefort here extended his hand toward a large crucifix placed opposite to his desk)—“when they are discovered, I swear to you, by all I hold most sacred, that whoever they may be they shall die. Now, after the oath I have just taken, and which I will keep, madame, dare you ask for mercy for that wretch!”
+“But, sir, are you sure he is as guilty as they say?”
+“Listen; this is his description: ‘Benedetto, condemned, at the age of sixteen, for five years to the galleys for forgery.’ He promised well, as you see—first a runaway, then an assassin.”
+“And who is this wretch?”
+“Who can tell?—a vagabond, a Corsican.”
+“Has no one owned him?”
+“No one; his parents are unknown.”
+“But who was the man who brought him from Lucca?”
+“Another rascal like himself, perhaps his accomplice.” The baroness clasped her hands.
+“Villefort,” she exclaimed in her softest and most captivating manner.
+“For Heaven’s sake, madame,” said Villefort, with a firmness of expression not altogether free from harshness—“for Heaven’s sake, do not ask pardon of me for a guilty wretch! What am I?—the law. Has the law any eyes to witness your grief? Has the law ears to be melted by your sweet voice? Has the law a memory for all those soft recollections you endeavor to recall? No, madame; the law has commanded, and when it commands it strikes. You will tell me that I am a living being, and not a code—a man, and not a volume. Look at me, madame—look around me. Has mankind treated me as a brother? Have men loved me? Have they spared me? Has anyone shown the mercy towards me that you now ask at my hands? No, madame, they struck me, always struck me!
+“Woman, siren that you are, do you persist in fixing on me that fascinating eye, which reminds me that I ought to blush? Well, be it so; let me blush for the faults you know, and perhaps—perhaps for even more than those! But having sinned myself,—it may be more deeply than others,—I never rest till I have torn the disguises from my fellow-creatures, and found out their weaknesses. I have always found them; and more,—I repeat it with joy, with triumph,—I have always found some proof of human perversity or error. Every criminal I condemn seems to me living evidence that I am not a hideous exception to the rest. Alas, alas, alas; all the world is wicked; let us therefore strike at wickedness!”
+Villefort pronounced these last words with a feverish rage, which gave a ferocious eloquence to his words.
+“But”’ said Madame Danglars, resolving to make a last effort, “this young man, though a murderer, is an orphan, abandoned by everybody.”
+“So much the worse, or rather, so much the better; it has been so ordained that he may have none to weep his fate.”
+“But this is trampling on the weak, sir.”
+“The weakness of a murderer!”
+“His dishonor reflects upon us.”
+“Is not death in my house?”
+“Oh, sir,” exclaimed the baroness, “you are without pity for others, well, then, I tell you they will have no mercy on you!”
+“Be it so!” said Villefort, raising his arms to heaven with a threatening gesture.
+“At least, delay the trial till the next assizes; we shall then have six months before us.”
+“No, madame,” said Villefort; “instructions have been given. There are yet five days left; five days are more than I require. Do you not think that I also long for forgetfulness? While working night and day, I sometimes lose all recollection of the past, and then I experience the same sort of happiness I can imagine the dead feel; still, it is better than suffering.”
+“But, sir, he has fled; let him escape—inaction is a pardonable offence.”
+“I tell you it is too late; early this morning the telegraph was employed, and at this very minute——”
+“Sir,” said the valet de chambre, entering the room, “a dragoon has brought this despatch from the Minister of the Interior.”
+Villefort seized the letter, and hastily broke the seal. Madame Danglars trembled with fear; Villefort started with joy.
+“Arrested!” he exclaimed; “he was taken at Compiègne, and all is over.”
+Madame Danglars rose from her seat, pale and cold.
+“Adieu, sir,” she said.
+“Adieu, madame,” replied the king’s attorney, as in an almost joyful manner he conducted her to the door. Then, turning to his desk, he said, striking the letter with the back of his right hand:
+“Come, I had a forgery, three robberies, and two cases of arson, I only wanted a murder, and here it is. It will be a splendid session!”

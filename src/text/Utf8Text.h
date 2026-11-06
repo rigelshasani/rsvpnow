@@ -103,6 +103,18 @@ namespace Utf8Text {
         return text.substr(0, length);
     }
 
+    // Drops a multi-byte sequence cut off at the end of the text (from byte-limited storage).
+    inline std::string_view withoutTruncatedTail(std::string_view text) {
+        size_t start = text.size();
+        while (start > 0 && text.size() - start < 4 && isContinuation(static_cast<uint8_t>(text[start - 1])))
+            --start;
+        if (start == 0)
+            return text;
+        const auto lead = static_cast<uint8_t>(text[start - 1]);
+        const size_t needed = lead >= 0xF0 ? 4 : lead >= 0xE0 ? 3 : lead >= 0xC0 ? 2 : 1;
+        return text.size() - (start - 1) < needed ? text.substr(0, start - 1) : text;
+    }
+
     inline size_t lastCodepointStart(std::string_view text) {
         if (text.empty())
             return 0;
