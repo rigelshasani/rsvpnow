@@ -147,9 +147,9 @@ namespace screens {
                 action != Action::None) return action;
             if (items.empty()) {
                 ui.label({16, 52, 408, 60}, ui.text(UiText::NoLibraryItems), 3);
-                ui.label({16, 118, 408, 42}, "Add a book using the companion or USB.", 2, ui::themes::Muted,
+                ui.label({16, 118, 408, 42}, "Download free classics, or add your own over USB.", 2, ui::themes::Muted,
                          ui::TextAlign::Start, 2);
-                if (button(ui, {448, 80, 176, 56}, ui.text(UiText::Add), Style::Primary)) screen = Screen::Connections;
+                if (button(ui, {448, 80, 176, 56}, ui.text(UiText::Add), Style::Primary)) screen = Screen::GetBooks;
                 return Action::None;
             }
             const bool previous = ui::modern::arrow(ui, {16, 56, 56, 104}, Direction::Left, items.size() > 1);
@@ -170,7 +170,7 @@ namespace screens {
             if (button(ui, {480, 96, 144, 32}, "Book settings", Style::Secondary, item.book != nullptr, {}, 13))
                 return Action::OpenBookSettings;
             if (button(ui, {480, 136, 144, 28}, "+ " + std::string{ui.text(UiText::Add)}, Style::Accent))
-                screen = Screen::Connections;
+                screen = Screen::GetBooks;
             return Action::None;
         }
         if (const Action action = detail::navigation(ui, Screen::Library, screen); action != Action::None) {

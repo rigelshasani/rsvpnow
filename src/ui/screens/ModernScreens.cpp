@@ -42,7 +42,9 @@ namespace screens::modern {
                                        : parent == Screen::Library ? UiText::Library
                                        : parent == Screen::Device ? UiText::Device : UiText::Settings);
         if (parent == Screen::Dictionary) parentText = "Dictionary";
-        const bool dictionaryParent = parent == Screen::Dictionary;
+        if (parent == Screen::GetBooks) parentText = "Add books";
+        if (parent == Screen::FreeBooks) parentText = "Free books";
+        const bool dictionaryParent = parent == Screen::Dictionary || parent == Screen::GetBooks || parent == Screen::FreeBooks;
         if (button(ui, {8, 0, int16_t(dictionaryParent ? 112 : 94), 43},
                    std::string{"‹ "} + std::string{parentText}, Style::Plain, true, {}, 13))
             screen = parent;

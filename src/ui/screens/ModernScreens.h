@@ -18,6 +18,7 @@ namespace screens::modern {
         case Screen::FindPlace: case Screen::FindChapters: case Screen::BookSearch: case Screen::BookSearchKeyboard:
         case Screen::Dictionary: case Screen::DictionarySearch: case Screen::DictionaryHelp: case Screen::DictionaryInstall:
         case Screen::QuickControls: case Screen::Onboarding: case Screen::ButtonMap: case Screen::AddBooks: case Screen::TouchCheck:
+        case Screen::GetBooks: case Screen::FreeBooks: case Screen::FreeShelf: case Screen::BookShops:
             return true;
         default:
             // The reading canvas opts into its independent chrome path.

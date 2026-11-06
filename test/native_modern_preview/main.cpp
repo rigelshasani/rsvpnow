@@ -6,6 +6,7 @@
 #include <cassert>
 #include "ui/screens/ModernScreens.h"
 #include "ui/screens/LibraryScreen.h"
+#include "ui/screens/FreeBooksScreen.h"
 #include "ui/screens/ChaptersScreen.h"
 #include "ui/screens/ModernReaderChrome.h"
 #include "ui/screens/ReaderScreen.h"
@@ -611,7 +612,15 @@ int main(int argc, char** argv) {
         {screens::Screen::FocusSession, "focus-paused"},
         {screens::Screen::FocusSession, "focus-exit"},
         {screens::Screen::StorageEncryption,"encryption"}, {screens::Screen::StorageEncryption,"encryption-confirm"},
+        {screens::Screen::GetBooks,"get-books"}, {screens::Screen::BookShops,"book-shops"},
+        {screens::Screen::FreeBooks,"free-books"}, {screens::Screen::FreeShelf,"free-shelf"},
+        {screens::Screen::FreeShelf,"free-shelf-owned"}, {screens::Screen::FreeShelf,"free-shelf-wifi"},
+        {screens::Screen::FreeShelf,"free-shelf-paper"},
     };
+    // A card that already holds one catalog title, once by file name and once by EPUB title.
+    const std::vector<BookLibrary::Entry> freeLibrary{
+        {.path = "/library/books/Pride and Prejudice - Jane Austen.epub", .title = "Pride and Prejudice"},
+        {.path = "/library/books/frankenstein.epub", .title = "Frankenstein; or, The Modern Prometheus"}};
     for (const auto& [view, name] : views) {
         const auto viewTheme = std::string_view{name}.ends_with("-paper") ? ui::modern::paperTheme() : theme;
         ui.setTheme(viewTheme);
@@ -674,6 +683,16 @@ int main(int argc, char** argv) {
         case screens::Screen::ReadingSettings: screens::readingSettings(ui, reading, screen); break;
         case screens::Screen::PacingSettings: screens::pacingSettings(ui, reading.pacing, screen); break;
         case screens::Screen::Ota: screens::ota(ui, "preview-ui-dictionary-20261020.3", screen); break;
+        case screens::Screen::GetBooks: screens::modern::addBooks(ui, screen); break;
+        case screens::Screen::BookShops: screens::modern::bookShops(ui, screen); break;
+        case screens::Screen::FreeBooks: case screens::Screen::FreeShelf: {
+            screens::FreeBooksScreen shelf;
+            const std::span<const BookLibrary::Entry> owned = std::string_view{name} == "free-shelf-owned"
+                ? std::span<const BookLibrary::Entry>{freeLibrary} : std::span<const BookLibrary::Entry>{};
+            if (std::string_view{name} == "free-shelf-wifi") shelf.setMessage("Set up Wi-Fi first");
+            shelf.draw(ui, owned, screen);
+            break;
+        }
         default: screens::modern::hub(ui, screen); break;
         }
         if (screen != screens::Screen::Status) ui.endFrame();

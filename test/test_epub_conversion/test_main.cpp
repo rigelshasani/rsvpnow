@@ -108,6 +108,36 @@ namespace {
             "@chapter I. The Arrival\n\n@chapter II. Father and Son\nThe harbour was bright.\n\n@para\nThe door opened.\n"));
     }
 
+    void test_parser_skips_project_gutenberg_boilerplate() {
+        File output;
+        const std::vector<EpubPackage::TocEntry> toc = {
+            {"content.xhtml", "Chapter I", "chapter-1"},
+        };
+        // Shape of a current gutenberg.org EPUB: a header block with its own heading and
+        // nested divs (one self-closing), the book, then the licence footer.
+        constexpr std::string_view markup = R"(<body><div class="pg-boilerplate pgheader" id="pg-header" lang="en">
+            <h2 id="pg-header-heading">The Project Gutenberg eBook of Fixture</h2>
+            <div>This eBook is for the use of anyone anywhere &amp; at no cost.</div>
+            <div id="pg-machine-header"><p>Title: Fixture</p><div class="pgmonospaced"/></div>
+            <div id="pg-start-separator"><span>*** START OF THE PROJECT GUTENBERG EBOOK ***</span></div></div>
+            <h2 id="chapter-1">I</h2><div><p>It was a quiet morning.</p></div>
+            <section class="pg-boilerplate" id="pg-footer"><h2 id="pg-footer-heading">THE FULL LICENSE</h2>
+            <section><p>Redistribution is subject to the license.</p></section></section>
+            <p>After the footer.</p></body>)";
+
+        RsvpWriter writer(output, {.source = "fixture.epub", .title = "Fixture"});
+        EpubContent::Parser parser(writer, toc, true, "content", "Fixture");
+        TEST_ASSERT_TRUE(parser.write(reinterpret_cast<const uint8_t*>(markup.data()), markup.length()));
+        TEST_ASSERT_TRUE(parser.finish());
+        TEST_ASSERT_TRUE(writer.finish());
+
+        TEST_ASSERT_EQUAL_UINT32(1, writer.chapterCount());
+        TEST_ASSERT_EQUAL_UINT32(8, writer.wordCount());
+        TEST_ASSERT_TRUE(output.contents().ends_with("@chapter Chapter I\nIt was a quiet morning.\n\n@para\nAfter the footer.\n"));
+        TEST_ASSERT_FALSE(output.contents().contains("Gutenberg"));
+        TEST_ASSERT_FALSE(output.contents().contains("license"));
+    }
+
     void test_parser_preserves_punctuation_only_inline_fragments_without_counting_them_as_words() {
         File output;
         constexpr std::string_view markup = R"(<body><h1>Letter</h1><p>Dear Reader <span>,</span></p></body>)";
@@ -198,6 +228,7 @@ int main(int, char**) {
     RUN_TEST(test_nav_toc_flattens_nested_entries_and_decodes_fragments);
     RUN_TEST(test_ncx_toc_ignores_non_content_labels);
     RUN_TEST(test_parser_uses_ordered_toc_labels_and_paragraph_markers);
+    RUN_TEST(test_parser_skips_project_gutenberg_boilerplate);
     RUN_TEST(test_parser_preserves_punctuation_only_inline_fragments_without_counting_them_as_words);
     RUN_TEST(test_parser_preserves_nested_language_and_direction_changes);
     RUN_TEST(test_parser_emits_explicit_vertical_writing_mode_once);

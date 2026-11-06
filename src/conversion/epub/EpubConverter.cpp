@@ -195,11 +195,15 @@ namespace {
         const bool epub3 = parsePackageVersion(opfXml).starts_with('3');
         std::vector<TocEntry> entries = epub3 ? firstReadableToc(zip, navDocuments, bookTitle, true)
                                               : firstReadableToc(zip, ncxDocuments, bookTitle, false);
-        if (!entries.empty()) {
-            return entries;
+        if (entries.empty()) {
+            entries = epub3 ? firstReadableToc(zip, ncxDocuments, bookTitle, false)
+                            : firstReadableToc(zip, navDocuments, bookTitle, true);
         }
-        return epub3 ? firstReadableToc(zip, ncxDocuments, bookTitle, false)
-                     : firstReadableToc(zip, navDocuments, bookTitle, true);
+        // The Gutenberg header and licence are skipped as boilerplate; so are their TOC entries.
+        std::erase_if(entries, [](const TocEntry& entry) {
+            return entry.fragment.starts_with("pg-header") || entry.fragment.starts_with("pg-footer");
+        });
+        return entries;
     }
 
     std::string fallbackChapterTitle(std::string_view path) {

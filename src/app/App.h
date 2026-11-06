@@ -22,6 +22,7 @@
 #include "library/BookSettingsEditor.h"
 #include "ui/Ui.h"
 #include "ui/screens/ChaptersScreen.h"
+#include "ui/screens/FreeBooksScreen.h"
 #include "ui/screens/LibraryScreen.h"
 #include "ui/screens/ReaderScreen.h"
 #include "ui/screens/OnboardingScreen.h"
@@ -51,6 +52,7 @@ private:
         OnlineDictionary,
         BookSettings,
         DictionaryInstall,
+        FreeBook,
     };
 
     struct JobUpdate {
@@ -118,6 +120,9 @@ private:
     screens::modern::DictionarySetup dictionarySetup_;
     std::atomic<bool> dictionaryCancel_{false};
     bool dictionaryWifiReturn_ = false;
+    screens::FreeBooksScreen freeBooksScreen_;
+    bool freeBooksWifiReturn_ = false;
+    std::atomic<bool> freeBookCancel_{false};
     OtaUpdater::Offer otaOffer_;
     bool otaAutomatic_ = false;
     OtaUpdater::Target otaTarget_ = OtaUpdater::Target::Current;

@@ -73,6 +73,10 @@ namespace screens {
         DictionarySearch,
         DictionaryHelp,
         DictionaryInstall,
+        GetBooks,
+        FreeBooks,
+        FreeShelf,
+        BookShops,
     };
 
     enum class Action : uint8_t {
@@ -100,6 +104,8 @@ namespace screens {
         OtaSwitchCheck,
         OpenDictionarySetup,
         InstallDictionary,
+        DownloadFreeBook,
+        OpenFreeBook,
     };
 
     Action read(ui::Context& ui, std::string_view title, std::string_view author, uint8_t progress, Screen& screen);

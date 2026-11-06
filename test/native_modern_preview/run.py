@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import hashlib
 import shlex
+import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -36,6 +37,7 @@ def main():
         "ui/screens/ModernAppearanceScreen.cpp", "ui/screens/regular/FocusScreen.cpp",
         "focus/FocusTimers.cpp", "focus/FocusSession.cpp",
         "ui/screens/ModernReaderControls.cpp", "ui/screens/OnboardingCopy.cpp", "ui/screens/OnboardingScreen.cpp", "ui/screens/OnboardingStorageScreen.cpp", "ui/screens/BookUploadScreen.cpp", "ui/screens/TouchCheckScreen.cpp", "drivers/touch/axs15231b_touch/axs15231b_touch.cpp",
+        "ui/screens/FreeBooksScreen.cpp", "catalog/FreeCatalog.cpp",
     ]
     sources += [str(p.relative_to(PROJECT / "src")) for p in (PROJECT / "src/screensavers").glob("*.cpp")]
     includes = [PROJECT / "test/native_modern_preview", PROJECT / "test/native_watch_preview", PROJECT / "test/native_canvas", PROJECT / "test/support",
@@ -69,7 +71,7 @@ def main():
         objects = list(pool.map(compile_unit, units))
     binary = cache / "preview"
     if not binary.exists() or any(p.stat().st_mtime_ns > binary.stat().st_mtime_ns for p in [*objects, *archives]):
-        subprocess.run([flags[0], *map(str, objects), *map(str, archives), "-Wl,--gc-sections", "-o", str(binary)], check=True)
+        subprocess.run([flags[0], *map(str, objects), *map(str, archives), "-Wl,-dead_strip" if sys.platform == "darwin" else "-Wl,--gc-sections", "-o", str(binary)], check=True)
     subprocess.run([str(binary), str(args.output.resolve())], check=True)
     # Lossless screenshots for review; no resampling or synthetic browser text.
     from PIL import Image

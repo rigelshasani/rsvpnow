@@ -1,6 +1,7 @@
 #include <unity.h>
 #include "ui/screens/ModernScreens.h"
 #include "ui/screens/LibraryScreen.h"
+#include "ui/screens/FreeBooksScreen.h"
 #include "ui/screens/ChaptersScreen.h"
 #include "ui/ClippedGfx.h"
 #include "ui/SansFont.h"
@@ -199,7 +200,45 @@ void test_empty_library_has_no_open_action_and_can_add_books() {
     f.frame(draw);
     TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::None), static_cast<int>(f.tap(draw, 434, 100)));
     f.tap(draw, 530, 100);
-    TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::Connections), static_cast<int>(f.screen));
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::GetBooks), static_cast<int>(f.screen));
+}
+
+void test_add_books_routes_to_free_books_usb_and_companion() {
+    Fixture f;
+    f.screen = screens::Screen::GetBooks;
+    const auto draw = [&] { return screens::modern::addBooks(f.ui, f.screen); };
+    f.frame(draw);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::UsbTransfer), static_cast<int>(f.tap(draw, 470, 75)));
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::CompanionSync), static_cast<int>(f.tap(draw, 160, 135)));
+    f.tap(draw, 160, 75);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::FreeBooks), static_cast<int>(f.screen));
+}
+
+void test_free_shelf_downloads_the_selected_title_or_opens_an_owned_one() {
+    Fixture f;
+    f.screen = screens::Screen::FreeBooks;
+    screens::FreeBooksScreen free;
+    std::vector<BookLibrary::Entry> library;
+    const auto draw = [&] { return free.draw(f.ui, library, f.screen); };
+    f.frame(draw);
+    f.tap(draw, 320, 75);  // Adventure
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::FreeShelf), static_cast<int>(f.screen));
+    f.frame(draw);
+    TEST_ASSERT_EQUAL_UINT32(1184, free.selected().gutenbergId);
+    f.tap(draw, 414, 138);  // down
+    TEST_ASSERT_EQUAL_UINT32(1259, free.selected().gutenbergId);
+    f.tap(draw, 200, 145);  // third row
+    TEST_ASSERT_EQUAL_UINT32(120, free.selected().gutenbergId);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::DownloadFreeBook), static_cast<int>(f.tap(draw, 540, 144)));
+    library.push_back({.path = "/library/books/Treasure Island - Robert Louis Stevenson.epub"});
+    f.frame(draw);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::OpenFreeBook), static_cast<int>(f.tap(draw, 540, 144)));
+    TEST_ASSERT_EQUAL_STRING("/library/books/Treasure Island - Robert Louis Stevenson.epub",
+                             std::string{free.selectedPath()}.c_str());
+    free.setMessage("Set up Wi-Fi first");
+    f.frame(draw);
+    f.tap(draw, 540, 144);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::NetworkSettings), static_cast<int>(f.screen));
 }
 
 void test_chapter_browsing_only_seeks_on_explicit_open() {
@@ -593,6 +632,8 @@ int main() {
     RUN_TEST(test_filled_slider_uses_whole_tile_and_commits_after_drag);
     RUN_TEST(test_library_arrows_and_book_settings_preserve_selection);
     RUN_TEST(test_empty_library_has_no_open_action_and_can_add_books);
+    RUN_TEST(test_add_books_routes_to_free_books_usb_and_companion);
+    RUN_TEST(test_free_shelf_downloads_the_selected_title_or_opens_an_owned_one);
     RUN_TEST(test_chapter_browsing_only_seeks_on_explicit_open);
     RUN_TEST(test_settings_and_connections_keep_existing_actions);
     RUN_TEST(test_preview_fonts_navigation_symbols_and_two_line_book_title);

@@ -24,6 +24,7 @@
 #include "ui/screens/ModernScreens.h"
 #include "ui/screens/OnboardingCopy.h"
 #include "dictionary/DictionaryInstaller.h"
+#include "catalog/FreeBookDownload.h"
 
 namespace {
 
@@ -239,6 +240,12 @@ void App::renderScreen(uint32_t nowMs) {
         || screen_ == screens::Screen::Read || screen_ == screens::Screen::Reader)) {
         dictionaryWifiReturn_ = false; screen_ = screens::Screen::DictionaryInstall;
     }
+    // Leaving Wi-Fi settings opened from a free book goes back to that shelf.
+    if (freeBooksWifiReturn_ && screen_ != screens::Screen::NetworkSettings && screen_ != screens::Screen::WifiScan
+        && screen_ != screens::Screen::WifiConnect && screen_ != screens::Screen::NetworkEdit) {
+        freeBooksWifiReturn_ = false;
+        if (screen_ == screens::Screen::Connections) screen_ = screens::Screen::FreeShelf;
+    }
     if (dictionarySetup_.onboarding && (screen_ == screens::Screen::Read || screen_ == screens::Screen::Reader))
         screen_ = screens::Screen::Onboarding;
     if (screen_ == screens::Screen::Onboarding) dictionarySetup_.onboarding = false;
@@ -402,6 +409,19 @@ void App::renderScreen(uint32_t nowMs) {
         immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
         action = screens::modern::dictionarySetup(immediateUi_, dictionarySetup_, screen_);
         break;
+    case screens::Screen::GetBooks:
+        immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
+        action = screens::modern::addBooks(immediateUi_, screen_);
+        break;
+    case screens::Screen::BookShops:
+        immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
+        action = screens::modern::bookShops(immediateUi_, screen_);
+        break;
+    case screens::Screen::FreeBooks:
+    case screens::Screen::FreeShelf:
+        immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
+        action = freeBooksScreen_.draw(immediateUi_, storage_.books(), screen_);
+        break;
     case screens::Screen::Chapters:
         immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
         action = chaptersScreen_.draw(immediateUi_, readerScreen_.session.metadata.chapters, readerScreen_.session,
@@ -541,6 +561,8 @@ void App::renderScreen(uint32_t nowMs) {
     if (screen_ != renderedScreen) {
         if (renderedScreen == screens::Screen::DictionaryInstall && screen_ == screens::Screen::NetworkSettings)
             dictionaryWifiReturn_ = true;
+        if (renderedScreen == screens::Screen::FreeShelf && screen_ == screens::Screen::NetworkSettings)
+            freeBooksWifiReturn_ = true;
         if (screen_ == screens::Screen::Library)
             libraryScreen_.reset();
     }
@@ -591,6 +613,18 @@ void App::handleScreenAction(screens::Action action, uint32_t nowMs) {
         screens::status(immediateUi_, "Installing dictionary", "Middle button cancels", {}, 0);
         if (!startBackgroundJob(JobKind::DictionaryInstall))
             showTransientStatus("Please try again", "Worker could not start", {}, 1200, screens::Screen::DictionaryInstall);
+        return;
+    case screens::Action::DownloadFreeBook:
+        readerScreen_.pauseImmediately(prefs_, nowMs);
+        freeBookCancel_.store(false);
+        screen_ = screens::Screen::Status; statusUntilMs_ = 0;
+        screens::status(immediateUi_, "Free books", freeBooksScreen_.selected().title, "Middle button cancels", 0);
+        if (!startBackgroundJob(JobKind::FreeBook))
+            showTransientStatus("Please try again", "Worker could not start", {}, 1200, screens::Screen::FreeShelf);
+        return;
+    case screens::Action::OpenFreeBook:
+        if (const int index = storage_.findBook(freeBooksScreen_.selectedPath()); index >= 0)
+            runBookOpen(static_cast<size_t>(index), nowMs);
         return;
     case screens::Action::CheckOnboardingStorage:
         ReadingLoop::pause(readerScreen_.session);
@@ -700,6 +734,11 @@ void App::handleInput(Input::ActionMask actions, uint32_t nowMs) {
         dictionaryCancel_.store(true);
         return;
     }
+    if (jobKind_ == JobKind::FreeBook && (Input::hasAction(actions, Input::ActionOpenMenu)
+        || Input::hasAction(actions, Input::ActionBack))) {
+        freeBookCancel_.store(true);
+        return;
+    }
     if ((backgroundJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding)) || screen_ == screens::Screen::Status)
         return;
     if (focusScreen_.breakVisible() && !Input::hasAction(actions, Input::ActionPowerOff)) return;
@@ -801,6 +840,12 @@ void App::handleInput(Input::ActionMask actions, uint32_t nowMs) {
                 screen_ = screens::Screen::Help;
             } else if (screen_ == screens::Screen::DictionaryHelp) {
                 screen_ = screens::Screen::Dictionary;
+            } else if (screen_ == screens::Screen::GetBooks) {
+                screen_ = screens::Screen::Library;
+            } else if (screen_ == screens::Screen::FreeBooks || screen_ == screens::Screen::BookShops) {
+                screen_ = screens::Screen::GetBooks;
+            } else if (screen_ == screens::Screen::FreeShelf) {
+                screen_ = screens::Screen::FreeBooks;
             } else if (screen_ == screens::Screen::Help) {
                 screen_ = screens::Screen::Settings;
             } else if (screen_ == screens::Screen::Dictionary || screen_ == screens::Screen::DictionarySearch) {
@@ -902,6 +947,12 @@ void App::updateBackgroundJob() {
             dictionarySetup_.message = update.line1;
             if (update.line2[0]) dictionarySetup_.message += std::string{" · "} + update.line2;
             screen_ = screens::Screen::DictionaryInstall; statusUntilMs_ = 0;
+            immediateUi_.cancelTouchUntilRelease(); immediateUi_.invalidate(); renderScreen(millis()); return;
+        }
+        if (completed == JobKind::FreeBook) {
+            libraryScreen_.invalidate();
+            freeBooksScreen_.setMessage(update.line1);
+            screen_ = screens::Screen::FreeShelf; statusUntilMs_ = 0;
             immediateUi_.cancelTouchUntilRelease(); immediateUi_.invalidate(); renderScreen(millis()); return;
         }
         if (completed == JobKind::OtaCheck) {
@@ -1129,6 +1180,17 @@ void App::runBackgroundJob() {
             }, [&] { return dictionaryCancel_.load(); });
         copyText(complete.line1, result ? "Dictionary ready" : result.error().c_str());
         copyText(complete.line2, result ? "Available offline" : "Try again from dictionary setup");
+        break;
+    }
+    case JobKind::FreeBook: {
+        Logger::checkpoint("free_book");
+        const auto result = freebooks::download(freeBooksScreen_.selected(), settingsStore_.settings(),
+            settingsStore_.secrets(), [&](const char* line1, const char* line2, int percent) {
+                renderStorageStatus(this, "Free books", line1, line2, percent);
+            }, [&] { return freeBookCancel_.load(); });
+        if (result)
+            storage_.refreshBooks();
+        copyText(complete.line1, result ? "Added to your library" : result.error().c_str());
         break;
     }
     case JobKind::BookSettings:

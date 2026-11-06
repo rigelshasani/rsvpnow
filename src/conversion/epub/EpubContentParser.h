@@ -70,6 +70,8 @@ namespace EpubContent {
         uint8_t verticalCssMatch_ = 0;
         size_t nextTocEntry_ = 0;
         int skipDepth_ = 0;
+        std::string boilerplateTag_;
+        int boilerplateDepth_ = 0;
     };
 
 } // namespace EpubContent
