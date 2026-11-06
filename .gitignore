@@ -34,3 +34,6 @@ compile_commands.json
 src/idf_component.yml
 benchmark/logs/
 benchmark/summary.md
+
+# Rigels Studio desktop app
+desktop/.venv/
