@@ -1,4 +1,5 @@
 #include "ui/screens/ReaderScreen.h"
+#include "reader/ReadingStart.h"
 #include <esp_log.h>
 
 #include <algorithm>
@@ -378,10 +379,15 @@ namespace screens {
         ReadingLoop::setBookStore(session, store, nowMs);
 
         const uint32_t savedWord = ReadingProgress::restore(session, store);
+        // Skip front matter (contents, copyright, illustration lists): open on the first chapter,
+        // and move a saved place forward if it is still inside that front matter.
+        const size_t start = ReadingStart::firstWord(session.metadata.chapters, ReadingLoop::wordCount(session));
         if (savedWord != ReadingProgress::kNoSavedWordIndex) {
-            ReadingLoop::seekTo(session, savedWord);
+            ReadingLoop::seekTo(session, std::max<size_t>(savedWord, start));
             ReadingProgress::cache(session, preferences, static_cast<uint32_t>(session.state.wordIndex));
         } else {
+            if (start > 0)
+                ReadingLoop::seekTo(session, start);
             preferences.putString("book", session.sourcePath().data());
         }
     }
