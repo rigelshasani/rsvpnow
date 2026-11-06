@@ -1,11 +1,13 @@
 // Rasterize the supplied SVG into two alpha masks, retaining its paths and proportions.
 // PLAYWRIGHT_MODULE may point to the locally installed Playwright package.
+// Usage: node tools/generate_logo.js [source.svg]  (defaults to assets/RSVP-Nano-logo-color.svg)
 const fs=require('fs');
+const source=process.argv[2] || 'assets/RSVP-Nano-logo-color.svg';
 const { chromium }=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  const page=await browser.newPage();
- const svg=fs.readFileSync('assets/RSVP-Nano-logo-color.svg','utf8');
+ const svg=fs.readFileSync(source,'utf8');
  const layers=await page.evaluate(async svg=>{
   const layers=[];
   for(const accent of [false,true]) {
@@ -20,7 +22,7 @@ const { chromium }=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
   }
   return layers;
  },svg);
- let header='// Generated from assets/RSVP-Nano-logo-color.svg by tools/generate_logo.js.\n#pragma once\n#include <cstdint>\nnamespace ui::logo {\ninline constexpr int width=246, height=105;\n';
+ let header='// Generated from '+source+' by tools/generate_logo.js.\n#pragma once\n#include <cstdint>\nnamespace ui::logo {\ninline constexpr int width=246, height=105;\n';
  layers.forEach((runs,i)=>{header+='inline constexpr uint16_t '+(i?'accent':'foreground')+'[]{\n';for(let j=0;j<runs.length;j+=18)header+=' '+runs.slice(j,j+18).map(n=>'0x'+n.toString(16)).join(',')+',\n';header+='};\n';});
  header+='}\n';fs.writeFileSync('src/ui/Logo.generated.h',header);await browser.close();
 })();
