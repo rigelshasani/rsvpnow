@@ -77,6 +77,8 @@ env.AppendUnique(CPPPATH=[str(generated_dir)])
 
 # Arduino's platform.txt supplies this flag, but the PlatformIO build does not.
 # Without it set_arduino_panic_handler() registers a callback that is never called.
-env.AppendUnique(LINKFLAGS=["-Wl,--wrap=esp_panic_handler"])
+# Host tests have no panic handler, and Apple's linker rejects --wrap.
+if env.get("PIOPLATFORM") != "native":
+    env.AppendUnique(LINKFLAGS=["-Wl,--wrap=esp_panic_handler"])
 
 print(f"Firmware version: {version}")
