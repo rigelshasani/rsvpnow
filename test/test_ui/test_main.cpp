@@ -213,6 +213,16 @@ void setUp() {
 }
 void tearDown() {}
 
+void test_utf8_tail_cut_by_byte_limit_is_dropped() {
+    // "Don’t" stored in a byte-limited slot: the apostrophe's 3-byte sequence is cut after 1 byte.
+    TEST_ASSERT_EQUAL_STRING("They Don", std::string{Utf8Text::withoutTruncatedTail("They Don\xE2")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("They Don", std::string{Utf8Text::withoutTruncatedTail("They Don\xE2\x80")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("Don\xE2\x80\x99t", std::string{Utf8Text::withoutTruncatedTail("Don\xE2\x80\x99t")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("caf\xC3\xA9", std::string{Utf8Text::withoutTruncatedTail("caf\xC3\xA9")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("", std::string{Utf8Text::withoutTruncatedTail("\xF0\x9F\x98")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("plain", std::string{Utf8Text::withoutTruncatedTail("plain")}.c_str());
+}
+
 void test_unchanged_widget_does_not_draw_or_flush() {
     Arduino_GFX gfx;
     ui::Context context(gfx);
@@ -1732,6 +1742,7 @@ void test_page_browse_scrolls_without_changing_saved_reader_position() {
 
 int main(int, char**) {
     UNITY_BEGIN();
+    RUN_TEST(test_utf8_tail_cut_by_byte_limit_is_dropped);
     RUN_TEST(test_page_browse_scrolls_without_changing_saved_reader_position);
     RUN_TEST(test_unchanged_widget_does_not_draw_or_flush);
     RUN_TEST(test_reader_font_resolves_opentype_glyph_ids);

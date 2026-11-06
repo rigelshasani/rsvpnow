@@ -323,7 +323,8 @@ namespace IndexedBook {
         for (const ChapterMarker& chapter: metadata_.chapters) {
             ChapterRecord record;
             record.wordIndex = static_cast<uint32_t>(chapter.wordIndex);
-            record.titleLength = std::min<uint32_t>(chapter.title.size(), sizeof(record.title));
+            // Whole characters only: a split UTF-8 sequence breaks the companion's JSON.
+            record.titleLength = static_cast<uint32_t>(Utf8Text::prefix(chapter.title, sizeof(record.title)).size());
             std::ranges::copy_n(chapter.title.begin(), record.titleLength, record.title);
             if (auto written = indexWriter_.write(&record, sizeof(record)); !written)
                 return fail(written.error(), "SD write failed");
@@ -736,7 +737,8 @@ namespace IndexedBook {
                     ChapterMarker marker;
                     marker.wordIndex = record.wordIndex;
                     const uint32_t titleLength = std::min<uint32_t>(record.titleLength, sizeof(record.title));
-                    marker.title.assign(record.title, titleLength);
+                    // Indexes written before titles were cut on character boundaries.
+                    marker.title = Utf8Text::withoutTruncatedTail({record.title, titleLength});
                     metadata.chapters.push_back(marker);
                 }
             }
