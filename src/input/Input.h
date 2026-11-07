@@ -16,6 +16,7 @@ namespace Input {
         ActionPlayPause = 1U << 3,
         ActionStandby = 1U << 4,
         ActionPowerOff = 1U << 5,
+        ActionSwitchApp = 1U << 6,  // BOOT + PWR held together for three seconds
     };
 
     struct PressActions {

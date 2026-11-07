@@ -25,6 +25,7 @@
 #include "ui/screens/OnboardingCopy.h"
 #include "dictionary/DictionaryInstaller.h"
 #include "catalog/FreeBookDownload.h"
+#include "update/AppSwitch.h"
 
 namespace {
 
@@ -713,6 +714,10 @@ void App::handleScreenAction(screens::Action action, uint32_t nowMs) {
 }
 
 void App::handleInput(Input::ActionMask actions, uint32_t nowMs) {
+    if (Input::hasAction(actions, Input::ActionSwitchApp)) {
+        switchApp(nowMs);
+        return;
+    }
     if (serialCompanion_.active()) {
         if (Input::hasAction(actions, Input::ActionBack) || Input::hasAction(actions, Input::ActionOpenMenu)) {
             serialCompanion_.close();
@@ -1539,4 +1544,25 @@ void App::renderStorageStatus(void* context, const char* title, const char* line
     }
     screens::status(app.immediateUi_, title == nullptr ? "SD" : title, line1 == nullptr ? "" : line1,
                     line2 == nullptr ? "" : line2, progressPercent);
+}
+
+void App::switchApp(uint32_t nowMs) {
+    const std::string name = AppSwitch::otherAppName();
+    const screens::Screen back = screen_ == screens::Screen::Status ? screens::Screen::Reader : screen_;
+    if (name.empty()) {
+        showTransientStatus("No second app", "Flash one into the other slot first", {}, 1800, back);
+        return;
+    }
+    if (backgroundJobActive() || usbTransfer_.active()) {
+        showTransientStatus("Busy", "Try again when this finishes", {}, 1500, back);
+        return;
+    }
+    screens::status(immediateUi_, "Switching", name);
+    if (companionApi_.active())
+        companionApi_.end();
+    ReadingProgress::save(readerScreen_.session, prefs_, true, nowMs);
+    ReadingProgress::mirror(readerScreen_.session, readerScreen_.store);
+    settingsStore_.flush();
+    if (!AppSwitch::bootOtherApp())
+        showTransientStatus("Switch failed", "The other app could not start", {}, 1800, back);
 }

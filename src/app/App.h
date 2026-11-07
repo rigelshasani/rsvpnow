@@ -69,6 +69,7 @@ private:
     void renderScreen(uint32_t nowMs);
     void handleScreenAction(screens::Action action, uint32_t nowMs);
     void handleInput(Input::ActionMask actions, uint32_t nowMs);
+    void switchApp(uint32_t nowMs);
     void handleTouch(uint32_t nowMs);
     void runRss();
     void runBookOpen(size_t index, uint32_t nowMs);

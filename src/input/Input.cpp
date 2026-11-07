@@ -33,6 +33,12 @@ namespace Input {
         };
 
         ControlsState gControls;
+        // BOOT + PWR together switch firmware. While both are (or were) down the buttons'
+        // own actions are suppressed until every button is released.
+        bool gComboActive = false;
+        bool gComboFired = false;
+        uint32_t gComboSinceMs = 0;
+        constexpr uint32_t kSwitchHoldMs = 3000;
         ControlTiming gControlTiming;
         TouchTiming gTouchTiming;
         QueueHandle_t gEventQueue = nullptr;
@@ -214,9 +220,27 @@ namespace Input {
                 const uint32_t nowMs = millis();
                 if (deadlineReached(nowMs, nextControlsMs)) {
                     const PressActions actions = Board::Input::currentActions();
-                    ActionMask event = ActionNone;
-                    if (pollControlsEvent(actions.shortPress, actions.longPress, nowMs, event))
-                        enqueueLatest(gEventQueue, event);
+                    const bool both = hasAction(actions.shortPress, ActionSelect)
+                                   && hasAction(actions.shortPress, ActionOpenMenu);
+                    if (both && !gComboActive) {
+                        gComboActive = true;
+                        gComboFired = false;
+                        gComboSinceMs = nowMs;
+                    }
+                    if (gComboActive) {
+                        if (both && !gComboFired && nowMs - gComboSinceMs >= kSwitchHoldMs) {
+                            gComboFired = true;
+                            const ActionMask event = ActionSwitchApp;
+                            enqueueLatest(gEventQueue, event);
+                        }
+                        if (!anyAction(actions.shortPress, actions.longPress))
+                            gComboActive = false;
+                        resetControls(ActionNone, ActionNone, nowMs);
+                    } else {
+                        ActionMask event = ActionNone;
+                        if (pollControlsEvent(actions.shortPress, actions.longPress, nowMs, event))
+                            enqueueLatest(gEventQueue, event);
+                    }
                     nextControlsMs = nowMs + kControlsPollMs;
                 }
 

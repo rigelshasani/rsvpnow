@@ -36,6 +36,8 @@ Waveshare ESP32-S3-Touch-LCD-3.49 Rev2. It builds on the New UI and adds:
   sell books without DRM.
 - **Rigels Studio** ([desktop/](desktop/README.md)), a desktop app that times every word exactly like the
   reader, charts where reading slows down, trims front and back matter, and installs EPUBs over USB.
+- **Two apps on one board.** Hold **BOOT + PWR for 3 seconds** to switch to the firmware in the
+  board's second app slot (for example a game) and back. See [docs/two-apps.md](docs/two-apps.md).
 - A new startup wordmark, and chapter titles that stay valid text when they're shortened.
 
 <table>
