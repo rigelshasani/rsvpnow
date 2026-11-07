@@ -37,6 +37,9 @@ namespace Input {
         // own actions are suppressed until every button is released.
         bool gComboActive = false;
         bool gComboFired = false;
+        // A hold that began before this firmware started (still held from the other app's
+        // switch) must not switch straight back: arm only once every button has been released.
+        bool gComboArmed = false;
         uint32_t gComboSinceMs = 0;
         constexpr uint32_t kSwitchHoldMs = 3000;
         ControlTiming gControlTiming;
@@ -222,12 +225,16 @@ namespace Input {
                     const PressActions actions = Board::Input::currentActions();
                     const bool both = hasAction(actions.shortPress, ActionSelect)
                                    && hasAction(actions.shortPress, ActionOpenMenu);
-                    if (both && !gComboActive) {
+                    if (!anyAction(actions.shortPress, actions.longPress))
+                        gComboArmed = true;
+                    if (both && !gComboActive && gComboArmed) {
                         gComboActive = true;
                         gComboFired = false;
                         gComboSinceMs = nowMs;
                     }
-                    if (gComboActive) {
+                    if (!gComboArmed) {
+                        resetControls(ActionNone, ActionNone, nowMs);  // still held from before startup
+                    } else if (gComboActive) {
                         if (both && !gComboFired && nowMs - gComboSinceMs >= kSwitchHoldMs) {
                             gComboFired = true;
                             const ActionMask event = ActionSwitchApp;
