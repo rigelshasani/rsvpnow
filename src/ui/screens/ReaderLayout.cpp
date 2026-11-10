@@ -9,10 +9,12 @@ namespace screens::readerLayout {
     }
 
     std::string batteryText(settings::BatteryLabel format, const Board::Power::BatteryState& battery) {
-        char text[12];
+        // A leading "+" marks charging, so it shows even with the battery icon hidden.
+        char text[14];
+        const char* sign = battery.charging ? "+" : "";
         if (format == settings::BatteryLabel::voltage && battery.status.voltage > 0)
-            std::snprintf(text, sizeof(text), "%.2fV", battery.status.voltage);
-        else if (format == settings::BatteryLabel::timeRemaining) {
+            std::snprintf(text, sizeof(text), "%s%.2fV", sign, battery.status.voltage);
+        else if (format == settings::BatteryLabel::timeRemaining && !battery.charging) {
             constexpr uint32_t nominalRuntimeMinutes = 600;
             const uint32_t minutes = battery.status.percent * nominalRuntimeMinutes / 100;
             if (minutes >= 60)
@@ -21,7 +23,7 @@ namespace screens::readerLayout {
             else
                 std::snprintf(text, sizeof(text), "%lum", static_cast<unsigned long>(minutes));
         } else
-            std::snprintf(text, sizeof(text), "%u%%", static_cast<unsigned int>(battery.status.percent));
+            std::snprintf(text, sizeof(text), "%s%u%%", sign, static_cast<unsigned int>(battery.status.percent));
         return text;
     }
 

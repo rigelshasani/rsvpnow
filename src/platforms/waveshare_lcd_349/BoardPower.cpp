@@ -8,7 +8,12 @@
 
 #include "drivers/gpio/tca9554/Tca9554.h"
 #include "drivers/power/BatteryCurve.h"
+#include "drivers/power/ChargeEstimator.h"
 #include "platforms/waveshare_lcd_349/WaveshareLcd349.h"
+
+#if !ARDUINO_USB_MODE
+#include <tusb.h>
+#endif
 
 namespace {
 
@@ -17,6 +22,17 @@ namespace {
     };
 
     PowerContext gPower;
+    // This board has no charger status or USB power sense line.
+    BoardDrivers::ChargeEstimator gChargeEstimate;
+
+    // A computer on the USB port is certain; a wall charger never enumerates.
+    bool usbHostConnected() {
+#if !ARDUINO_USB_MODE
+        return tud_inited() && tud_mounted() && !tud_suspended();
+#else
+        return false;
+#endif
+    }
 
 } // namespace
 
@@ -93,6 +109,7 @@ namespace Board::Power {
         }
 
         status.percent = BoardDrivers::BatteryCurve::percentForVoltage(status.voltage);
+        gChargeEstimate.addSample(status.voltage);
         return true;
     }
 
@@ -101,7 +118,7 @@ namespace Board::Power {
     }
 
     bool externalPowerPresent() {
-        return false;
+        return usbHostConnected() || gChargeEstimate.charging();
     }
 
     bool powerOff() {
