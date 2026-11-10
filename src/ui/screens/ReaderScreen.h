@@ -190,6 +190,9 @@ namespace screens {
         BidiText::Line phantomLine_;
         std::array<Phantom, 2> phantoms_;
         bool pagePreview_ = false;
+        // While set, the title of the chapter just reached shows in place of the word.
+        uint32_t chapterCardUntilMs_ = 0;
+        bool chapterCardActive(uint32_t nowMs) const { return chapterCardUntilMs_ != 0 && nowMs < chapterCardUntilMs_; }
         uint32_t paragraphTickMs_ = 0;
         int32_t paragraphRemainder_ = 0;
     };

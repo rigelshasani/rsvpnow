@@ -541,6 +541,33 @@ namespace locales {
     std::string_view localeName(const Catalog&, std::string_view locale) { return locale == "en" ? "English" : locale; }
 }
 
+    // Playing across a chapter boundary holds on the new chapter's title, then reads on.
+    void verifyChapterPause(Arduino_GFX& panel) {
+        ui::Context ui(panel);const auto theme=ui::themes::defaultTheme();ui.setTheme(theme);ui.setModernReadingPalette(true);ui.setTouchSource({.surface={640,172},.poll=&poll});
+        settings::SettingsStore settings;auto& config=settings.settings().reading;config.wpm=600;
+        screens::ReaderScreen reader(panel,config);StorageManager storage;Preferences preferences;
+        const std::vector<std::string> words{"The", "end.", "It", "was", "spring."};
+        ReadingLoop::setWords(reader.session,words,0);
+        reader.session.metadata.chapters={{"Chapter 1. The Arrival",0},{"Chapter 2. Father and Son",2}};
+        uint32_t now=1000;
+        const auto frame=[&]{
+            ui.beginFrame(uint8_t(screens::Screen::Reader));FakeTask::now=now;reader.update(preferences,now);
+            reader.draw(ui,storage,{},now);ui.endFrame();
+        };
+        frame();reader.resumeNow(now);
+        while(reader.session.state.wordIndex<2 && now<5000){now+=20;frame();}
+        assert(reader.session.state.wordIndex==2);
+        const uint32_t reached=now;
+        now+=700;frame();assert(reader.session.state.wordIndex==2);
+        now=reached+1500+50;frame();assert(reader.session.state.wordIndex==2);  // the first word gets its own time
+        now+=400;frame();assert(reader.session.state.wordIndex>=3);
+        config.pacing.chapterPause=false;ReadingLoop::setWords(reader.session,words,0);
+        reader.session.metadata.chapters={{"Chapter 1",0},{"Chapter 2",2}};now+=1000;reader.resumeNow(now);
+        while(reader.session.state.wordIndex<2 && now<20000){now+=20;frame();}
+        now+=150;frame();assert(reader.session.state.wordIndex>=3);
+        std::puts("Chapter pause: the new chapter's title holds for 1.5 s, then its first word gets full time; off reads straight through.");
+    }
+
 int main(int argc, char** argv) {
     if (argc != 2) return 1;
     std::filesystem::create_directories(argv[1]);
@@ -551,6 +578,7 @@ int main(int argc, char** argv) {
     verifyPocketLinesMarks(panel);
     verifyBannerWordmark(panel);
     verifyRealPlaybackPause(panel);
+    verifyChapterPause(panel);
     verifyPageFontRestoration(panel);
     verifyRelocatedControls(panel);
     verifyReaderControlRoutes(panel);

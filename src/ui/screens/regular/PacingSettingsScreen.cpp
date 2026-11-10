@@ -9,7 +9,13 @@ namespace screens {
             changed |= ui.slider({12, 49, 198, 50}, ui.text(UiText::LongWords), config.longWordDelayMs, " ms");
             changed |= ui.slider({222, 49, 198, 50}, ui.text(UiText::Complexity), config.complexWordDelayMs, " ms");
             changed |= ui.slider({432, 49, 196, 50}, ui.text(UiText::Punctuation), config.punctuationDelayMs, " ms");
-            ui.label({16,112,430,48},"Extra time where words need a little more room.",13,ui::themes::Muted,ui::TextAlign::Start,2);
+            using ui::modern::button;
+            using ui::modern::Style;
+            const auto onOff = [&](bool on) { return ui.text(on ? UiText::On : UiText::Off); };
+            if (button(ui, {12, 111, 148, 53}, "Chapter pause", Style::Secondary, true, onOff(config.chapterPause), 13)) {
+                config.chapterPause = !config.chapterPause;
+                changed = true;
+            }
             if (ui::modern::button(ui,{480,111,148,53},ui.text(UiText::Reset),ui::modern::Style::Secondary)) {
                 changed |= config != settings::PacingSettings{}; config = {};
             }

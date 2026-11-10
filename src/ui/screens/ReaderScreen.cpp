@@ -478,6 +478,11 @@ namespace screens {
             };
             PageReader::draw(pageState_, ui, text_, typeface, typography_, typographyRevision_, session, readingArea,
                              overlay);
+        } else if (chapter != nullptr && chapterCardActive(nowMs)) {
+            // A pause where a new chapter begins, showing its title.
+            if (ui.redraw(readingArea, ui::Context::combine(ui::Context::signature(chapter->title), 0xC4A9u), true))
+                ui.drawText(readingArea, chapter->title, 26, ui.color(ui::themes::ColorRole::Foreground),
+                            ui::TextAlign::Center, 2, session.localeAt(chapter->wordIndex));
         } else if (settings.mode == settings::ReadingMode::chunks && chunkLayoutReady_) {
             drawChunk(ui, readingArea);
         } else if (ui.redraw(readingArea, frameSignature(session.currentWord, overlayVisible, cjkPacing, settings),

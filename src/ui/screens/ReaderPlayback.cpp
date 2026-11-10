@@ -3,6 +3,10 @@
 #include <freertos/task.h>
 
 namespace screens {
+    namespace {
+        constexpr uint32_t kChapterCardMs = 1500;
+    } // namespace
+
     void ReaderScreen::toggle(Preferences& preferences, uint32_t nowMs) {
         if (pageBrowsing_) return;
         if (session.playing)
@@ -27,6 +31,13 @@ namespace screens {
         nowMs = millis();
         if (!session.playing)
             return;
+        if (chapterCardUntilMs_ != 0) {
+            if (nowMs < chapterCardUntilMs_)
+                return;
+            // The chapter's first word gets its full time once the title has been shown.
+            session.lastAdvanceMs = chapterCardUntilMs_;
+            chapterCardUntilMs_ = 0;
+        }
 #if defined(RSVP_BENCHMARK_MODE)
         // Reading benchmarks load indexed fixtures but intentionally exclude persistence I/O.
         ReadingLoop::update(session, settings_, nowMs, true, pauseAtSentenceEndRequested_);
@@ -35,6 +46,11 @@ namespace screens {
         if (ReadingLoop::update(session, settings_, nowMs, true, pauseAtSentenceEndRequested_)) {
             ReadingProgress::saveChapterTransition(session, preferences, store, previousIndex, session.state.wordIndex,
                                                    nowMs);
+            const ChapterMarker* reached = session.metadata.chapterAt(session.state.wordIndex);
+            if (reached != nullptr && reached->wordIndex > previousIndex && settings_.pacing.chapterPause
+                && settings_.mode != settings::ReadingMode::page
+                && session.metadata.writingMode != WritingMode::verticalRl && session.playing)
+                chapterCardUntilMs_ = std::max<uint32_t>(nowMs, 1) + kChapterCardMs;
         }
 #endif
         if (!session.playing && pauseAtSentenceEndRequested_)
@@ -42,6 +58,7 @@ namespace screens {
     }
 
     void ReaderScreen::start(uint32_t nowMs, bool locked) {
+        chapterCardUntilMs_ = 0;
         pagePreview_ = false;
         pageBrowsing_ = false;
         playLocked_ = locked;
@@ -69,12 +86,16 @@ namespace screens {
     bool ReaderScreen::shouldFinishPause(uint32_t nowMs) const {
         if (!session.playing || !pauseAtSentenceEndRequested_)
             return false;
+        // A chapter boundary is the end of a sentence.
+        if (chapterCardActive(nowMs))
+            return true;
         const uint32_t durationMs = ReadingLoop::currentWordDurationMs(session, settings_);
         return durationMs > 0 && ReadingLoop::elapsedInCurrentWordMs(session, nowMs) >= durationMs
             && (ReadingLoop::currentWordEndsSentence(session) || ReadingLoop::atEnd(session));
     }
 
     void ReaderScreen::finishPause(Preferences& preferences, uint32_t nowMs) {
+        chapterCardUntilMs_ = 0;
         ReadingLoop::pause(session);
         pauseAtSentenceEndRequested_ = false;
         playLocked_ = false;
