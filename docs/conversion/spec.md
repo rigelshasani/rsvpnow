@@ -148,6 +148,12 @@ The firmware can read or convert a narrower set directly:
 - Pages about the edition rather than the work must not reach the output: Project Gutenberg's
   `class="pg-boilerplate"` blocks, and elements whose `epub:type` includes `titlepage`,
   `halftitlepage`, `imprint`, `colophon` or `copyright-page`.
+- Footnote references and footnotes are not read. A reference is an element whose `epub:type`
+  includes `noteref`, a superscript inside a link to another place in the book (either nesting), or
+  a bracketed number of one to three digits such as `[12]` in the running text; it is removed
+  without breaking the sentence. Notes themselves are block elements whose `epub:type` includes
+  `footnote(s)`, `endnote(s)` or `rearnote(s)`, or whose class is `footnote` or `footnotes`.
+  Other superscripts and bracketed words such as `[sic]` stay.
 - An in-book contents list is navigation, not text to read, and must not reach the output. A
   contents list is a run of at least four consecutive blocks whose text is mostly (60% or more)
   inside links to other places in the book (`href` without a scheme). Up to two short unlinked

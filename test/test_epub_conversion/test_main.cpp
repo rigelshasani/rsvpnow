@@ -257,7 +257,7 @@ namespace {
             <p><a href="https://example.org/a">example.org/a</a></p><p><a href="https://example.org/b">example.org/b</a></p>
             <p><a href="https://example.org/c">example.org/c</a></p><p><a href="https://example.org/d">example.org/d</a></p>
             </body>)");
-        TEST_ASSERT_TRUE(text.contains("Atreidae;[19] they must submit."));
+        TEST_ASSERT_TRUE(text.contains("Atreidae; they must submit."));
         TEST_ASSERT_TRUE(text.contains("CHAPTER ONE"));
         TEST_ASSERT_TRUE(text.contains("First\n\n@para\nSecond\n\n@para\nThird\n\n@para\nThat was the whole"));
         TEST_ASSERT_TRUE(text.contains("example.org/d"));
@@ -279,6 +279,27 @@ namespace {
         TEST_ASSERT_FALSE(text.contains("volunteers"));
         TEST_ASSERT_FALSE(text.contains("published"));
         TEST_ASSERT_FALSE(text.contains("evil"));
+    }
+
+    void test_parser_skips_footnote_references_and_notes() {
+        // Gutenberg: a superscript link in the sentence, the note itself in a footnote paragraph.
+        const std::string gutenberg = convertFragment(R"(<body>
+            <p>It is like the house of the Atreidae;<a href="n.xhtml#fn-19" id="fnref-19" class="pginternal"><sup>[19]</sup></a> they must submit.</p>
+            <p>A second mark<sup><a href="n.xhtml#fn-20">20</a></sup> the other way round, and a plain one [21] too.</p>
+            <p class="footnote"><a id="fn-19"/> <a href="c.xhtml#fnref-19" class="pginternal">[19]</a> In the old Greek legend.</p>
+            <p>A superscript outside a link stays<sup>2</sup>, as do [sic] and [a].</p></body>)");
+        TEST_ASSERT_TRUE(gutenberg.contains("It is like the house of the Atreidae; they must submit.\n"));
+        TEST_ASSERT_TRUE(gutenberg.contains("A second mark the other way round, and a plain one too."));
+        TEST_ASSERT_FALSE(gutenberg.contains("Greek legend"));
+        TEST_ASSERT_TRUE(gutenberg.contains("stays2, as do [sic] and [a]."));
+
+        // Standard Ebooks: epub:type noteref in the text, endnotes in their own section.
+        const std::string standard = convertFragment(R"(<body>
+            <p>She said so.<a href="endnotes.xhtml#note-1" id="noteref-1" epub:type="noteref">1</a> Then left.</p>
+            <section epub:type="endnotes"><ol><li id="note-1" epub:type="endnote"><p>A note.</p></li></ol></section>
+            </body>)");
+        TEST_ASSERT_TRUE(standard.contains("She said so. Then left."));
+        TEST_ASSERT_FALSE(standard.contains("A note."));
     }
 
     void test_parser_keeps_word_boundary_across_buffered_text_flush() {
@@ -324,6 +345,7 @@ int main(int, char**) {
     RUN_TEST(test_parser_drops_in_book_contents_lists);
     RUN_TEST(test_parser_keeps_links_that_are_not_a_contents_list);
     RUN_TEST(test_parser_drops_pages_about_the_edition);
+    RUN_TEST(test_parser_skips_footnote_references_and_notes);
     RUN_TEST(test_parser_keeps_word_boundary_across_buffered_text_flush);
     return UNITY_END();
 }

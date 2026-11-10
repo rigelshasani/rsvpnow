@@ -30,11 +30,34 @@ namespace EpubContent {
             std::string locale;
             std::string direction;
             bool internalLink = false;
+            bool noteref = false;
+            bool noteBody = false;
             bool vertical = false;
             bool boilerplate = false;
             bool closing = false;
             bool selfClosing = false;
         };
+
+        // Drops reference marks such as "[12]" left in the running text.
+        void removeBracketedNumbers(std::string& text) {
+            std::string out;
+            out.reserve(text.size());
+            for (size_t i = 0; i < text.size(); ++i) {
+                if (text[i] == '[') {
+                    size_t end = i + 1;
+                    while (end < text.size() && end - i <= 3 && text[end] >= '0' && text[end] <= '9')
+                        ++end;
+                    if (end > i + 1 && end < text.size() && text[end] == ']') {
+                        i = end;
+                        continue;
+                    }
+                }
+                if (text[i] == ' ' && !out.empty() && out.back() == ' ')
+                    continue;
+                out += text[i];
+            }
+            text = std::string{AsciiText::trim(out)};
+        }
 
         constexpr bool isAsciiTagNameChar(char c) {
             return AsciiText::isAlphaNumeric(c) || c == ':' || c == '-' || c == '_';
@@ -166,8 +189,16 @@ namespace EpubContent {
             // Project Gutenberg wraps its header and licence in these blocks. Standard Ebooks and
             // other EPUB 3 publishers label the pages that are about the edition, not the work.
             info.boilerplate = hasClassToken(tagAttributeValue(tag, "class"), "pg-boilerplate");
+            const std::string type = tagAttributeValue(tag, "epub:type");
+            info.noteref = hasClassToken(type, "noteref");
+            for (const std::string_view note: {std::string_view{"footnote"}, std::string_view{"footnotes"},
+                                               std::string_view{"endnote"}, std::string_view{"endnotes"},
+                                               std::string_view{"rearnote"}, std::string_view{"rearnotes"}})
+                info.noteBody = info.noteBody || hasClassToken(type, note);
+            // Project Gutenberg marks each footnote with class="footnote".
+            const std::string classes = tagAttributeValue(tag, "class");
+            info.noteBody = info.noteBody || hasClassToken(classes, "footnote") || hasClassToken(classes, "footnotes");
             if (!info.boilerplate) {
-                const std::string type = tagAttributeValue(tag, "epub:type");
                 for (const std::string_view page: {std::string_view{"titlepage"}, std::string_view{"halftitlepage"},
                                                    std::string_view{"imprint"}, std::string_view{"colophon"},
                                                    std::string_view{"copyright-page"}})
@@ -328,6 +359,8 @@ namespace EpubContent {
 
     bool Parser::flushLine(bool endParagraph) {
         line_ = std::string{AsciiText::trim(line_)};
+        if (line_.contains('['))
+            removeBracketedNumbers(line_);
         if (line_.empty()) {
             if (endParagraph) {
                 writer_.endParagraph();
@@ -452,7 +485,7 @@ namespace EpubContent {
     }
 
     bool Parser::processDecodedText(char c) {
-        if (boilerplateDepth_ > 0)
+        if (boilerplateDepth_ > 0 || noteDepth_ > 0 || (supDepth_ > 0 && inInternalLink_))
             return true;
         if (skipDepth_ > 0) {
             if (inStyle_ && !styleVertical_ && !AsciiText::isWhitespace(c)) {
@@ -482,7 +515,7 @@ namespace EpubContent {
         }
 
         if (c == '&') {
-            if (skipDepth_ > 0 || boilerplateDepth_ > 0) {
+            if (skipDepth_ > 0 || boilerplateDepth_ > 0 || noteDepth_ > 0 || (supDepth_ > 0 && inInternalLink_)) {
                 return true;
             }
             entity_.clear();
@@ -542,7 +575,9 @@ namespace EpubContent {
                     boilerplateDepth_ += tagInfo.closing ? -1 : 1;
                 return true;
             }
-            if (tagInfo.boilerplate && !tagInfo.closing && !tagInfo.selfClosing && !isVoidTag(tagInfo.name)) {
+            const bool noteBody = tagInfo.noteBody && isBlockTag(tagInfo.name);
+            if ((tagInfo.boilerplate || noteBody) && !tagInfo.closing && !tagInfo.selfClosing
+                && !isVoidTag(tagInfo.name)) {
                 if (!flushLine())
                     return false;
                 boilerplateTag_ = tagInfo.name;
@@ -567,6 +602,23 @@ namespace EpubContent {
             languageScopes_.pop_back();
             if (scope.changed && !changeLanguageState(scope.locale, scope.direction))
                 return false;
+        }
+
+        // A footnote reference is dropped without breaking the sentence around it: an element
+        // marked epub:type="noteref", or a superscript link either way round.
+        {
+            if (noteDepth_ > 0) {
+                if (tagInfo.name == noteTag_ && !tagInfo.selfClosing)
+                    noteDepth_ += tagInfo.closing ? -1 : 1;
+                return true;
+            }
+            if (tagInfo.noteref && !tagInfo.closing && !tagInfo.selfClosing && !isVoidTag(tagInfo.name)) {
+                noteTag_ = tagInfo.name;
+                noteDepth_ = 1;
+                return true;
+            }
+            if (tagInfo.name == "sup" && !tagInfo.selfClosing)
+                supDepth_ = std::max(0, supDepth_ + (tagInfo.closing ? -1 : 1));
         }
 
         if (tagInfo.name == "a")

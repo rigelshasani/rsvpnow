@@ -84,6 +84,10 @@ namespace EpubContent {
         size_t lineLinkChars_ = 0;
         uint8_t shortBlocksSinceLink_ = 0;
         bool inInternalLink_ = false;
+        // Footnote references are dropped inline; footnote bodies are dropped like boilerplate.
+        std::string noteTag_;
+        int noteDepth_ = 0;
+        int supDepth_ = 0;
         bool blockPartlyWritten_ = false;
         bool droppingLinkList_ = false;
         std::string boilerplateTag_;
