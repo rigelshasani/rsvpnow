@@ -21,6 +21,10 @@ namespace screens {
                 config.rewindOnResume = !config.rewindOnResume;
                 changed = true;
             }
+            if (button(ui, {320, 111, 148, 53}, "Speed ramp", Style::Secondary, true, onOff(config.speedRamp), 13)) {
+                config.speedRamp = !config.speedRamp;
+                changed = true;
+            }
             if (ui::modern::button(ui,{480,111,148,53},ui.text(UiText::Reset),ui::modern::Style::Secondary)) {
                 changed |= config != settings::PacingSettings{}; config = {};
             }

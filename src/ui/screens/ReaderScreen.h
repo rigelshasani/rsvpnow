@@ -196,7 +196,8 @@ namespace screens {
         uint32_t pausedAtMs_ = 0;
         size_t pausedWordIndex_ = SIZE_MAX;
         bool pauseTimeKnown_ = false;
-        void rewindAfterBreak(uint32_t nowMs);
+        uint32_t breakLength(uint32_t nowMs) const;
+        void rewindAfterBreak(uint32_t breakMs);
         bool chapterCardActive(uint32_t nowMs) const { return chapterCardUntilMs_ != 0 && nowMs < chapterCardUntilMs_; }
         uint32_t paragraphTickMs_ = 0;
         int32_t paragraphRemainder_ = 0;

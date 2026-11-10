@@ -90,6 +90,8 @@ namespace settings {
         bool chapterPause = true;
         // After a break, start again a sentence or two back.
         bool rewindOnResume = true;
+        // After a break, start a little slower and reach full speed over half a minute.
+        bool speedRamp = true;
 
         bool operator==(const PacingSettings&) const = default;
     };

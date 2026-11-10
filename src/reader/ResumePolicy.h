@@ -16,4 +16,18 @@ namespace ResumePolicy {
         return breakMs >= kLongBreakMs ? 2 : breakMs >= kShortBreakMs ? 1 : 0;
     }
 
+    // After a break of kShortBreakMs or more, reading starts a little slower and reaches the set
+    // speed over kRampMs, so the eyes can settle in.
+    inline constexpr uint32_t kRampMs = 30UL * 1000UL;
+    inline constexpr uint32_t kRampStartPercent = 85;
+
+    constexpr bool rampsAfter(uint32_t breakMs) {
+        return breakMs >= kShortBreakMs;
+    }
+
+    // Reading speed as a percentage of the set speed, `elapsedMs` into a ramp.
+    constexpr uint32_t rampPercent(uint32_t elapsedMs) {
+        return elapsedMs >= kRampMs ? 100 : kRampStartPercent + (100 - kRampStartPercent) * elapsedMs / kRampMs;
+    }
+
 } // namespace ResumePolicy

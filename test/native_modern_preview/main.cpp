@@ -175,6 +175,7 @@ namespace {
         settings::SettingsStore settings;auto& config=settings.settings().reading;
         config.holdToRead=true;config.pauseMode=settings::PauseMode::sentenceEnd;config.wpm=1000;
         config.pacing.longWordDelayMs=0;config.pacing.complexWordDelayMs=0;config.pacing.punctuationDelayMs=0;
+        config.pacing.speedRamp=false;  // exact word timing
         screens::ReaderScreen reader(panel,config);const std::vector<std::string> words{"Wait","it.","Next","sentence."};
         ReadingLoop::setWords(reader.session,words,0);Preferences preferences;auto screen=screens::Screen::Reader;
         uint32_t now=1000;

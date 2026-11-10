@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "reader/ReadingLoop.h"
+#include "reader/ResumePolicy.h"
 #include "text/RsvpTokenizer.h"
 #include "text/UnicodeText.h"
 
@@ -617,8 +618,29 @@ void test_short_sentence_ends_and_titles() {
     }
 }
 
+
+void test_speed_ramp_starts_slower_and_reaches_the_set_speed(void) {
+    ReadingSession r = makeReader(300, {"plain", "words", "here"});
+    testSettings.pacing.longWordDelayMs = 0;
+    testSettings.pacing.complexWordDelayMs = 0;
+    testSettings.pacing.punctuationDelayMs = 0;
+    TEST_ASSERT_EQUAL(200u, ReadingLoop::currentWordDurationMs(r, testSettings));
+    r.speedRamp = true;
+    r.speedRampStartedMs = 1000;
+    r.lastAdvanceMs = 1000;
+    TEST_ASSERT_EQUAL(235u, ReadingLoop::currentWordDurationMs(r, testSettings));  // 85% speed
+    r.lastAdvanceMs = 16000;
+    TEST_ASSERT_EQUAL(217u, ReadingLoop::currentWordDurationMs(r, testSettings));  // halfway, 92%
+    r.lastAdvanceMs = 31000;
+    TEST_ASSERT_EQUAL(200u, ReadingLoop::currentWordDurationMs(r, testSettings));
+    TEST_ASSERT_FALSE(ResumePolicy::rampsAfter(119'000));
+    TEST_ASSERT_TRUE(ResumePolicy::rampsAfter(120'000));
+    TEST_ASSERT_TRUE(ResumePolicy::rampsAfter(ResumePolicy::kUnknownBreak));
+}
+
 int main(void) {
     UNITY_BEGIN();
+    RUN_TEST(test_speed_ramp_starts_slower_and_reaches_the_set_speed);
     RUN_TEST(test_requested_pause_stops_inside_catchup_and_waits_for_manual_resume);
     RUN_TEST(test_requested_pause_owns_deadline_and_chunk_boundary);
     RUN_TEST(test_short_sentence_ends_and_titles);

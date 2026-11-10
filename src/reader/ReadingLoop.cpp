@@ -1,4 +1,5 @@
 #include "reader/ReadingLoop.h"
+#include "reader/ResumePolicy.h"
 #include "library/IndexedBookStore.h"
 
 #include <algorithm>
@@ -1006,6 +1007,10 @@ namespace ReadingLoop {
             const uint32_t baseDuration = base * actualCount;
             const uint32_t minimum = std::max<uint32_t>(300, base * 2);
             duration += minimum > baseDuration ? minimum - baseDuration : 0;
+        }
+        if (session.speedRamp && duration > 0) {
+            const uint32_t elapsed = session.lastAdvanceMs - session.speedRampStartedMs;
+            duration = duration * 100 / ResumePolicy::rampPercent(elapsed);
         }
         return duration;
     }

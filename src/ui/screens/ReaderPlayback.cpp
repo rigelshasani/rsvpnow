@@ -59,14 +59,16 @@ namespace screens {
             finishPause(preferences, nowMs);
     }
 
-    void ReaderScreen::rewindAfterBreak(uint32_t nowMs) {
+    uint32_t ReaderScreen::breakLength(uint32_t nowMs) const {
+        return !pauseTimeKnown_ ? ResumePolicy::kUnknownBreak : nowMs >= pausedAtMs_ ? nowMs - pausedAtMs_ : 0;
+    }
+
+    void ReaderScreen::rewindAfterBreak(uint32_t breakMs) {
         const size_t pausedAt = pausedWordIndex_;
         pausedWordIndex_ = SIZE_MAX;
         // A place chosen while paused (a chapter, a search result, a scrub) is where to start.
         if (!settings_.pacing.rewindOnResume || pausedAt != session.state.wordIndex)
             return;
-        const uint32_t breakMs = !pauseTimeKnown_ ? ResumePolicy::kUnknownBreak
-                               : nowMs >= pausedAtMs_ ? nowMs - pausedAtMs_ : 0;
         const uint8_t sentences = ResumePolicy::rewindSentences(breakMs);
         if (sentences == 0)
             return;
@@ -79,7 +81,13 @@ namespace screens {
     }
 
     void ReaderScreen::start(uint32_t nowMs, bool locked) {
-        rewindAfterBreak(nowMs);
+        const uint32_t breakMs = breakLength(nowMs);
+        rewindAfterBreak(breakMs);
+        // Within a ramp already under way, a short pause keeps the ramp going.
+        if (ResumePolicy::rampsAfter(breakMs) || !session.speedRamp) {
+            session.speedRamp = settings_.pacing.speedRamp && ResumePolicy::rampsAfter(breakMs);
+            session.speedRampStartedMs = nowMs;
+        }
         chapterCardUntilMs_ = 0;
         pagePreview_ = false;
         pageBrowsing_ = false;

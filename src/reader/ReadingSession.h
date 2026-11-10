@@ -18,6 +18,9 @@ struct ReadingSession {
     std::span<const std::string> words;
     const IndexedBookStore* bookStore = nullptr;
     bool playing = false;
+    // Set when reading resumes after a break: words run a little slower until the ramp ends.
+    bool speedRamp = false;
+    uint32_t speedRampStartedMs = 0;
     uint8_t displayWordCount = 1;
     size_t displayWordIndex = static_cast<size_t>(-1);
     reading::State state;
