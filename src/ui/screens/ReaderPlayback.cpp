@@ -79,6 +79,14 @@ namespace screens {
         pauseAtSentenceEndRequested_ = false;
         playLocked_ = false;
         ReadingProgress::save(session, preferences, true, nowMs);
+#if !defined(RSVP_BENCHMARK_MODE)
+        // Write the place to the card on every pause, not only at chapter changes and a clean
+        // power-off, so a flat battery or a reset costs nothing.
+        if (session.stored() && session.state.wordIndex != mirroredWord_) {
+            ReadingProgress::mirror(session, store);
+            mirroredWord_ = session.state.wordIndex;
+        }
+#endif
     }
 
 } // namespace screens

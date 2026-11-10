@@ -30,12 +30,8 @@ namespace ReadingProgress {
             return state.identity == identity;
         }
 
-        std::expected<reading::StoredState, std::error_code> loadBookState(std::string_view bookPath,
+        std::expected<reading::StoredState, std::error_code> loadStateFile(const std::string& statePath,
                                                                            const BookIdentity& identity) {
-            if (bookPath.empty() || !isValidIdentity(identity))
-                return std::unexpected(std::make_error_code(std::errc::invalid_argument));
-
-            const std::string statePath = StoragePaths::bookStatePathFor(bookPath);
             File file = Board::Storage::filesystem().open(statePath.c_str(), FILE_READ);
             if (!file || file.isDirectory()) {
                 if (file)
@@ -66,6 +62,27 @@ namespace ReadingProgress {
             return candidate;
         }
 
+        std::expected<reading::StoredState, std::error_code> loadBookState(std::string_view bookPath,
+                                                                           const BookIdentity& identity) {
+            if (bookPath.empty() || !isValidIdentity(identity))
+                return std::unexpected(std::make_error_code(std::errc::invalid_argument));
+
+            const std::string statePath = StoragePaths::bookStatePathFor(bookPath);
+            auto state = loadStateFile(statePath, identity);
+            if (state || (state.error() != std::errc::no_such_file_or_directory
+                          && state.error() != std::errc::invalid_argument))
+                return state;
+            // Power lost while the file was being replaced: the previous copy is in ".bak" and a
+            // complete new one may be in ".tmp". Either is better than starting the book again.
+            for (const char* suffix: {".tmp", ".bak"}) {
+                if (auto recovered = loadStateFile(statePath + suffix, identity)) {
+                    ESP_LOGW("storage-progress", "recovered reading place from %s%s", statePath.c_str(), suffix);
+                    return recovered;
+                }
+            }
+            return state;
+        }
+
         bool canReplaceBookState(std::error_code error) {
             return error == std::errc::no_such_file_or_directory || error == std::errc::invalid_argument
                 || error == std::errc::value_too_large || error == std::errc::state_not_recoverable;
@@ -82,29 +99,16 @@ namespace ReadingProgress {
         }
 
         std::expected<void, std::error_code> writeBookState(std::string_view bookPath,
-                                                            const reading::StoredState& state, bool atomic = false) {
+                                                            const reading::StoredState& state) {
             std::string output;
             if (glz::write_toml(state, output))
                 return std::unexpected(std::make_error_code(std::errc::io_error));
 
+            // Replace the file whole: a place half-written when power fails would be unreadable.
             const std::string sidecarPath = StoragePaths::bookStatePathFor(bookPath);
-            if (atomic) {
-                const auto temporary = sidecarPath + ".tmp", backup = sidecarPath + ".bak";
-                return StorageFiles::writeFileAtomic(Board::Storage::filesystem(), sidecarPath.c_str(),
-                                                      temporary.c_str(), backup.c_str(), output);
-            }
-            File file = Board::Storage::filesystem().open(sidecarPath.c_str(), FILE_WRITE);
-            if (!file || file.isDirectory()) {
-                if (file)
-                    file.close();
-                return std::unexpected(std::make_error_code(std::errc::io_error));
-            }
-            const size_t written = file.write(reinterpret_cast<const uint8_t*>(output.data()), output.size());
-            file.close();
-            if (written != output.size()) {
-                return std::unexpected(std::make_error_code(std::errc::io_error));
-            }
-            return {};
+            const auto temporary = sidecarPath + ".tmp", backup = sidecarPath + ".bak";
+            return StorageFiles::writeFileAtomic(Board::Storage::filesystem(), sidecarPath.c_str(), temporary.c_str(),
+                                                  backup.c_str(), output);
         }
 
         std::expected<void, std::error_code> writeSessionSidecar(const ReadingSession& session,
@@ -173,7 +177,7 @@ namespace ReadingProgress {
         return loadWritableBookState(bookPath, identity).and_then([&](reading::StoredState state) {
             state.identity = identity;
             state.reading.overrides = overrides;
-            return writeBookState(bookPath, state, true);
+            return writeBookState(bookPath, state);
         });
     }
 

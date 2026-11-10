@@ -371,7 +371,7 @@ namespace screens {
     }
 
     void ReaderScreen::finishBookOpen(Preferences& preferences, uint32_t nowMs) {
-        returnWord_ = SIZE_MAX; browse_ = {}; searchResults_.clear(); searchQuery_.clear(); searchDraft_.clear(); searchRunning_ = false;
+        returnWord_ = SIZE_MAX; mirroredWord_ = SIZE_MAX; browse_ = {}; searchResults_.clear(); searchQuery_.clear(); searchDraft_.clear(); searchRunning_ = false;
         session.state = {};
         pagePreview_ = false;
         pageBrowsing_ = false;

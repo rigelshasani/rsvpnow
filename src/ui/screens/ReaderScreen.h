@@ -70,6 +70,7 @@ namespace screens {
         PageReader::BrowseState browse_;
         size_t pageSelected_ = 0;
         size_t returnWord_ = SIZE_MAX;
+        size_t mirroredWord_ = SIZE_MAX;
         size_t candidate_ = 0;
         size_t locatorOrigin_ = 0;
         size_t findChapterPage_ = 0;
