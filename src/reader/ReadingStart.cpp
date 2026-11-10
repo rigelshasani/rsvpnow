@@ -11,13 +11,13 @@ namespace ReadingStart {
     namespace {
 
         // Lower-case title prefixes, matched at a word boundary. Mirrors desktop/rigels_studio/trim.py.
-        constexpr std::array<std::string_view, 29> kFrontMatter{
+        constexpr std::array<std::string_view, 30> kFrontMatter{
             "cover", "title page", "titlepage", "half title", "half-title", "copyright", "also by", "books by",
             "praise", "dedication", "epigraph", "acknowledgement", "acknowledgements", "acknowledgment",
             "acknowledgments", "about the author",
             "about the publisher", "about the book", "other books", "frontispiece", "map", "maps",
             "list of illustrations", "list of maps", "list of figures", "list of tables", "illustrations",
-            "contents", "table of contents",
+            "contents", "table of contents", "imprint",
         };
 
         // A heading shorter than this before the first chapter is a title or author block.

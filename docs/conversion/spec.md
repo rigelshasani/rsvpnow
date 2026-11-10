@@ -145,6 +145,9 @@ The firmware can read or convert a narrower set directly:
   receive generated filename chapter markers.
 - Generated title pages and table-of-contents pages should not become chapter markers when a
   better TOC or body chapter structure is available.
+- Pages about the edition rather than the work must not reach the output: Project Gutenberg's
+  `class="pg-boilerplate"` blocks, and elements whose `epub:type` includes `titlepage`,
+  `halftitlepage`, `imprint`, `colophon` or `copyright-page`.
 - An in-book contents list is navigation, not text to read, and must not reach the output. A
   contents list is a run of at least four consecutive blocks whose text is mostly (60% or more)
   inside links to other places in the book (`href` without a scheme). Up to two short unlinked

@@ -263,6 +263,24 @@ namespace {
         TEST_ASSERT_TRUE(text.contains("example.org/d"));
     }
 
+    void test_parser_drops_pages_about_the_edition() {
+        // Shape of a Standard Ebooks file: title page and imprint before the work, colophon and
+        // copyright page after it.
+        const std::string text = convertFragment(R"(<body epub:type="frontmatter">
+            <section id="titlepage" epub:type="titlepage"><h1>Fixture</h1><p>By An Author.</p></section>
+            <section id="imprint" epub:type="imprint"><h2>Imprint</h2><p>This ebook is the product of many hours
+            of hard work by volunteers.</p></section>
+            <section id="chapter-1" epub:type="chapter"><p>It was a quiet morning.</p></section>
+            <section id="colophon" epub:type="colophon"><p>Fixture was published in 1900.</p></section>
+            <section id="uncopyright" epub:type="copyright-page"><p>May you do good and not evil.</p></section>
+            </body>)");
+        TEST_ASSERT_TRUE(text.contains("It was a quiet morning."));
+        TEST_ASSERT_FALSE(text.contains("An Author"));
+        TEST_ASSERT_FALSE(text.contains("volunteers"));
+        TEST_ASSERT_FALSE(text.contains("published"));
+        TEST_ASSERT_FALSE(text.contains("evil"));
+    }
+
     void test_parser_keeps_word_boundary_across_buffered_text_flush() {
         const std::string padding = [] {
             std::string filled;
@@ -305,6 +323,7 @@ int main(int, char**) {
     RUN_TEST(test_parser_emits_explicit_vertical_writing_mode_once);
     RUN_TEST(test_parser_drops_in_book_contents_lists);
     RUN_TEST(test_parser_keeps_links_that_are_not_a_contents_list);
+    RUN_TEST(test_parser_drops_pages_about_the_edition);
     RUN_TEST(test_parser_keeps_word_boundary_across_buffered_text_flush);
     return UNITY_END();
 }

@@ -289,6 +289,9 @@ namespace IndexedBook {
             return fail(std::make_error_code(std::errc::invalid_argument), "No readable words");
         if (metadata_.paragraphStarts.empty())
             metadata_.paragraphStarts.push_back(0);
+        // A heading with nothing after it (a dropped colophon, say) is not a place to go to.
+        while (!metadata_.chapters.empty() && metadata_.chapters.back().wordIndex >= wordCount_)
+            metadata_.chapters.pop_back();
         if (wordCount_ > UINT32_MAX || metadata_.paragraphStarts.size() > UINT32_MAX
             || metadata_.chapters.size() > UINT32_MAX || metadata_.textRuns.size() > UINT32_MAX) {
             return fail(std::make_error_code(std::errc::value_too_large), "Index limit reached");

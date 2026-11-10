@@ -163,8 +163,16 @@ namespace EpubContent {
             style.erase(std::remove_if(style.begin(), style.end(), AsciiText::isWhitespace), style.end());
             info.vertical = style.contains("writing-mode:vertical-rl")
                          || style.contains("-epub-writing-mode:vertical-rl");
-            // Project Gutenberg wraps its header and licence in these blocks.
+            // Project Gutenberg wraps its header and licence in these blocks. Standard Ebooks and
+            // other EPUB 3 publishers label the pages that are about the edition, not the work.
             info.boilerplate = hasClassToken(tagAttributeValue(tag, "class"), "pg-boilerplate");
+            if (!info.boilerplate) {
+                const std::string type = tagAttributeValue(tag, "epub:type");
+                for (const std::string_view page: {std::string_view{"titlepage"}, std::string_view{"halftitlepage"},
+                                                   std::string_view{"imprint"}, std::string_view{"colophon"},
+                                                   std::string_view{"copyright-page"}})
+                    info.boilerplate = info.boilerplate || hasClassToken(type, page);
+            }
 
             for (int i = static_cast<int>(tag.length()) - 1; i >= 0; --i) {
                 if (AsciiText::isWhitespace(tag[i]) || tag[i] == '>') {
