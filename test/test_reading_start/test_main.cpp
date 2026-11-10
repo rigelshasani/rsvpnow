@@ -1,6 +1,8 @@
 // Chapter lists below are the real openings of books on a test reader.
 #include <unity.h>
 
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "reader/ReadingStart.h"
@@ -31,6 +33,40 @@ namespace {
         TEST_ASSERT_EQUAL_UINT32(93, start({{"Alexandre Dumas", 3}, {"Chapter 1.", 93}, {"Chapter 2.", 3248}}, 463922));
     }
 
+    std::vector<std::string> wordsOf(const std::string& text, size_t total) {
+        std::vector<std::string> words;
+        std::istringstream stream(text);
+        for (std::string word; stream >> word;)
+            words.push_back(word);
+        while (words.size() < total)
+            words.push_back("prose");
+        return words;
+    }
+
+    // Gutenberg's Count of Monte Cristo: the contents list sits under the author's name.
+    void test_contents_list_under_another_heading_is_skipped() {
+        const std::vector<ChapterMarker> chapters{{"by Alexandre Dumas [père]", 0},
+                                                  {"Chapter 1. Marseilles—The Arrival", 120},
+                                                  {"Chapter 2. Father and Son", 3275},
+                                                  {"Chapter 3. The Catalans", 5815},
+                                                  {"Chapter 4. Conspiracy", 9737}};
+        std::string contents = "VOLUME ONE ";
+        for (int repeat = 0; repeat < 10; ++repeat)
+            contents += "Chapter 1. Marseilles — The Arrival Chapter 2. Father and Son Chapter 3. The Catalans ";
+        const auto listed = wordsOf(contents, 12000);
+        const auto wordAt = [&](size_t index) { return std::string_view{listed[index]}; };
+        TEST_ASSERT_EQUAL_UINT32(120, ReadingStart::firstWord(chapters, 465186, wordAt));
+        // Without the words there is nothing to judge by.
+        TEST_ASSERT_EQUAL_UINT32(0, ReadingStart::firstWord(chapters, 465186));
+
+        // The same heading over real prose is where the book starts.
+        const auto prose = wordsOf("On the 24th of February the look-out at Notre-Dame signalled the three-master from "
+                                   "Smyrna and Naples while a pilot rounded the island and came aboard between the capes",
+                                   12000);
+        const auto proseAt = [&](size_t index) { return std::string_view{prose[index]}; };
+        TEST_ASSERT_EQUAL_UINT32(0, ReadingStart::firstWord(chapters, 465186, proseAt));
+    }
+
     // Plain-text books: the text after "Chapter", "Part" or "Book" on a line.
     void test_text_headings_need_a_number_not_just_the_word() {
         for (const char* heading: {"", " 1", " 12.", " II", " XIV. The Storm", " One", " the First", ": 3", " Twenty-One",
@@ -59,6 +95,7 @@ int main() {
     RUN_TEST(test_gutenberg_contents_and_illustration_list_are_skipped);
     RUN_TEST(test_copyright_and_epigraph_skipped_but_introduction_kept);
     RUN_TEST(test_short_author_block_is_skipped);
+    RUN_TEST(test_contents_list_under_another_heading_is_skipped);
     RUN_TEST(test_text_headings_need_a_number_not_just_the_word);
     RUN_TEST(test_unsure_cases_start_at_the_beginning);
     return UNITY_END();

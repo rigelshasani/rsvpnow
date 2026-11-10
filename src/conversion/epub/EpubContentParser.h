@@ -29,6 +29,8 @@ namespace EpubContent {
         };
 
         bool flushLine(bool endParagraph = true);
+        bool releaseHeldBlocks();
+        void resetLine();
         bool flushWordAlignedPrefix();
         bool writeChapter(std::string_view title);
         bool emitTocEntriesThrough(size_t index);
@@ -70,6 +72,20 @@ namespace EpubContent {
         uint8_t verticalCssMatch_ = 0;
         size_t nextTocEntry_ = 0;
         int skipDepth_ = 0;
+        // Contents-list filter: a run of blocks that are mostly internal links is navigation,
+        // not prose. Blocks are held until the run is long enough to be sure, then dropped.
+        struct HeldBlock {
+            std::string text;
+            bool link = false;
+        };
+        std::vector<HeldBlock> heldBlocks_;
+        size_t heldLinkBlocks_ = 0;
+        size_t lineChars_ = 0;
+        size_t lineLinkChars_ = 0;
+        uint8_t shortBlocksSinceLink_ = 0;
+        bool inInternalLink_ = false;
+        bool blockPartlyWritten_ = false;
+        bool droppingLinkList_ = false;
         std::string boilerplateTag_;
         int boilerplateDepth_ = 0;
     };

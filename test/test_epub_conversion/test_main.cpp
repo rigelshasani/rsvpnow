@@ -213,6 +213,56 @@ namespace {
     //
     // "Dear Reader " is 12 bytes, so 18 of them fill the buffer to 216; the following "Dear" ends
     // it at exactly 220 and the separator after it is the byte that triggers the flush.
+    std::string convertFragment(std::string_view markup) {
+        File output;
+        const std::vector<EpubPackage::TocEntry> toc = {{"content.xhtml", "Chapter 1", "c1"}};
+        RsvpWriter writer(output, {.source = "fixture.epub", .title = "Fixture"});
+        EpubContent::Parser parser(writer, toc, true, "content", "Fixture");
+        TEST_ASSERT_TRUE(parser.write(reinterpret_cast<const uint8_t*>(markup.data()), markup.length()));
+        TEST_ASSERT_TRUE(parser.finish());
+        TEST_ASSERT_TRUE(writer.finish());
+        return output.contents();
+    }
+
+    void test_parser_drops_in_book_contents_lists() {
+        // Shapes taken from a Gutenberg table and a publisher's toc page, with page numbers.
+        const std::string table = convertFragment(R"(<body><p>A Novel</p><table>
+            <tr><td>VOLUME ONE</td></tr>
+            <tr><td><a href="b-1.xhtml#c1" class="pginternal">Chapter 1. The Arrival</a></td><td>3</td></tr>
+            <tr><td><a href="b-2.xhtml#c2" class="pginternal">Chapter 2. Father and Son</a></td><td>19</td></tr>
+            <tr><td><a href="b-3.xhtml#c3" class="pginternal">Chapter 3. The Catalans</a></td><td>31</td></tr>
+            <tr><td><a href="b-4.xhtml#c4" class="pginternal">Chapter 4. Conspiracy</a></td><td>48</td></tr>
+            <tr><td><a href="b-5.xhtml#c5" class="pginternal">Chapter 5. The Marriage Feast</a></td><td>60</td></tr>
+            </table><p>The harbour was bright that morning, and the ship came in slowly under sail.</p></body>)");
+        TEST_ASSERT_FALSE(table.contains("Catalans"));
+        TEST_ASSERT_FALSE(table.contains("Feast"));
+        TEST_ASSERT_FALSE(table.contains("60"));
+        TEST_ASSERT_TRUE(table.contains("A Novel"));
+        TEST_ASSERT_TRUE(table.contains("The harbour was bright"));
+
+        const std::string list = convertFragment(R"(<body><div class="toc"><a href="p1.htm"><strong>Part One</strong></a></div>
+            <div class="toc"><a href="c01.htm">1 An Animal of No Significance</a></div>
+            <div class="toc"><a href="c02.htm">2 The Tree of Knowledge</a></div>
+            <div class="toc"><a href="c03.htm">3 A Day in the Life</a></div></body>)");
+        TEST_ASSERT_FALSE(list.contains("Knowledge"));
+    }
+
+    void test_parser_keeps_links_that_are_not_a_contents_list() {
+        // Footnote references, a few linked lines, and web addresses stay in the text.
+        const std::string text = convertFragment(R"(<body>
+            <p>It is like the house of the Atreidae;<a href="notes.xhtml#fn19"><sup>[19]</sup></a> they must submit.</p>
+            <p><a href="toc.xhtml#c1">CHAPTER ONE</a></p><p>The door opened and nobody came in at all.</p>
+            <p><a href="a.xhtml">First</a></p><p><a href="b.xhtml">Second</a></p><p><a href="c.xhtml">Third</a></p>
+            <p>That was the whole of the list, and the story went on afterwards.</p>
+            <p><a href="https://example.org/a">example.org/a</a></p><p><a href="https://example.org/b">example.org/b</a></p>
+            <p><a href="https://example.org/c">example.org/c</a></p><p><a href="https://example.org/d">example.org/d</a></p>
+            </body>)");
+        TEST_ASSERT_TRUE(text.contains("Atreidae;[19] they must submit."));
+        TEST_ASSERT_TRUE(text.contains("CHAPTER ONE"));
+        TEST_ASSERT_TRUE(text.contains("First\n\n@para\nSecond\n\n@para\nThird\n\n@para\nThat was the whole"));
+        TEST_ASSERT_TRUE(text.contains("example.org/d"));
+    }
+
     void test_parser_keeps_word_boundary_across_buffered_text_flush() {
         const std::string padding = [] {
             std::string filled;
@@ -253,6 +303,8 @@ int main(int, char**) {
     RUN_TEST(test_parser_preserves_punctuation_only_inline_fragments_without_counting_them_as_words);
     RUN_TEST(test_parser_preserves_nested_language_and_direction_changes);
     RUN_TEST(test_parser_emits_explicit_vertical_writing_mode_once);
+    RUN_TEST(test_parser_drops_in_book_contents_lists);
+    RUN_TEST(test_parser_keeps_links_that_are_not_a_contents_list);
     RUN_TEST(test_parser_keeps_word_boundary_across_buffered_text_flush);
     return UNITY_END();
 }

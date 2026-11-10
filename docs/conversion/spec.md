@@ -145,6 +145,12 @@ The firmware can read or convert a narrower set directly:
   receive generated filename chapter markers.
 - Generated title pages and table-of-contents pages should not become chapter markers when a
   better TOC or body chapter structure is available.
+- An in-book contents list is navigation, not text to read, and must not reach the output. A
+  contents list is a run of at least four consecutive blocks whose text is mostly (60% or more)
+  inside links to other places in the book (`href` without a scheme). Up to two short unlinked
+  blocks, such as a chapter or page number in its own table cell, may sit between linked rows and
+  are dropped with them. Shorter runs, footnote references inside prose and lists of web addresses
+  are kept. The reader also skips such a list when opening a book converted before this rule.
 - If no usable EPUB TOC is available and a readable content document has no heading, insert a
   chapter marker from its filename.
 - EPUBs with `META-INF/encryption.xml` must fail with a clear unsupported-conversion error rather

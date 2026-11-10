@@ -17,12 +17,19 @@ namespace EpubContent {
         constexpr size_t kBufferedTextFlushThreshold = 220;
         constexpr size_t kMaxBufferedTextBytes = 1024;
         constexpr size_t kMaxHeadingBytes = 256;
+        // A contents list: at least this many consecutive link rows, allowing a couple of short
+        // unlinked cells (chapter numbers, page numbers) between them.
+        constexpr size_t kMinLinkListBlocks = 4;
+        constexpr size_t kMaxLinkRowBytes = 200;
+        constexpr size_t kMaxShortBlockBytes = 24;
+        constexpr uint8_t kMaxShortBlocksBetweenLinks = 2;
 
         struct TagInfo {
             std::string name;
             std::string anchor;
             std::string locale;
             std::string direction;
+            bool internalLink = false;
             bool vertical = false;
             bool boilerplate = false;
             bool closing = false;
@@ -147,6 +154,10 @@ namespace EpubContent {
             std::ranges::transform(info.direction, info.direction.begin(), AsciiText::toLower);
             if (info.direction != "auto" && info.direction != "ltr" && info.direction != "rtl")
                 info.direction.clear();
+            if (info.name == "a") {
+                const std::string href{AsciiText::trim(tagAttributeValue(tag, "href"))};
+                info.internalLink = !href.empty() && !href.contains("://") && !href.starts_with("mailto:");
+            }
             std::string style = tagAttributeValue(tag, "style");
             std::ranges::transform(style, style.begin(), AsciiText::toLower);
             style.erase(std::remove_if(style.begin(), style.end(), AsciiText::isWhitespace), style.end());
@@ -275,7 +286,7 @@ namespace EpubContent {
 
     bool Parser::finish() {
         mode_ = Mode::Text;
-        if (!flushLine()) {
+        if (!flushLine() || !releaseHeldBlocks()) {
             return false;
         }
         return tocEntries_.empty() || emitTocEntriesThrough(tocEntries_.size() - 1);
@@ -285,18 +296,71 @@ namespace EpubContent {
         return writer_.reachedWordLimit();
     }
 
+    void Parser::resetLine() {
+        line_.clear();
+        lineChars_ = 0;
+        lineLinkChars_ = 0;
+    }
+
+    // Ends a possible contents list. A run too short to be one is written out as ordinary text.
+    bool Parser::releaseHeldBlocks() {
+        std::vector<HeldBlock> held = std::move(heldBlocks_);
+        heldBlocks_.clear();
+        heldLinkBlocks_ = 0;
+        shortBlocksSinceLink_ = 0;
+        droppingLinkList_ = false;
+        for (const HeldBlock& block: held) {
+            if (!documentChapterWritten_ && !hasToc_ && !fallbackChapterTitle_.empty())
+                writeChapter(fallbackChapterTitle_);
+            if (!writer_.writeText(block.text, true))
+                return false;
+        }
+        return true;
+    }
+
     bool Parser::flushLine(bool endParagraph) {
         line_ = std::string{AsciiText::trim(line_)};
         if (line_.empty()) {
-            if (endParagraph)
+            if (endParagraph) {
                 writer_.endParagraph();
+                blockPartlyWritten_ = false;
+            }
+            resetLine();
             return true;
         }
+
+        const bool wholeBlock = endParagraph && !blockPartlyWritten_;
+        const bool linkBlock =
+            wholeBlock && line_.size() <= kMaxLinkRowBytes && lineLinkChars_ * 10 >= lineChars_ * 6 && lineChars_ > 0;
+        const bool listOpen = droppingLinkList_ || heldLinkBlocks_ > 0;
+        if (linkBlock) {
+            shortBlocksSinceLink_ = 0;
+            if (!droppingLinkList_) {
+                heldBlocks_.push_back({std::move(line_), true});
+                if (++heldLinkBlocks_ >= kMinLinkListBlocks) {
+                    droppingLinkList_ = true;
+                    heldBlocks_.clear();
+                }
+            }
+            resetLine();
+            return true;
+        }
+        if (listOpen && wholeBlock && line_.size() <= kMaxShortBlockBytes
+            && shortBlocksSinceLink_ < kMaxShortBlocksBetweenLinks) {
+            ++shortBlocksSinceLink_;
+            if (!droppingLinkList_)
+                heldBlocks_.push_back({std::move(line_), false});
+            resetLine();
+            return true;
+        }
+        blockPartlyWritten_ = !endParagraph;
+        if (!releaseHeldBlocks())
+            return false;
 
         if (!documentChapterWritten_ && !hasToc_ && !fallbackChapterTitle_.empty())
             writeChapter(fallbackChapterTitle_);
         const bool keepGoing = writer_.writeText(line_, endParagraph);
-        line_.clear();
+        resetLine();
         return keepGoing;
     }
 
@@ -323,6 +387,8 @@ namespace EpubContent {
 
     bool Parser::writeChapter(std::string_view title) {
         documentChapterWritten_ = true;
+        if ((droppingLinkList_ || !heldBlocks_.empty()) && !releaseHeldBlocks())
+            return false;
         return writer_.writeChapter(title);
     }
 
@@ -371,6 +437,10 @@ namespace EpubContent {
         }
 
         appendNormalizedChar(line_, c);
+        if (!AsciiText::isWhitespace(c)) {
+            ++lineChars_;
+            lineLinkChars_ += inInternalLink_;
+        }
     }
 
     bool Parser::processDecodedText(char c) {
@@ -490,6 +560,9 @@ namespace EpubContent {
             if (scope.changed && !changeLanguageState(scope.locale, scope.direction))
                 return false;
         }
+
+        if (tagInfo.name == "a")
+            inInternalLink_ = !tagInfo.closing && !tagInfo.selfClosing && tagInfo.internalLink;
 
         const int tocEntry = tagInfo.closing ? -1 : matchingTocEntry(tagInfo.anchor);
         if (tocEntry >= 0 && !emitTocEntriesThrough(static_cast<size_t>(tocEntry))) {
