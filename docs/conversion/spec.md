@@ -93,7 +93,9 @@ The firmware can read or convert a narrower set directly:
 - Blank lines separate paragraphs.
 - Markdown is treated as plain text with lightweight heading detection.
 - Lines beginning with `#`, `Chapter`, `Part`, or `Book` are chapter candidates when the cleaned
-  line is short enough to be a title.
+  line is short enough to be a title. After `Chapter`, `Part` or `Book` the line must be numbered:
+  nothing, digits, an upper-case Roman numeral or a number word (`Part II`, `Book the First`).
+  A wrapped line of prose such as `Part of the crew went ashore.` is not a chapter.
 - Full Markdown rendering is not currently part of the contract.
 
 ## HTML And XHTML Rules

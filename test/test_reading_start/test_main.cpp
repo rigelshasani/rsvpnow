@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "reader/ReadingStart.h"
+#include "text/ChapterHeading.h"
 
 void setUp() {}
 void tearDown() {}
@@ -30,6 +31,17 @@ namespace {
         TEST_ASSERT_EQUAL_UINT32(93, start({{"Alexandre Dumas", 3}, {"Chapter 1.", 93}, {"Chapter 2.", 3248}}, 463922));
     }
 
+    // Plain-text books: the text after "Chapter", "Part" or "Book" on a line.
+    void test_text_headings_need_a_number_not_just_the_word() {
+        for (const char* heading: {"", " 1", " 12.", " II", " XIV. The Storm", " One", " the First", ": 3", " Twenty-One",
+                                   " 2 - The Tree of Knowledge"})
+            TEST_ASSERT_TRUE_MESSAGE(RsvpText::numbersHeading(heading), heading);
+        // Hard-wrapped prose lines that happen to start with the word.
+        for (const char* prose: {" of the crew went ashore.", " of me wanted to leave", " in hand, he sat down.",
+                                 " and verse he quoted", " mild, part civil", " after book he read", " the cat"})
+            TEST_ASSERT_FALSE_MESSAGE(RsvpText::numbersHeading(prose), prose);
+    }
+
     void test_unsure_cases_start_at_the_beginning() {
         TEST_ASSERT_EQUAL_UINT32(0, start({}, 5000));
         TEST_ASSERT_EQUAL_UINT32(0, start({{"Chapter 1", 0}, {"Chapter 2", 900}}, 9000));
@@ -47,6 +59,7 @@ int main() {
     RUN_TEST(test_gutenberg_contents_and_illustration_list_are_skipped);
     RUN_TEST(test_copyright_and_epigraph_skipped_but_introduction_kept);
     RUN_TEST(test_short_author_block_is_skipped);
+    RUN_TEST(test_text_headings_need_a_number_not_just_the_word);
     RUN_TEST(test_unsure_cases_start_at_the_beginning);
     return UNITY_END();
 }

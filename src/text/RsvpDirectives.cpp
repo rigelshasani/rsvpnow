@@ -6,6 +6,7 @@
 
 #include "storage/fs/StoragePaths.h"
 #include "text/AsciiText.h"
+#include "text/ChapterHeading.h"
 #include "text/TextNormalizer.h"
 
 namespace RsvpText {
@@ -52,10 +53,14 @@ namespace RsvpText {
             return !title.empty();
         }
 
-        if (prefixHasBoundary(trimmed, "chapter") || prefixHasBoundary(trimmed, "part")
-            || prefixHasBoundary(trimmed, "book")) {
-            title = trimmed;
-            return true;
+        // "Part II" is a heading; "Part of the crew went ashore." is a wrapped line of prose.
+        for (const std::string_view keyword: {std::string_view{"chapter"}, std::string_view{"part"},
+                                              std::string_view{"book"}}) {
+            if (prefixHasBoundary(trimmed, keyword)
+                && numbersHeading(std::string_view{trimmed}.substr(keyword.size()))) {
+                title = trimmed;
+                return true;
+            }
         }
 
         return false;
