@@ -7,7 +7,53 @@
 namespace screens {
     namespace {
         constexpr uint32_t kChapterCardMs = 1500;
+        // A frame later than this is a stall, not reading time.
+        constexpr uint32_t kMaxTrackedFrameMs = 2000;
+        // Catch-up after a slow frame advances a few words; a bigger jump is a seek.
+        constexpr size_t kMaxTrackedWords = 10;
+        constexpr char kLifetimeWordsKey[] = "statWords";
+        constexpr char kLifetimeSecondsKey[] = "statSecs";
     } // namespace
+
+    void ReaderScreen::trackReading(Preferences& preferences, uint32_t nowMs) {
+        if (!session.playing || !session.stored()) {
+            if (statsPlaying_) {
+                statsPlaying_ = false;
+                saveStats(preferences);
+            }
+            return;
+        }
+        const size_t word = session.state.wordIndex;
+        if (statsPlaying_) {
+            statsMilliseconds_ += std::min<uint32_t>(nowMs - statsTickMs_, kMaxTrackedFrameMs);
+            const uint32_t seconds = statsMilliseconds_ / 1000;
+            statsMilliseconds_ %= 1000;
+            session.state.stats.secondsRead += seconds;
+            unsavedLifetime_.secondsRead += seconds;
+            if (word > statsWordIndex_ && word - statsWordIndex_ <= kMaxTrackedWords) {
+                const auto words = static_cast<uint32_t>(word - statsWordIndex_);
+                session.state.stats.wordsRead += words;
+                unsavedLifetime_.wordsRead += words;
+            }
+        }
+        statsPlaying_ = true;
+        statsTickMs_ = nowMs;
+        statsWordIndex_ = word;
+    }
+
+    ReadingStats ReaderScreen::lifetimeStats(Preferences& preferences) const {
+        return {.wordsRead = preferences.getUInt(kLifetimeWordsKey, 0) + unsavedLifetime_.wordsRead,
+                .secondsRead = preferences.getUInt(kLifetimeSecondsKey, 0) + unsavedLifetime_.secondsRead};
+    }
+
+    void ReaderScreen::saveStats(Preferences& preferences) {
+        if (unsavedLifetime_ == ReadingStats{})
+            return;
+        const ReadingStats total = lifetimeStats(preferences);
+        preferences.putUInt(kLifetimeWordsKey, total.wordsRead);
+        preferences.putUInt(kLifetimeSecondsKey, total.secondsRead);
+        unsavedLifetime_ = {};
+    }
 
     void ReaderScreen::toggle(Preferences& preferences, uint32_t nowMs) {
         if (pageBrowsing_) return;
@@ -18,6 +64,7 @@ namespace screens {
     }
 
     void ReaderScreen::update(Preferences& preferences, uint32_t nowMs) {
+        trackReading(preferences, nowMs);
         // Browsing owns the page font. Preparing a chunk here would replace its
         // cached strike with the RSVP size on every paused browser frame.
         if (pageBrowsing_) return;

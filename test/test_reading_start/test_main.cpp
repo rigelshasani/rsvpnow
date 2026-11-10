@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "reader/ReadingStart.h"
+#include "reader/ReadingStats.h"
 #include "reader/ResumePolicy.h"
 #include "text/ChapterHeading.h"
 
@@ -88,6 +89,23 @@ namespace {
         TEST_ASSERT_EQUAL_UINT8(2, ResumePolicy::rewindSentences(ResumePolicy::kUnknownBreak));
     }
 
+    void test_reading_stats_pace_and_wording() {
+        // Measured pace once there is enough to go on, the set speed before then.
+        TEST_ASSERT_EQUAL_UINT32(300, readingStats::pace({.wordsRead = 400, .secondsRead = 600}, 300));
+        TEST_ASSERT_EQUAL_UINT32(300, readingStats::pace({.wordsRead = 5000, .secondsRead = 100}, 300));
+        TEST_ASSERT_EQUAL_UINT32(250, readingStats::pace({.wordsRead = 25000, .secondsRead = 6000}, 300));
+        TEST_ASSERT_EQUAL_UINT32(12000, readingStats::secondsFor(50000, 250));
+        TEST_ASSERT_EQUAL_UINT32(0, readingStats::secondsFor(100, 0));
+        TEST_ASSERT_EQUAL_STRING("under a minute", readingStats::duration(59).c_str());
+        TEST_ASSERT_EQUAL_STRING("45 min", readingStats::duration(45 * 60 + 30).c_str());
+        TEST_ASSERT_EQUAL_STRING("2 h", readingStats::duration(7200).c_str());
+        TEST_ASSERT_EQUAL_STRING("3 h 20 min", readingStats::duration(12000).c_str());
+        TEST_ASSERT_EQUAL_STRING("14 h", readingStats::duration(14 * 3600 + 1800).c_str());
+        TEST_ASSERT_EQUAL_STRING("987", readingStats::count(987).c_str());
+        TEST_ASSERT_EQUAL_STRING("12,345", readingStats::count(12345).c_str());
+        TEST_ASSERT_EQUAL_STRING("1,234,567", readingStats::count(1234567).c_str());
+    }
+
     void test_unsure_cases_start_at_the_beginning() {
         TEST_ASSERT_EQUAL_UINT32(0, start({}, 5000));
         TEST_ASSERT_EQUAL_UINT32(0, start({{"Chapter 1", 0}, {"Chapter 2", 900}}, 9000));
@@ -108,6 +126,7 @@ int main() {
     RUN_TEST(test_contents_list_under_another_heading_is_skipped);
     RUN_TEST(test_text_headings_need_a_number_not_just_the_word);
     RUN_TEST(test_rewind_grows_with_the_break);
+    RUN_TEST(test_reading_stats_pace_and_wording);
     RUN_TEST(test_unsure_cases_start_at_the_beginning);
     return UNITY_END();
 }

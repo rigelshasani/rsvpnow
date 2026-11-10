@@ -358,8 +358,13 @@ void App::renderScreen(uint32_t nowMs) {
                 const auto& chapters = readerScreen_.session.metadata.chapters;
                 const auto chapter = std::ranges::upper_bound(chapters, readerScreen_.session.state.wordIndex,
                                                               {}, &ChapterMarker::wordIndex) - chapters.begin();
-                action = screens::modern::menu(immediateUi_, title, author, progress,
-                                               ReadingLoop::wordCount(readerScreen_.session) > 0, interface, screen_, chapter);
+                const auto& session = readerScreen_.session;
+                const size_t words = ReadingLoop::wordCount(session);
+                const std::string status = screens::modern::bookStatus(
+                    session.state.stats, static_cast<uint32_t>(words > session.state.wordIndex ? words - session.state.wordIndex : 0),
+                    settingsStore_.settings().reading.wpm);
+                action = screens::modern::menu(immediateUi_, title, author, progress, words > 0, interface, screen_,
+                                               chapter, session.stored() ? std::string_view{status} : std::string_view{});
                 if (brightness != interface.brightnessPercent) {
                     Board::Display::setBrightness(interface.brightnessPercent);
                     settingsStore_.acceptChanges();
@@ -371,6 +376,16 @@ void App::renderScreen(uint32_t nowMs) {
             }
         }
         break;
+    case screens::Screen::ReadingStats: {
+        immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
+        const auto& session = readerScreen_.session;
+        const size_t words = ReadingLoop::wordCount(session);
+        action = screens::modern::readingStats(
+            immediateUi_, session.state.stats,
+            static_cast<uint32_t>(words > session.state.wordIndex ? words - session.state.wordIndex : 0),
+            settingsStore_.settings().reading.wpm, session.stored(), readerScreen_.lifetimeStats(prefs_), screen_);
+        break;
+    }
     case screens::Screen::QuickControls: {
         immediateUi_.beginFrame(static_cast<uint8_t>(screen_));
         auto& config=settingsStore_.settings();
@@ -1460,6 +1475,7 @@ bool App::quietCheckScreen(screens::Screen screen) {
     case screens::Screen::Chapters: case screens::Screen::FindPlace: case screens::Screen::FindChapters:
     case screens::Screen::BookSearch: case screens::Screen::BookSearchKeyboard: case screens::Screen::Library:
     case screens::Screen::Dictionary: case screens::Screen::DictionarySearch: case screens::Screen::Status:
+    case screens::Screen::ReadingStats:
         return true;
     default:
         return false;
@@ -1618,6 +1634,7 @@ void App::powerOff(uint32_t nowMs) {
     if (companionApi_.active())
         companionApi_.end();
     focusScreen_.close();
+    readerScreen_.saveStats(prefs_);
     ReadingProgress::save(readerScreen_.session, prefs_, true, nowMs);
     ReadingProgress::mirror(readerScreen_.session, readerScreen_.store);
     ReadingLoop::pause(readerScreen_.session);

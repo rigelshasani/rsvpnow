@@ -355,6 +355,7 @@ namespace screens {
     }
 
     void ReaderScreen::closeBook() {
+        statsPlaying_ = false;
         ReadingProgress::mirror(session, store);
         store.close();
         session = {};
@@ -364,6 +365,8 @@ namespace screens {
     }
 
     void ReaderScreen::prepareBookOpen(Preferences& preferences, uint32_t nowMs) {
+        statsPlaying_ = false;
+        saveStats(preferences);
         ReadingProgress::save(session, preferences, true, nowMs);
         ReadingProgress::mirror(session, store);
         store.close();

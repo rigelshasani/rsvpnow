@@ -635,7 +635,8 @@ int main(int argc, char** argv) {
     const std::pair<screens::Screen, const char*> views[]{
         {screens::Screen::Dictionary,"dictionary"}, {screens::Screen::Dictionary,"dictionary-paper"},
         {screens::Screen::DictionaryHelp,"dictionary-setup"},
-        {screens::Screen::Read, "menu"}, {screens::Screen::Read, "menu-paper"}, {screens::Screen::QuickControls,"quick-controls"}, {screens::Screen::Library, "library"},
+        {screens::Screen::Read, "menu"}, {screens::Screen::Read, "menu-paper"}, {screens::Screen::Read, "menu-stats"},
+        {screens::Screen::ReadingStats, "reading-stats"}, {screens::Screen::QuickControls,"quick-controls"}, {screens::Screen::Library, "library"},
         {screens::Screen::Library, "library-long"}, {screens::Screen::Library, "library-empty"},
         {screens::Screen::Settings, "settings"}, {screens::Screen::Chapters, "chapters"},
         {screens::Screen::ReadingHub, "reading"}, {screens::Screen::DisplayHub, "display"},
@@ -715,7 +716,16 @@ int main(int argc, char** argv) {
         case screens::Screen::QuickControls:screens::modern::quickControls(ui,reading,interface,screen);break;
         case screens::Screen::Help:screens::OnboardingScreen::help(ui,reading,screen);break;
         case screens::Screen::Read:
-            screens::modern::menu(ui, book.title, book.author, 42, true, interface, screen); break;
+            if (std::string_view{name} == "menu-stats")
+                screens::modern::menu(ui, book.title, book.author, 42, true, interface, screen, 3,
+                                      screens::modern::bookStatus({.wordsRead = 21000, .secondsRead = 4200}, 56000, 300));
+            else
+                screens::modern::menu(ui, book.title, book.author, 42, true, interface, screen);
+            break;
+        case screens::Screen::ReadingStats:
+            screens::modern::readingStats(ui, {.wordsRead = 21000, .secondsRead = 4200}, 56000, 300, true,
+                                          {.wordsRead = 1234567, .secondsRead = 301000}, screen);
+            break;
         case screens::Screen::Library:
             if (std::string_view{name} == "library-long") library.draw(ui, {{&longBook, {}, 17}}, 0, screen);
             else if (std::string_view{name} == "library-empty") library.draw(ui, {}, 0, screen);

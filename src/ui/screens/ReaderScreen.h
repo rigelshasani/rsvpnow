@@ -53,6 +53,10 @@ namespace screens {
         void toggle(Preferences& preferences, uint32_t nowMs);
         void update(Preferences& preferences, uint32_t nowMs);
         void pauseImmediately(Preferences& preferences, uint32_t nowMs) { finishPause(preferences, nowMs); }
+        // Reading totals for all books, including what has not been saved yet.
+        ReadingStats lifetimeStats(Preferences& preferences) const;
+        // Saves the all-books totals; the book's own totals are saved with its place.
+        void saveStats(Preferences& preferences);
         void resumeNow(uint32_t nowMs) { pageBrowsing_ = false; start(nowMs, true); }
         void openPage();
         void drawPage(ui::Context& ui);
@@ -192,6 +196,13 @@ namespace screens {
         bool pagePreview_ = false;
         // While set, the title of the chapter just reached shows in place of the word.
         uint32_t chapterCardUntilMs_ = 0;
+        // Reading totals: added to the book's state as reading goes, to all books on stopping.
+        void trackReading(Preferences& preferences, uint32_t nowMs);
+        uint32_t statsTickMs_ = 0;
+        uint32_t statsMilliseconds_ = 0;
+        size_t statsWordIndex_ = 0;
+        bool statsPlaying_ = false;
+        ReadingStats unsavedLifetime_;
         // When and where reading last paused, to rewind a little after a break.
         uint32_t pausedAtMs_ = 0;
         size_t pausedWordIndex_ = SIZE_MAX;

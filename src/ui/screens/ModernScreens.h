@@ -1,5 +1,6 @@
 #pragma once
 
+#include "reader/ReadingStats.h"
 #include "ui/Modern.h"
 #include "ui/screens/Screens.h"
 
@@ -19,6 +20,7 @@ namespace screens::modern {
         case Screen::Dictionary: case Screen::DictionarySearch: case Screen::DictionaryHelp: case Screen::DictionaryInstall:
         case Screen::QuickControls: case Screen::Onboarding: case Screen::ButtonMap: case Screen::AddBooks: case Screen::TouchCheck:
         case Screen::GetBooks: case Screen::FreeBooks: case Screen::FreeShelf: case Screen::BookShops:
+        case Screen::ReadingStats:
             return true;
         default:
             // The reading canvas opts into its independent chrome path.
@@ -45,7 +47,12 @@ namespace screens::modern {
     Action header(ui::Context& ui, std::string_view title, Screen& screen, Screen parent = Screen::Read,
                   std::string_view trailing = {});
     Action menu(ui::Context& ui, std::string_view title, std::string_view author, uint8_t progress,
-                bool hasBook, settings::InterfaceSettings& interface, Screen& screen, size_t chapter = 0);
+                bool hasBook, settings::InterfaceSettings& interface, Screen& screen, size_t chapter = 0,
+                std::string_view bookStatus = {});
+    // "3 h 20 min left · 1 h 10 min read" for the menu, from the book's totals and words left.
+    std::string bookStatus(const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm);
+    Action readingStats(ui::Context& ui, const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm,
+                        bool hasBook, const ReadingStats& all, Screen& screen);
     Action hub(ui::Context& ui, Screen& screen);
     struct DictionarySetup {
         bool installed = false;

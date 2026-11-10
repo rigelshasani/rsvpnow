@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+#include "reader/ReadingStats.h"
 #include "settings/SettingsModel.h"
 
 namespace reading {
@@ -17,6 +18,7 @@ namespace reading {
     struct State {
         uint32_t wordIndex = 0;
         settings::ReadingOverrides overrides;
+        ReadingStats stats;
 
         bool operator==(const State&) const = default;
     };

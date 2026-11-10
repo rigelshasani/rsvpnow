@@ -132,6 +132,16 @@ void test_menu_routes_brightness_bounds_and_unchanged_frame() {
     f.tap(draw,608,8);TEST_ASSERT_EQUAL(70,static_cast<int>(interface.brightnessPercent));
     TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::Resume),static_cast<int>(f.tap(draw,100,140)));
     f.tap(draw,440,84);TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::Library),static_cast<int>(f.screen));
+    // With reading totals, the top line opens the stats.
+    f.screen=screens::Screen::Read;
+    const auto withStats=[&]{return screens::modern::menu(f.ui,"A book","An author",42,true,interface,f.screen,0,"3 h left");};
+    f.frame(withStats);f.tap(withStats,100,16);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::ReadingStats),static_cast<int>(f.screen));
+    // 21,000 words in 84 minutes is 250 wpm, so 50,000 words take 200 minutes.
+    TEST_ASSERT_EQUAL_STRING("3 h 20 min left · 1 h 24 min read",
+        screens::modern::bookStatus({.wordsRead=21000,.secondsRead=5040},50000,300).c_str());
+    TEST_ASSERT_EQUAL_STRING("2 h 46 min left",screens::modern::bookStatus({},50000,300).c_str());
+    f.screen=screens::Screen::Read;
     settings::ReadingSettings reading;f.screen=screens::Screen::QuickControls;
     const auto controls=[&]{return screens::modern::quickControls(f.ui,reading,interface,f.screen);};
     f.frame(controls);f.tap(controls,606,8);TEST_ASSERT_EQUAL(100,static_cast<int>(interface.brightnessPercent));

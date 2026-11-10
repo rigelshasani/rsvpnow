@@ -77,6 +77,7 @@ namespace screens {
         FreeBooks,
         FreeShelf,
         BookShops,
+        ReadingStats,
     };
 
     enum class Action : uint8_t {

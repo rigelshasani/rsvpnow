@@ -57,9 +57,16 @@ namespace screens::modern {
     }
 
     Action menu(ui::Context& ui, std::string_view title, std::string_view author, uint8_t progress,
-                bool hasBook, settings::InterfaceSettings& interface, Screen& screen, size_t chapter) {
-        ui.label({16, 8, 318, 20}, !ui.focusBadge().empty() ? std::string_view{ui.focusBadge()} : hasBook ? copy(ui,Copy::Saved) : ui.text(UiText::NoLibraryItems), 1,
-                 ui::themes::Muted);
+                bool hasBook, settings::InterfaceSettings& interface, Screen& screen, size_t chapter,
+                std::string_view bookStatus) {
+        if (ui.focusBadge().empty() && hasBook && !bookStatus.empty()) {
+            // Time left and read; tap for the full reading stats.
+            if (button(ui, {8, 2, 326, 30}, bookStatus, Style::Plain, true, {}, 11, ui::TextAlign::Start))
+                screen = Screen::ReadingStats;
+        } else {
+            ui.label({16, 8, 318, 20}, !ui.focusBadge().empty() ? std::string_view{ui.focusBadge()} : hasBook ? copy(ui,Copy::Saved) : ui.text(UiText::NoLibraryItems), 1,
+                     ui::themes::Muted);
+        }
         ui.label({16, 32, 318, 35}, title, 3);
         ui.label({16, 67, 318, 23}, author.empty() ? ui.text(UiText::Unknown) : author, 1, ui::themes::Muted);
         ui.progress({16, 103, 178, 2}, progress);
@@ -77,6 +84,47 @@ namespace screens::modern {
             const ui::Rect rect{364, static_cast<int16_t>(8 + 52 * row), 260, 52};
             if (ui::modern::row(ui, rect, ui.text(titles[row]), {}, symbols[row])) screen = destinations[row];
         }
+        return Action::None;
+    }
+
+    std::string bookStatus(const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm) {
+        std::string status =
+            readingStats::duration(readingStats::secondsFor(wordsLeft, readingStats::pace(book, fallbackWpm))) + " left";
+        if (book.secondsRead >= 60)
+            status += " · " + readingStats::duration(book.secondsRead) + " read";
+        return status;
+    }
+
+    Action readingStats(ui::Context& ui, const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm,
+                        bool hasBook, const ReadingStats& all, Screen& screen) {
+        if (const auto action = header(ui, "Reading stats", screen); action != Action::None)
+            return action;
+        const auto row = [&](int16_t x, int16_t y, std::string_view name, const std::string& value) {
+            ui.label({x, y, 140, 24}, name, 13, ui::themes::Muted);
+            ui.label({static_cast<int16_t>(x + 140), y, 150, 24}, value, 15, ui::themes::Foreground,
+                     ui::TextAlign::Right);
+        };
+        const auto paceText = [](const ReadingStats& stats) {
+            return stats.wordsRead >= readingStats::kMinWordsForPace && stats.secondsRead >= readingStats::kMinSecondsForPace
+                       ? std::to_string(readingStats::pace(stats, 0)) + " wpm"
+                       : std::string{"—"};
+        };
+        ui.label({16, 50, 290, 22}, "This book", 15, ui::themes::Accent);
+        if (hasBook) {
+            row(16, 76, "Time read", readingStats::duration(book.secondsRead));
+            row(16, 100, "Words read", readingStats::count(book.wordsRead));
+            row(16, 124, "Your pace", paceText(book));
+            row(16, 148, "Time left", readingStats::duration(
+                                          readingStats::secondsFor(wordsLeft, readingStats::pace(book, fallbackWpm))));
+        } else {
+            ui.label({16, 76, 290, 24}, "No book open", 13, ui::themes::Muted);
+        }
+        ui::modern::rule(ui, {320, 52, 1, 112});
+        ui.label({334, 50, 290, 22}, "All books", 15, ui::themes::Accent);
+        row(334, 76, "Time read", readingStats::duration(all.secondsRead));
+        row(334, 100, "Words read", readingStats::count(all.wordsRead));
+        row(334, 124, "Your pace", paceText(all));
+        ui.label({334, 148, 290, 20}, "Time left uses your own pace.", 11, ui::themes::Muted);
         return Action::None;
     }
 
