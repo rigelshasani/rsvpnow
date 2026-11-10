@@ -19,14 +19,16 @@ namespace {
     }
 
     void test_catalog_is_unique_and_within_download_cap() {
-        std::set<uint32_t> ids;
+        std::set<std::string> urls;
         std::set<std::string> files;
         size_t count = 0;
         for (const auto& shelf: freebooks::shelves()) {
             TEST_ASSERT_FALSE(shelf.titles.empty());
             for (const auto& title: shelf.titles) {
                 ++count;
-                TEST_ASSERT_TRUE(ids.insert(title.gutenbergId).second);
+                TEST_ASSERT_TRUE(urls.insert(freebooks::downloadUrl(title)).second);
+                // Every title names exactly one source.
+                TEST_ASSERT_TRUE((title.gutenbergId != 0) != !title.standardEbooks.empty());
                 TEST_ASSERT_TRUE(files.insert(freebooks::fileName(title)).second);
                 TEST_ASSERT_TRUE(title.bytes > 0 && title.bytes < freebooks::kMaxDownloadBytes / 4);
                 TEST_ASSERT_FALSE(title.title.empty());
@@ -34,7 +36,7 @@ namespace {
             }
         }
         TEST_ASSERT_EQUAL_UINT32(count, freebooks::titleCount());
-        TEST_ASSERT_EQUAL_UINT32(6, freebooks::shelves().size());
+        TEST_ASSERT_EQUAL_UINT32(8, freebooks::shelves().size());
     }
 
     void test_file_names_are_plain_ascii() {
@@ -58,6 +60,17 @@ namespace {
     void test_urls_and_sizes() {
         TEST_ASSERT_EQUAL_STRING("https://www.gutenberg.org/cache/epub/1342/pg1342.epub",
                                  freebooks::downloadUrl(*find(1342)).c_str());
+        const freebooks::Title plain{0, "Babbitt", "Sinclair Lewis", 1, "sinclair-lewis/babbitt"};
+        TEST_ASSERT_EQUAL_STRING(
+            "https://standardebooks.org/ebooks/sinclair-lewis/babbitt/downloads/sinclair-lewis_babbitt.epub?source=download",
+            freebooks::downloadUrl(plain).c_str());
+        const freebooks::Title translated{0, "Demons", "Fyodor Dostoyevsky", 1,
+                                          "fyodor-dostoevsky/demons/constance-garnett"};
+        TEST_ASSERT_EQUAL_STRING("https://standardebooks.org/ebooks/fyodor-dostoevsky/demons/constance-garnett/downloads/"
+                                 "fyodor-dostoevsky_demons_constance-garnett.epub?source=download",
+                                 freebooks::downloadUrl(translated).c_str());
+        TEST_ASSERT_EQUAL_STRING("Standard Ebooks", std::string{freebooks::sourceName(plain)}.c_str());
+        TEST_ASSERT_EQUAL_STRING("Project Gutenberg", std::string{freebooks::sourceName(*find(1342))}.c_str());
         TEST_ASSERT_EQUAL_STRING("610 KB", freebooks::sizeLabel(609138).c_str());
         TEST_ASSERT_EQUAL_STRING("88 KB", freebooks::sizeLabel(87914).c_str());
         TEST_ASSERT_EQUAL_STRING("1.8 MB", freebooks::sizeLabel(1802784).c_str());
@@ -75,6 +88,12 @@ namespace {
         TEST_ASSERT_FALSE(freebooks::sameBook(emma, "/x.epub", "Emmanuel"));
         TEST_ASSERT_FALSE(freebooks::sameBook(emma, "/x.epub", ""));
         TEST_ASSERT_TRUE(freebooks::sameBook(*find(135), "/x.epub", "LES MISERABLES"));
+        // Standard Ebooks calls several collections "Short Fiction"; one must not stand for all.
+        std::set<std::string> keys;
+        for (const auto& shelf: freebooks::shelves())
+            for (const auto& title: shelf.titles)
+                TEST_ASSERT_TRUE_MESSAGE(keys.insert(freebooks::matchKey(title.title)).second,
+                                         std::string{title.title}.c_str());
         TEST_ASSERT_TRUE(freebooks::sameBook(*find(1184), "/library/books/dumas-count-of-monte-cristo.epub",
                                              "The Count of Monte Cristo"));
     }

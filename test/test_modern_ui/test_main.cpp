@@ -224,19 +224,19 @@ void test_free_shelf_downloads_the_selected_title_or_opens_an_owned_one() {
     std::vector<BookLibrary::Entry> library;
     const auto draw = [&] { return free.draw(f.ui, library, f.screen); };
     f.frame(draw);
-    f.tap(draw, 320, 75);  // Adventure
+    f.tap(draw, 400, 75);  // Adventure, third of four on the top row
     TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::FreeShelf), static_cast<int>(f.screen));
     f.frame(draw);
     TEST_ASSERT_EQUAL_UINT32(1184, free.selected().gutenbergId);
     f.tap(draw, 414, 138);  // down
-    TEST_ASSERT_EQUAL_UINT32(1259, free.selected().gutenbergId);
+    TEST_ASSERT_EQUAL_UINT32(1257, free.selected().gutenbergId);
     f.tap(draw, 200, 145);  // third row
-    TEST_ASSERT_EQUAL_UINT32(120, free.selected().gutenbergId);
+    TEST_ASSERT_EQUAL_UINT32(1259, free.selected().gutenbergId);
     TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::DownloadFreeBook), static_cast<int>(f.tap(draw, 540, 144)));
-    library.push_back({.path = "/library/books/Treasure Island - Robert Louis Stevenson.epub"});
+    library.push_back({.path = "/library/books/Twenty Years After - Alexandre Dumas.epub"});
     f.frame(draw);
     TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::OpenFreeBook), static_cast<int>(f.tap(draw, 540, 144)));
-    TEST_ASSERT_EQUAL_STRING("/library/books/Treasure Island - Robert Louis Stevenson.epub",
+    TEST_ASSERT_EQUAL_STRING("/library/books/Twenty Years After - Alexandre Dumas.epub",
                              std::string{free.selectedPath()}.c_str());
     free.setMessage("Set up Wi-Fi first");
     f.frame(draw);

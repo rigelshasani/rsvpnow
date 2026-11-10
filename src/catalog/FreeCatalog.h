@@ -5,15 +5,18 @@
 #include <string>
 #include <string_view>
 
-// Built-in shelves of public-domain books that the reader can download over
-// Wi-Fi from Project Gutenberg. Pure data and string helpers: no hardware.
+// Built-in shelves of public-domain books that the reader can download over Wi-Fi from
+// Project Gutenberg and Standard Ebooks. Pure data and string helpers: no hardware.
 namespace freebooks {
 
     struct Title {
         uint32_t gutenbergId = 0;
         std::string_view title;
         std::string_view author;
-        uint32_t bytes = 0;  // Gutenberg's image-free EPUB when the catalog was checked
+        uint32_t bytes = 0;  // The EPUB's size when the catalog was checked
+        // Standard Ebooks path, "author/title" or "author/title/translator", for titles that
+        // come from there instead of Project Gutenberg (gutenbergId is then 0).
+        std::string_view standardEbooks = {};
     };
 
     struct Shelf {
@@ -29,6 +32,8 @@ namespace freebooks {
     size_t titleCount();
 
     std::string downloadUrl(const Title& title);
+    // "Project Gutenberg" or "Standard Ebooks"
+    std::string_view sourceName(const Title& title);
     // "Pride and Prejudice - Jane Austen.epub": ASCII, safe on FAT32.
     std::string fileName(const Title& title);
     // "0.6 MB" / "87 KB"

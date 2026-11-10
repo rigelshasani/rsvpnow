@@ -38,13 +38,14 @@ namespace screens {
     }
 
     Action FreeBooksScreen::drawShelves(ui::Context& ui, Screen& screen) {
-        if (const auto action = modern::header(ui, "Free books", screen, Screen::GetBooks, "Project Gutenberg");
+        if (const auto action = modern::header(ui, "Free books", screen, Screen::GetBooks, "Public domain");
             action != Action::None)
             return action;
         const auto shelves = freebooks::shelves();
-        for (size_t i = 0; i < shelves.size() && i < 6; ++i) {
-            const ui::Rect rect{static_cast<int16_t>(12 + (i % 3) * 207), static_cast<int16_t>(i < 3 ? 51 : 111), 202,
-                                static_cast<int16_t>(i < 3 ? 52 : 53)};
+        // Two rows of four.
+        for (size_t i = 0; i < shelves.size() && i < 8; ++i) {
+            const ui::Rect rect{static_cast<int16_t>(12 + (i % 4) * 155), static_cast<int16_t>(i < 4 ? 51 : 111), 151,
+                                static_cast<int16_t>(i < 4 ? 52 : 53)};
             const std::string count = std::to_string(shelves[i].titles.size()) + " books";
             if (button(ui, rect, shelves[i].name, Style::Secondary, true, count, 13)) {
                 if (shelf_ != i) {
@@ -100,7 +101,8 @@ namespace screens {
         } else {
             ui.label({460, 90, 164, 15}, title.author, 11, ui::themes::Muted);
             ui.label({460, 105, 164, 15},
-                     owned ? std::string{"On your reader"} : freebooks::sizeLabel(title.bytes) + " · public domain (US)",
+                     owned ? std::string{"On your reader"}
+                           : freebooks::sizeLabel(title.bytes) + " · " + std::string{freebooks::sourceName(title)},
                      11, ui::themes::Muted);
         }
         if (message_ == kNeedsWifi) {

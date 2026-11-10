@@ -29,9 +29,9 @@ community-powered, with detailed settings and room to experiment.
 **rsvpnow** is a personal fork of [RSVP Nano](https://github.com/ionutdecebal/rsvpnano) for the
 Waveshare ESP32-S3-Touch-LCD-3.49 Rev2. It builds on the New UI and adds:
 
-- **Free books over Wi-Fi.** Library → **+ Add** → **Free books** downloads 70 public-domain classics
-  from Project Gutenberg on six shelves. Gutenberg's licence pages are skipped, so a book opens on the
-  work itself. See [docs/free-books.md](docs/free-books.md).
+- **Free books over Wi-Fi.** Library → **+ Add** → **Free books** downloads 201 public-domain books
+  from Project Gutenberg and Standard Ebooks on eight shelves. Licence, imprint and colophon pages are
+  skipped, so a book opens on the work itself. See [docs/free-books.md](docs/free-books.md).
 - **Add books, in one place.** Free books, USB transfer, the companion, and a short list of shops that
   sell books without DRM.
 - **Rigels Studio** ([desktop/](desktop/README.md)), a desktop app that times every word exactly like the

@@ -92,7 +92,8 @@ namespace freebooks {
             std::snprintf(line, sizeof(line), "%s of %s", sizeLabel(done).c_str(), sizeLabel(whole).c_str());
             status(line, "Middle button cancels", percent);
         }};
-        status("Downloading from Project Gutenberg", "Middle button cancels", 0);
+        const std::string from = "Downloading from " + std::string{sourceName(title)};
+        status(from.c_str(), "Middle button cancels", 0);
         const auto result = net::download(downloadUrl(title), kMaxDownloadBytes, 0,
                                           [&](const uint8_t* data, size_t count) {
                                               return file.write(data, count) == count;
