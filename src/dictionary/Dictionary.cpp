@@ -31,11 +31,11 @@ void Dictionary::open(ReadingSession& session) {
 }
 void Dictionary::lookup(){
     query_=normalized(query_);
-    definition_={};sense_=0;definitionOffsets_={0};
+    definition_={};sense_=0;definitionOffsets_={0};packMissing_=false;
     if (!recoverInstall()) { message="SD dictionary recovery needed; check the card"; return; }
     if(query_.empty()){message="Open a book or search for a word";return;}
     auto pack=Board::Storage::filesystem().open("/dictionaries/english.oewn",FILE_READ);
-    if(!pack){message="Install english.oewn in /dictionaries on the SD card";return;}
+    if(!pack){packMissing_=true;message="No dictionary on this reader yet.\nDownload it once over Wi-Fi, then look words up offline.";return;}
     std::string result;
     const bool found=findDefinition([&](uint32_t offset,uint8_t* dest,size_t count){return pack.seek(offset)&&pack.read(dest,count)==count;},pack.size(),normalized(query_),result);
     if(!found){message="No offline entry · try Search or Look online";return;}

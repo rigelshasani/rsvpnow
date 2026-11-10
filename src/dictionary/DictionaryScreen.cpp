@@ -46,7 +46,11 @@ screens::Action Dictionary::draw(ui::Context& ui,ReadingSession& session,screens
         ui.label({16,91,190,24},definition_.senses.empty()?"Offline first":"Meaning "+std::to_string(sense_+1)+" · page "+std::to_string(definitionOffsets_.size()),12,ui::themes::Muted);
         if(button(ui,{16,120,88,44},"‹ Word",Style::Secondary,lookupWord_>0,{},12)){--lookupWord_;query_=std::string(ReadingLoop::wordAt(session,lookupWord_));lookup();}
         if(button(ui,{114,120,92,44},"Word ›",Style::Secondary,lookupWord_+1<ReadingLoop::wordCount(session),{},12)){++lookupWord_;query_=std::string(ReadingLoop::wordAt(session,lookupWord_));lookup();}
-        if(definition_.senses.empty())ui.label({226,54,398,104},message,16,ui::themes::Muted,ui::TextAlign::Start,4);
+        if(definition_.senses.empty()&&packMissing_){
+            ui.label({226,50,398,62},message,15,ui::themes::Muted,ui::TextAlign::Start,3);
+            if(button(ui,{226,120,240,44},"Install dictionary",Style::Primary,true,{},14))return Action::OpenDictionarySetup;
+        }
+        else if(definition_.senses.empty())ui.label({226,54,398,104},message,16,ui::themes::Muted,ui::TextAlign::Start,4);
         else{
             sense_=std::min(sense_,definition_.senses.size()-1);const auto& sense=definition_.senses[sense_];
             const std::string body=sense.pos+" · "+sense.definition+(sense.example.empty()?"":" Example: "+sense.example);

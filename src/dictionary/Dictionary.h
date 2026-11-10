@@ -22,6 +22,8 @@ public:
     void open(ReadingSession&);
     screens::Action draw(ui::Context&, ReadingSession&, screens::Screen&, uint32_t);
     void lookupOnline(settings::SettingsStore&);
+    // Look the current word up again, after a dictionary has been installed.
+    void refresh() { lookup(); }
     std::string message;
 private:
     void lookup();
@@ -30,6 +32,7 @@ private:
     size_t sense_ = 0;
     std::vector<size_t> definitionOffsets_{0};
     uint32_t lookupWord_ = 0;
+    bool packMissing_ = false;
     ui::KeyboardState keyboard_;
 };
 }

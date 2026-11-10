@@ -992,6 +992,8 @@ void App::updateBackgroundJob() {
         }
         if (completed == JobKind::DictionaryInstall) {
             dictionarySetup_.installed = dictionary::installedPack();
+            if (dictionarySetup_.installed)
+                dictionary_.refresh();
             dictionarySetup_.confirming = false;
             dictionarySetup_.message = update.line1;
             if (update.line2[0]) dictionarySetup_.message += std::string{" · "} + update.line2;
