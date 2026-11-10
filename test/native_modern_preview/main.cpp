@@ -565,6 +565,25 @@ namespace locales {
         reader.session.metadata.chapters={{"Chapter 1",0},{"Chapter 2",2}};now+=1000;reader.resumeNow(now);
         while(reader.session.state.wordIndex<2 && now<20000){now+=20;frame();}
         now+=150;frame();assert(reader.session.state.wordIndex>=3);
+        // Rewind on resume: a short pause picks up where it stopped; a break restarts the sentence,
+        // a long one goes a sentence further back, never before the chapter.
+        {
+            config.pacing.chapterPause=true;config.pauseMode=settings::PauseMode::instant;
+            const std::vector<std::string> text{"One","two.","Three","four","five.","Six","seven","eight."};
+            ReadingLoop::setWords(reader.session,text,0);reader.session.metadata.chapters={};
+            const auto pauseAt=[&](size_t index){ReadingLoop::seekTo(reader.session,index);reader.pauseImmediately(preferences,now);};
+            pauseAt(6);now+=60'000;reader.resumeNow(now);assert(reader.session.state.wordIndex==6);
+            pauseAt(6);now+=3*60'000;reader.resumeNow(now);assert(reader.session.state.wordIndex==5);
+            pauseAt(6);now+=31*60'000;reader.resumeNow(now);assert(reader.session.state.wordIndex==2);
+            reader.session.metadata.chapters={{"One",0},{"Two",5}};
+            pauseAt(6);now+=31*60'000;reader.resumeNow(now);assert(reader.session.state.wordIndex==5);
+            pauseAt(6);ReadingLoop::seekTo(reader.session,7);now+=31*60'000;reader.resumeNow(now);
+            assert(reader.session.state.wordIndex==7);  // moved by hand while paused
+            config.pacing.rewindOnResume=false;
+            pauseAt(6);now+=31*60'000;reader.resumeNow(now);assert(reader.session.state.wordIndex==6);
+            reader.pauseImmediately(preferences,now);
+        }
+        std::puts("Rewind on resume: none after a minute, sentence start after three, one more after half an hour; stops at the chapter and respects a hand-chosen place.");
         std::puts("Chapter pause: the new chapter's title holds for 1.5 s, then its first word gets full time; off reads straight through.");
     }
 

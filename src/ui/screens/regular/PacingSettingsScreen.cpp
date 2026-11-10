@@ -16,6 +16,11 @@ namespace screens {
                 config.chapterPause = !config.chapterPause;
                 changed = true;
             }
+            if (button(ui, {166, 111, 148, 53}, "Rewind on resume", Style::Secondary, true, onOff(config.rewindOnResume),
+                       13)) {
+                config.rewindOnResume = !config.rewindOnResume;
+                changed = true;
+            }
             if (ui::modern::button(ui,{480,111,148,53},ui.text(UiText::Reset),ui::modern::Style::Secondary)) {
                 changed |= config != settings::PacingSettings{}; config = {};
             }

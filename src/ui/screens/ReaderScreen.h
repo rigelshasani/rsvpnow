@@ -192,6 +192,11 @@ namespace screens {
         bool pagePreview_ = false;
         // While set, the title of the chapter just reached shows in place of the word.
         uint32_t chapterCardUntilMs_ = 0;
+        // When and where reading last paused, to rewind a little after a break.
+        uint32_t pausedAtMs_ = 0;
+        size_t pausedWordIndex_ = SIZE_MAX;
+        bool pauseTimeKnown_ = false;
+        void rewindAfterBreak(uint32_t nowMs);
         bool chapterCardActive(uint32_t nowMs) const { return chapterCardUntilMs_ != 0 && nowMs < chapterCardUntilMs_; }
         uint32_t paragraphTickMs_ = 0;
         int32_t paragraphRemainder_ = 0;

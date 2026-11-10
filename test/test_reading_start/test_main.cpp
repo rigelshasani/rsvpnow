@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "reader/ReadingStart.h"
+#include "reader/ResumePolicy.h"
 #include "text/ChapterHeading.h"
 
 void setUp() {}
@@ -78,6 +79,15 @@ namespace {
             TEST_ASSERT_FALSE_MESSAGE(RsvpText::numbersHeading(prose), prose);
     }
 
+    void test_rewind_grows_with_the_break() {
+        TEST_ASSERT_EQUAL_UINT8(0, ResumePolicy::rewindSentences(0));
+        TEST_ASSERT_EQUAL_UINT8(0, ResumePolicy::rewindSentences(119'000));
+        TEST_ASSERT_EQUAL_UINT8(1, ResumePolicy::rewindSentences(120'000));
+        TEST_ASSERT_EQUAL_UINT8(1, ResumePolicy::rewindSentences(29 * 60'000));
+        TEST_ASSERT_EQUAL_UINT8(2, ResumePolicy::rewindSentences(30 * 60'000));
+        TEST_ASSERT_EQUAL_UINT8(2, ResumePolicy::rewindSentences(ResumePolicy::kUnknownBreak));
+    }
+
     void test_unsure_cases_start_at_the_beginning() {
         TEST_ASSERT_EQUAL_UINT32(0, start({}, 5000));
         TEST_ASSERT_EQUAL_UINT32(0, start({{"Chapter 1", 0}, {"Chapter 2", 900}}, 9000));
@@ -97,6 +107,7 @@ int main() {
     RUN_TEST(test_short_author_block_is_skipped);
     RUN_TEST(test_contents_list_under_another_heading_is_skipped);
     RUN_TEST(test_text_headings_need_a_number_not_just_the_word);
+    RUN_TEST(test_rewind_grows_with_the_break);
     RUN_TEST(test_unsure_cases_start_at_the_beginning);
     return UNITY_END();
 }

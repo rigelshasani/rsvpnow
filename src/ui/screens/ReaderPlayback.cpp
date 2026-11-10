@@ -1,4 +1,6 @@
 #include "ui/screens/ReaderScreen.h"
+
+#include "reader/ResumePolicy.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
@@ -57,7 +59,27 @@ namespace screens {
             finishPause(preferences, nowMs);
     }
 
+    void ReaderScreen::rewindAfterBreak(uint32_t nowMs) {
+        const size_t pausedAt = pausedWordIndex_;
+        pausedWordIndex_ = SIZE_MAX;
+        // A place chosen while paused (a chapter, a search result, a scrub) is where to start.
+        if (!settings_.pacing.rewindOnResume || pausedAt != session.state.wordIndex)
+            return;
+        const uint32_t breakMs = !pauseTimeKnown_ ? ResumePolicy::kUnknownBreak
+                               : nowMs >= pausedAtMs_ ? nowMs - pausedAtMs_ : 0;
+        const uint8_t sentences = ResumePolicy::rewindSentences(breakMs);
+        if (sentences == 0)
+            return;
+        const ChapterMarker* chapter = session.metadata.chapterAt(pausedAt);
+        const size_t floor = chapter == nullptr ? 0 : chapter->wordIndex;
+        for (uint8_t i = 0; i < sentences && session.state.wordIndex > floor; ++i)
+            ReadingLoop::rewindSentence(session);
+        if (session.state.wordIndex < floor)
+            ReadingLoop::seekTo(session, floor);
+    }
+
     void ReaderScreen::start(uint32_t nowMs, bool locked) {
+        rewindAfterBreak(nowMs);
         chapterCardUntilMs_ = 0;
         pagePreview_ = false;
         pageBrowsing_ = false;
@@ -97,6 +119,9 @@ namespace screens {
     void ReaderScreen::finishPause(Preferences& preferences, uint32_t nowMs) {
         chapterCardUntilMs_ = 0;
         ReadingLoop::pause(session);
+        pausedAtMs_ = nowMs;
+        pauseTimeKnown_ = true;
+        pausedWordIndex_ = session.state.wordIndex;
         pauseAtSentenceEndRequested_ = false;
         playLocked_ = false;
         ReadingProgress::save(session, preferences, true, nowMs);

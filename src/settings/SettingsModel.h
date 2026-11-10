@@ -88,6 +88,8 @@ namespace settings {
         BoundedValue<uint16_t, 0, 600, 50> punctuationDelayMs{200};
         // Hold on the chapter's title for a moment where a new chapter begins.
         bool chapterPause = true;
+        // After a break, start again a sentence or two back.
+        bool rewindOnResume = true;
 
         bool operator==(const PacingSettings&) const = default;
     };
