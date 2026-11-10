@@ -263,6 +263,36 @@ void test_chapter_browsing_only_seeks_on_explicit_open() {
     TEST_ASSERT_EQUAL(20, reader.state.wordIndex);
 }
 
+void test_hardware_buttons_step_through_chapters_without_seeking() {
+    Fixture f;
+    f.screen = screens::Screen::Chapters;
+    screens::ChaptersScreen chapters;
+    ReadingSession reader;
+    const std::vector<std::string> words(30, "word");
+    ReadingLoop::setWords(reader, words, 0);
+    const std::array<ChapterMarker, 3> markers{{{"First", 0}, {"Second", 10}, {"Third", 20}}};
+    settings::ReadingSettings settings;
+    const auto draw = [&] { return chapters.draw(f.ui, markers, reader, settings, f.time, f.screen); };
+    f.frame(draw);
+    // PWR at the top of the list stays on the first chapter; BOOT moves down one.
+    screens::modern::pendingListStep = -1;
+    f.frame(draw);
+    screens::modern::pendingListStep = 1;
+    f.frame(draw);
+    TEST_ASSERT_EQUAL(0, screens::modern::pendingListStep);
+    TEST_ASSERT_EQUAL(0, reader.state.wordIndex);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::Resume), static_cast<int>(f.tap(draw, 550, 140)));
+    TEST_ASSERT_EQUAL(10, reader.state.wordIndex);
+    // Past the end stays on the last chapter.
+    screens::modern::pendingListStep = 5;
+    f.frame(draw);
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::Resume), static_cast<int>(f.tap(draw, 550, 140)));
+    TEST_ASSERT_EQUAL(20, reader.state.wordIndex);
+    TEST_ASSERT_TRUE(screens::modern::steppedByButtons(screens::Screen::Library));
+    TEST_ASSERT_FALSE(screens::modern::steppedByButtons(screens::Screen::Reader));
+    TEST_ASSERT_FALSE(screens::modern::steppedByButtons(screens::Screen::Read));
+}
+
 void test_settings_and_connections_keep_existing_actions() {
     Fixture f;
     f.screen = screens::Screen::Settings;
@@ -638,6 +668,7 @@ int main() {
     RUN_TEST(test_add_books_routes_to_free_books_usb_and_companion);
     RUN_TEST(test_free_shelf_downloads_the_selected_title_or_opens_an_owned_one);
     RUN_TEST(test_chapter_browsing_only_seeks_on_explicit_open);
+    RUN_TEST(test_hardware_buttons_step_through_chapters_without_seeking);
     RUN_TEST(test_settings_and_connections_keep_existing_actions);
     RUN_TEST(test_preview_fonts_navigation_symbols_and_two_line_book_title);
     RUN_TEST(test_reader_controls_respect_visibility_and_do_not_cover_the_word);

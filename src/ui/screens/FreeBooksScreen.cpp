@@ -68,7 +68,7 @@ namespace screens {
             return action;
 
         // Swipe up for later titles, like the chapter list.
-        if (const int swipe = swipe_.update(ui, {16, 52, 358, 112}); swipe != 0)
+        if (const int swipe = swipe_.update(ui, {16, 52, 358, 112}) + modern::takeListStep(); swipe != 0)
             select(std::clamp<int>(static_cast<int>(index_) + swipe, 0, static_cast<int>(titles.size()) - 1));
         if (ui::modern::arrow(ui, {386, 52, 56, 52}, Direction::Up, index_ > 0))
             select(index_ - 1);

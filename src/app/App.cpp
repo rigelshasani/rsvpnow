@@ -788,6 +788,22 @@ void App::handleInput(Input::ActionMask actions, uint32_t nowMs) {
         }
         return;
     }
+    // In a list, short presses step through it: PWR up, BOOT down. Holding either still
+    // powers off or sleeps, and the on-screen back button leaves the list.
+    screens::modern::pendingListStep = 0;
+    if (immediateUi_.modernPresentation() && screens::modern::steppedByButtons(screen_)
+        && !Input::hasAction(actions, Input::ActionPowerOff) && !Input::hasAction(actions, Input::ActionStandby)
+        && !Input::hasAction(actions, Input::ActionSwitchApp)) {
+        if (Input::hasAction(actions, Input::ActionSelect))
+            screens::modern::pendingListStep = 1;
+        else if (Input::hasAction(actions, Input::ActionBack))
+            screens::modern::pendingListStep = -1;
+        if (screens::modern::pendingListStep != 0) {
+            immediateUi_.invalidate();
+            renderScreen(nowMs);
+            return;
+        }
+    }
     if (Input::hasAction(actions, Input::ActionOpenMenu)) {
         if (screen_ == screens::Screen::Reader) {
             ReadingProgress::save(readerScreen_.session, prefs_, true, nowMs);

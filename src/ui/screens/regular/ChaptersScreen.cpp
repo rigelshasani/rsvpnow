@@ -90,6 +90,9 @@ namespace screens {
                 }
                 if (ui::hasTouch(*touch, ui::TouchRelease)) dragging_ = false;
             }
+            if (const int step = modern::takeListStep(); step != 0)
+                centeredIndex_ = static_cast<size_t>(std::clamp<int64_t>(
+                    static_cast<int64_t>(centeredIndex_) + step, 0, static_cast<int64_t>(chapters.size()) - 1));
             if (ui::modern::arrow(ui, {386, 52, 56, 52}, Direction::Up, centeredIndex_ > 0)) --centeredIndex_;
             if (ui::modern::arrow(ui, {386, 112, 56, 52}, Direction::Down, centeredIndex_ + 1 < chapters.size()))
                 ++centeredIndex_;

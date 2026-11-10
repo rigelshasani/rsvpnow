@@ -118,7 +118,7 @@ void ReaderScreen::drawLocator(ui::Context& ui,Screen& screen,Preferences& prefe
     }
     if(screen==Screen::BookSearch) {
         updateSearch();
-        const int swipe=locatorSwipe_.update(ui,{12,48,550,120});
+        const int swipe=locatorSwipe_.update(ui,{12,48,550,120})+modern::takeListStep();
         if(swipe>0 && (searchPage_+1)*2<searchResults_.size()) ++searchPage_;
         if(swipe<0 && searchPage_>0) --searchPage_;
         if(button(ui,{8,0,102,44},"‹ Find place",Style::Plain)) screen=Screen::FindPlace;
@@ -147,7 +147,7 @@ void ReaderScreen::drawLocator(ui::Context& ui,Screen& screen,Preferences& prefe
         ui.label({124,0,364,44},"Choose a chapter to preview",16);
         const auto& chapters=session.metadata.chapters;
         const size_t pages=std::max<size_t>(1,(chapters.size()+1)/2);
-        const int swipe=locatorSwipe_.update(ui,{12,48,550,120});
+        const int swipe=locatorSwipe_.update(ui,{12,48,550,120})+modern::takeListStep();
         if(swipe>0 && findChapterPage_+1<pages) ++findChapterPage_;
         if(swipe<0 && findChapterPage_>0) --findChapterPage_;
         findChapterPage_=std::min(findChapterPage_,pages-1);

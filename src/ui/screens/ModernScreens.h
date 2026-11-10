@@ -25,6 +25,18 @@ namespace screens::modern {
             return false;
         }
     }
+    // BOOT and PWR step through lists: the app queues a step and the list on screen takes it.
+    // Positive moves down the list.
+    inline int pendingListStep = 0;
+    inline int takeListStep() {
+        const int step = pendingListStep;
+        pendingListStep = 0;
+        return step;
+    }
+    constexpr bool steppedByButtons(Screen screen) {
+        return screen == Screen::Chapters || screen == Screen::Library || screen == Screen::FindChapters
+            || screen == Screen::BookSearch || screen == Screen::FreeShelf;
+    }
     // Reuse existing locale keys without changing the installed pack/API schema.
     inline std::string_view caption(ui::Context& ui, UiText key, std::string_view english) {
         const auto localized = ui.text(key);

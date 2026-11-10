@@ -112,7 +112,7 @@ namespace screens::modern {
             if(button(ui,{334,128,290,36},"Wi-Fi settings",Style::Secondary,true,{},13))screen=Screen::NetworkSettings;
         } else if (current == Screen::Help) {
             ui.label({16, 52, 608, 112},
-                     "BOOT starts or pauses reading.\nPWR switches between the menu and your book.\nPage scrolls by touch. Find place previews a jump.\nFocus runs in the background; breaks pause reading.",
+                     "BOOT starts or pauses reading.\nPWR switches between the menu and your book.\nIn lists, PWR moves up and BOOT moves down.\nHold PWR to turn off. Hold BOOT to sleep.",
                      13, ui::themes::Foreground, ui::TextAlign::Start, 4);
         }
         return Action::None;

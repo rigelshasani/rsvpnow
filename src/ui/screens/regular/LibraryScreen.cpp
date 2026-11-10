@@ -152,8 +152,10 @@ namespace screens {
                 if (button(ui, {448, 80, 176, 56}, ui.text(UiText::Add), Style::Primary)) screen = Screen::GetBooks;
                 return Action::None;
             }
-            const bool previous = ui::modern::arrow(ui, {16, 56, 56, 104}, Direction::Left, items.size() > 1);
-            const bool next = ui::modern::arrow(ui, {408, 56, 56, 104}, Direction::Right, items.size() > 1);
+            const int step = modern::takeListStep();
+            const bool previous =
+                ui::modern::arrow(ui, {16, 56, 56, 104}, Direction::Left, items.size() > 1) || step < 0;
+            const bool next = ui::modern::arrow(ui, {408, 56, 56, 104}, Direction::Right, items.size() > 1) || step > 0;
             if (previous) selectedIndex_ = selectedIndex_ == 0 ? items.size() - 1 : selectedIndex_ - 1;
             if (next) selectedIndex_ = (selectedIndex_ + 1) % items.size();
             const auto& item = items[selectedIndex_];
