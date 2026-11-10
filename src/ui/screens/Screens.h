@@ -201,7 +201,7 @@ namespace screens {
         }
         bool breakVisible() const { return manualActive_ && session_.phase() != focus::Phase::Focus
                                                     && session_.phase() != focus::Phase::PausedFocus; }
-        std::string badge(uint32_t nowMs) const;
+        std::string badge(const ui::Context& ui, uint32_t nowMs) const;
 
 
     private:

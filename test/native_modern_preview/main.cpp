@@ -289,11 +289,11 @@ namespace {
         screen = screens::Screen::FocusTimers; ui.invalidate(); frame(false, 0, 0);
         tap(500, 68); assert(screen == screens::Screen::Reader && focus.active());
         screen=screens::Screen::FocusSession;focusNow=1000;frame(false,0,0);
-        tap(420,135);assert(focus.badge(focusNow)=="Paused 24:59");
+        tap(420,135);assert(focus.badge(ui,focusNow)=="Paused 24:59");
         verifyPhaseRedraw();
         focusNow+=30000;focus.update(focusNow);
-        assert(focus.badge(focusNow)=="Paused 24:59");
-        tap(500,76);assert(screen==screens::Screen::Reader && focus.badge(focusNow)=="Focus 24:59");
+        assert(focus.badge(ui,focusNow)=="Paused 24:59");
+        tap(500,76);assert(screen==screens::Screen::Reader && focus.badge(ui,focusNow)=="Focus 24:59");
         // Running timer survives leaving the timer screen and ignores orientation.
         screen=screens::Screen::FocusSession;frame(false,0,0);
         frame(true,420,135); // Pause becomes part of End Focus when a break begins.
@@ -665,6 +665,27 @@ int main(int argc, char** argv) {
         {screens::Screen::FreeBooks,"free-books"}, {screens::Screen::FreeShelf,"free-shelf"},
         {screens::Screen::FreeShelf,"free-shelf-owned"}, {screens::Screen::FreeShelf,"free-shelf-wifi"},
         {screens::Screen::FreeShelf,"free-shelf-paper"},
+        // The same screens in German and Romanian, to catch text that no longer fits.
+        {screens::Screen::FreeBooks,"free-books-de"},
+        {screens::Screen::FreeShelf,"free-shelf-de"},
+        {screens::Screen::ReadingStats,"reading-stats-de"},
+        {screens::Screen::Read,"menu-stats-de"},
+        {screens::Screen::PacingSettings,"pacing-de"},
+        {screens::Screen::Dictionary,"dictionary-missing-pack-de"},
+        {screens::Screen::Device,"device-de"},
+        {screens::Screen::Help,"help-de"},
+        {screens::Screen::GetBooks,"get-books-de"},
+        {screens::Screen::FocusTimers,"focus-de"},
+        {screens::Screen::FreeBooks,"free-books-ro"},
+        {screens::Screen::FreeShelf,"free-shelf-ro"},
+        {screens::Screen::ReadingStats,"reading-stats-ro"},
+        {screens::Screen::Read,"menu-stats-ro"},
+        {screens::Screen::PacingSettings,"pacing-ro"},
+        {screens::Screen::Dictionary,"dictionary-missing-pack-ro"},
+        {screens::Screen::Device,"device-ro"},
+        {screens::Screen::Help,"help-ro"},
+        {screens::Screen::GetBooks,"get-books-ro"},
+        {screens::Screen::FocusTimers,"focus-ro"},
     };
     // A card that already holds one catalog title, once by file name and once by EPUB title.
     const std::vector<BookLibrary::Entry> freeLibrary{
@@ -672,6 +693,7 @@ int main(int argc, char** argv) {
         {.path = "/library/books/frankenstein.epub", .title = "Frankenstein; or, The Modern Prometheus"}};
     for (const auto& [view, name] : views) {
         const auto viewTheme = std::string_view{name}.ends_with("-paper") ? ui::modern::paperTheme() : theme;
+        ui.setLocale(std::string_view{name}.ends_with("-de") ? "de" : std::string_view{name}.ends_with("-ro") ? "ro" : "en");
         ui.setTheme(viewTheme);
         auto screen = view;
         reading.mode=std::string_view{name}.ends_with("-chunks")?settings::ReadingMode::chunks:settings::ReadingMode::rsvp;
@@ -712,13 +734,14 @@ int main(int argc, char** argv) {
             ui.setStartupPresentation(false);
             break;
         case screens::Screen::Dictionary:
-            dictionary.open(reader);dictionary.draw(ui,reader,screen,0);break;
+            dictionary::previewCase=std::string_view{name}.starts_with("dictionary-missing-pack")?"missing-pack":"";
+            dictionary.open(reader);dictionary.draw(ui,reader,screen,0);dictionary::previewCase.clear();break;
         case screens::Screen::QuickControls:screens::modern::quickControls(ui,reading,interface,screen);break;
         case screens::Screen::Help:screens::OnboardingScreen::help(ui,reading,screen);break;
         case screens::Screen::Read:
-            if (std::string_view{name} == "menu-stats")
+            if (std::string_view{name}.starts_with("menu-stats"))
                 screens::modern::menu(ui, book.title, book.author, 42, true, interface, screen, 3,
-                                      screens::modern::bookStatus({.wordsRead = 21000, .secondsRead = 4200}, 56000, 300));
+                                      screens::modern::bookStatus(ui, {.wordsRead = 21000, .secondsRead = 4200}, 56000, 300));
             else
                 screens::modern::menu(ui, book.title, book.author, 42, true, interface, screen);
             break;
@@ -780,7 +803,7 @@ int main(int argc, char** argv) {
         }
         if (std::string_view{name} == "focus-paused") {
             tap(420,135,[&]{focus.draw(ui,0,screen);});
-            assert(focus.badge(0)=="Paused 25:00");
+            assert(focus.badge(ui,0)=="Paused 25:00");
             ui.beginFrame(static_cast<uint8_t>(screen),focus.frameSurface(screen));focus.draw(ui,0,screen);ui.endFrame();
         }
         const auto path = std::filesystem::path{argv[1]} / (std::string{name} + ".ppm");

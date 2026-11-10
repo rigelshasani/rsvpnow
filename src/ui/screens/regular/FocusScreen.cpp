@@ -9,32 +9,36 @@
 #include "storage/fs/StoragePaths.h"
 #include "focus/FocusTimerStorage.h"
 #include "ui/screens/ModernScreens.h"
+#include "ui/screens/OnboardingCopy.h"
+
+using screens::modern::tr;
+using screens::modern::trf;
 
 namespace screens {
     Action FocusScreen::drawTimers(ui::Context& ui, Screen& screen) {
         if (ui.modernPresentation()) {
-            if (auto action = modern::header(ui, modern::caption(ui, UiText::Focus, "Start Focus"), screen);
+            if (auto action = modern::header(ui, modern::caption(ui, UiText::Focus, tr(ui,"Start Focus")), screen);
                 action != Action::None) return action;
             using ui::modern::button;
             using ui::modern::Style;
             const size_t count = timers_.timers.size();
             if (count == 0) {
-                ui.label({16, 52, 330, 64}, "Make a little time for a book.", 21, ui::themes::Foreground, ui::TextAlign::Start, 2);
+                ui.label({16, 52, 330, 64}, tr(ui,"Make a little time for a book."), 21, ui::themes::Foreground, ui::TextAlign::Start, 2);
                 if (button(ui, {384, 92, 240, 48}, ui.text(UiText::Add), Style::Primary, writable_)) edit(0, true, screen);
                 return Action::None;
             }
             selectedIndex_ = std::min(selectedIndex_, count - 1);
-            ui.label({16, 51, 338, 22}, "TIME, SET ASIDE", 11, ui::themes::Muted);
+            ui.label({16, 51, 338, 22}, tr(ui,"TIME, SET ASIDE"), 11, ui::themes::Muted);
             if (button(ui, {16, 84, 46, 44}, "‹", Style::Secondary, count > 1, {}, 26)) selectedIndex_ = (selectedIndex_ + count - 1) % count;
             if (button(ui, {270, 84, 46, 44}, "›", Style::Secondary, count > 1, {}, 26)) selectedIndex_ = (selectedIndex_ + 1) % count;
             const auto& timer = timers_.timers[selectedIndex_];
             ui.label({76, 74, 104, 61}, std::to_string(timer.focusMinutes), 39, ui::themes::Foreground, ui::TextAlign::Center);
             ui.label({182, 88, 78, 35}, "minutes", 13, ui::themes::Muted);
-            ui.label({16, 137, 340, 26}, timer.name + " · " + std::to_string(timer.breakMinutes) + "m break · ×" + std::to_string(timer.rounds), 13, ui::themes::Muted);
-            if (button(ui, {384, 52, 240, 34}, orientation_.available() ? "Start full screen" : ui.text(UiText::ImuUnavailable), Style::Primary, orientation_.available())) {
+            ui.label({16, 137, 340, 26}, timer.name + " · " + trf(ui, "{}m break · ×{}", {std::to_string(timer.breakMinutes), std::to_string(timer.rounds)}), 13, ui::themes::Muted);
+            if (button(ui, {384, 52, 240, 34}, orientation_.available() ? tr(ui,"Start full screen") : ui.text(UiText::ImuUnavailable), Style::Primary, orientation_.available())) {
                 activeIndex_ = selectedIndex_; exitConfirm_ = false; session_.begin(timer); screen = Screen::FocusSession;
             }
-            if (button(ui, {384, 91, 240, 34}, "Edit this preset", Style::Secondary, writable_)) edit(selectedIndex_, false, screen);
+            if (button(ui, {384, 91, 240, 34}, tr(ui,"Edit this preset"), Style::Secondary, writable_)) edit(selectedIndex_, false, screen);
             if (button(ui, {384, 130, 240, 34}, "+ " + std::string{ui.text(UiText::Add)}, Style::Accent, writable_ && count < focus::kMaxTimers)) edit(count, true, screen);
             return Action::None;
         }
@@ -311,25 +315,25 @@ namespace screens {
             focusPhase || complete ? ui::themes::ColorRole::Accent : ui::themes::ColorRole::BreakAccent;
         if (ui.modernPresentation()) {
             if (exitConfirm_) {
-                ui.label({16, 0, 608, 43}, "End Focus?", 15);
+                ui.label({16, 0, 608, 43}, tr(ui,"End Focus?"), 15);
                 ui::modern::rule(ui, {0, 43, 640, 1});
-                ui.label({16, 62, 332, 34}, "Call it a session?", 21);
-                ui.label({16, 100, 332, 48}, "The timer will end.\nYour reading place stays saved.", 13, ui::themes::Muted, ui::TextAlign::Start, 2);
-                if (ui::modern::button(ui, {378, 56, 246, 46}, "Keep focusing", ui::modern::Style::Primary)) { exitConfirm_ = false; ui.invalidate(); }
-                if (ui::modern::button(ui, {378, 114, 246, 46}, "End session", ui::modern::Style::Secondary)) { exitConfirm_ = false; return true; }
+                ui.label({16, 62, 332, 34}, tr(ui,"Call it a session?"), 21);
+                ui.label({16, 100, 332, 48}, tr(ui,"The timer will end.\nYour reading place stays saved."), 13, ui::themes::Muted, ui::TextAlign::Start, 2);
+                if (ui::modern::button(ui, {378, 56, 246, 46}, tr(ui,"Keep focusing"), ui::modern::Style::Primary)) { exitConfirm_ = false; ui.invalidate(); }
+                if (ui::modern::button(ui, {378, 114, 246, 46}, tr(ui,"End session"), ui::modern::Style::Secondary)) { exitConfirm_ = false; return true; }
                 return false;
             }
-            const auto label = complete ? "SESSION COMPLETE" : paused ? "TIMER PAUSED"
-                               : phase == focus::Phase::WaitingFocus || phase == focus::Phase::WaitingBreak ? "READY WHEN YOU ARE"
-                               : focusPhase ? "A LITTLE TIME, WELL SPENT" : "TIME FOR A BREAK";
+            const auto label = complete ? tr(ui,"SESSION COMPLETE") : paused ? tr(ui,"TIMER PAUSED")
+                               : phase == focus::Phase::WaitingFocus || phase == focus::Phase::WaitingBreak ? tr(ui,"READY WHEN YOU ARE")
+                               : focusPhase ? tr(ui,"A LITTLE TIME, WELL SPENT") : tr(ui,"TIME FOR A BREAK");
             ui.label({120, 16, 300, 24}, label, 11, ui::themes::Muted, ui::TextAlign::Center);
             ui.label({110, 42, 320, 86}, time, 66, ui::themes::Foreground, ui::TextAlign::Center);
             ui.progress({156, 143, 228, 2}, session_.progressPermille(nowMs), 0, 1000);
             ui.label({442, 34, 182, 28}, timer.name, 15, phaseRole);
-            ui.label({442, 70, 182, 44}, complete ? "Your session is complete." : "Stand to run.\nLay flat to pause.", 13,
+            ui.label({442, 70, 182, 44}, complete ? tr(ui,"Your session is complete.") : tr(ui,"Stand to run.\nLay flat to pause."), 13,
                      ui::themes::Muted, ui::TextAlign::Start, 2);
-            ui.label({442, 116, 182, 24}, "Round " + std::to_string(session_.round()) + " / " + std::to_string(session_.rounds()), 11, ui::themes::Muted);
-            if (ui::modern::button(ui, {8, 8, 96, 40}, "‹ End", ui::modern::Style::Plain, true, {}, 13)) { exitConfirm_ = true; ui.invalidate(); }
+            ui.label({442, 116, 182, 24}, trf(ui, "Round {}", {std::to_string(session_.round()) + " / " + std::to_string(session_.rounds())}), 11, ui::themes::Muted);
+            if (ui::modern::button(ui, {8, 8, 96, 40}, tr(ui,"‹ End"), ui::modern::Style::Plain, true, {}, 13)) { exitConfirm_ = true; ui.invalidate(); }
             return false;
         }
         constexpr int16_t railWidth = 40;

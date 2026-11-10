@@ -146,7 +146,7 @@ void App::update(uint32_t nowMs) {
             onboardingStorageCancel_.store(true);
     }
     immediateUi_.setBackgroundBusy(blockingJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding));
-    immediateUi_.setFocusBadge(focusScreen_.badge(nowMs));
+    immediateUi_.setFocusBadge(focusScreen_.badge(immediateUi_, nowMs));
     if(!backgroundJobActive())serialCompanion_.update(nowMs);
     Input::ActionMask actions;
     while (Input::poll(actions)) {
@@ -361,7 +361,7 @@ void App::renderScreen(uint32_t nowMs) {
                 const auto& session = readerScreen_.session;
                 const size_t words = ReadingLoop::wordCount(session);
                 const std::string status = screens::modern::bookStatus(
-                    session.state.stats, static_cast<uint32_t>(words > session.state.wordIndex ? words - session.state.wordIndex : 0),
+                    immediateUi_, session.state.stats, static_cast<uint32_t>(words > session.state.wordIndex ? words - session.state.wordIndex : 0),
                     settingsStore_.settings().reading.wpm);
                 action = screens::modern::menu(immediateUi_, title, author, progress, words > 0, interface, screen_,
                                                chapter, session.stored() ? std::string_view{status} : std::string_view{});
@@ -1010,8 +1010,9 @@ void App::updateBackgroundJob() {
             if (dictionarySetup_.installed)
                 dictionary_.refresh();
             dictionarySetup_.confirming = false;
-            dictionarySetup_.message = update.line1;
-            if (update.line2[0]) dictionarySetup_.message += std::string{" · "} + update.line2;
+            dictionarySetup_.message = screens::modern::tr(immediateUi_, update.line1);
+            if (update.line2[0])
+                dictionarySetup_.message += std::string{" · "} + std::string{screens::modern::tr(immediateUi_, update.line2)};
             screen_ = screens::Screen::DictionaryInstall; statusUntilMs_ = 0;
             immediateUi_.cancelTouchUntilRelease(); immediateUi_.invalidate(); renderScreen(millis()); return;
         }

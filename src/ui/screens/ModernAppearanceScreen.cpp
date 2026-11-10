@@ -4,6 +4,9 @@
 #include "ui/screens/ModernScreens.h"
 #include "ui/screens/OnboardingCopy.h"
 
+using screens::modern::tr;
+using screens::modern::trf;
+
 namespace screens {
 namespace {
 int informationPreset(const settings::ReadingSettings& c,bool reading){
@@ -81,7 +84,7 @@ bool ReaderScreen::modernAppearance(ui::Context& ui,Screen& screen){
             for(uint8_t i=0;i<2;++i){
                 const int preset=informationPreset(config,i==0);
                 if(button(ui,{378,int16_t(50+i*51),250,46},t(i==0?C::WhileReading:C::WhilePaused),appearanceDialPage_==i?Style::Accent:Style::Secondary,true,
-                          preset<3?t(presetNames[preset]):std::string_view{"Custom"},13,ui::TextAlign::Start)){
+                          preset<3?t(presetNames[preset]):std::string_view{tr(ui,"Custom")},13,ui::TextAlign::Start)){
                     appearanceDialPage_=i;applyInformation(config,i==0,(preset+1)%3);changed=true;
                     ui.invalidate();
                 }
@@ -93,7 +96,7 @@ bool ReaderScreen::modernAppearance(ui::Context& ui,Screen& screen){
             else changed|=ui.slider({378,87,250,33},t(C::Anchor),type.anchor,"%");
             const auto families=fonts.families();const auto found=std::ranges::find(families,type.fontId,&FontCatalog::Family::id);
             const size_t family=found==families.end()?0:found-families.begin();
-            if(button(ui,{378,124,121,44},families.empty()?"Font":families[family].label,Style::Secondary,!families.empty(),{},13)){
+            if(button(ui,{378,124,121,44},families.empty()?tr(ui,"Font"):families[family].label,Style::Secondary,!families.empty(),{},13)){
                 type.fontId=families[(family+1)%families.size()].id;changed=true;
             }
             if(button(ui,{507,124,121,44},RFont4::sizeLabel(type.fontSizeIndex),Style::Secondary,true,{},13)){type.fontSizeIndex.cycle();changed=true;}

@@ -1,5 +1,9 @@
 #include "ui/screens/ScreenCommon.h"
 #include "ui/screens/ModernScreens.h"
+#include "ui/screens/OnboardingCopy.h"
+
+using screens::modern::tr;
+using screens::modern::trf;
 
 namespace screens {
     bool pacingSettings(ui::Context& ui, settings::PacingSettings& config, Screen& screen) {
@@ -12,16 +16,16 @@ namespace screens {
             using ui::modern::button;
             using ui::modern::Style;
             const auto onOff = [&](bool on) { return ui.text(on ? UiText::On : UiText::Off); };
-            if (button(ui, {12, 111, 148, 53}, "Chapter pause", Style::Secondary, true, onOff(config.chapterPause), 13)) {
+            if (button(ui, {12, 111, 148, 53}, tr(ui,"Chapter pause"), Style::Secondary, true, onOff(config.chapterPause), 13)) {
                 config.chapterPause = !config.chapterPause;
                 changed = true;
             }
-            if (button(ui, {166, 111, 148, 53}, "Rewind on resume", Style::Secondary, true, onOff(config.rewindOnResume),
+            if (button(ui, {166, 111, 148, 53}, tr(ui,"Rewind on resume"), Style::Secondary, true, onOff(config.rewindOnResume),
                        13)) {
                 config.rewindOnResume = !config.rewindOnResume;
                 changed = true;
             }
-            if (button(ui, {320, 111, 148, 53}, "Speed ramp", Style::Secondary, true, onOff(config.speedRamp), 13)) {
+            if (button(ui, {320, 111, 148, 53}, tr(ui,"Speed ramp"), Style::Secondary, true, onOff(config.speedRamp), 13)) {
                 config.speedRamp = !config.speedRamp;
                 changed = true;
             }

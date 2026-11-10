@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 // Time and words actually read, kept per book (with the reading place) and for all books.
 // The reader has no clock that survives power-off, so there are no per-day figures.
@@ -31,10 +32,10 @@ namespace readingStats {
     }
 
     // "under a minute", "45 min", "3 h 20 min", "12 h"
-    inline std::string duration(uint32_t seconds) {
+    inline std::string duration(uint32_t seconds, std::string_view underAMinute = "under a minute") {
         const uint32_t minutes = seconds / 60;
         if (minutes == 0)
-            return "under a minute";
+            return std::string{underAMinute};
         if (minutes < 60)
             return std::to_string(minutes) + " min";
         const uint32_t hours = minutes / 60;
@@ -43,11 +44,11 @@ namespace readingStats {
         return std::to_string(hours) + " h " + std::to_string(minutes % 60) + " min";
     }
 
-    // "987", "12,345", "1,234,567"
-    inline std::string count(uint32_t value) {
+    // "987", "12,345", "1,234,567"; German and Romanian group with "."
+    inline std::string count(uint32_t value, std::string_view separator = ",") {
         std::string digits = std::to_string(value);
         for (int i = static_cast<int>(digits.size()) - 3; i > 0; i -= 3)
-            digits.insert(static_cast<size_t>(i), ",");
+            digits.insert(static_cast<size_t>(i), separator);
         return digits;
     }
 

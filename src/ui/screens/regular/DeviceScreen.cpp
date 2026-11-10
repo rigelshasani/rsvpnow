@@ -1,5 +1,9 @@
 #include "ui/screens/ScreenCommon.h"
 #include "ui/screens/ModernScreens.h"
+#include "ui/screens/OnboardingCopy.h"
+
+using screens::modern::tr;
+using screens::modern::trf;
 
 namespace screens {
     namespace {
@@ -32,33 +36,33 @@ namespace screens {
             using ui::modern::Style;
             const auto current = screen;
             if (const auto action = modern::header(ui, current == Screen::StorageHub ? ui.text(UiText::Storage)
-                                                       : current == Screen::PowerHub ? "Sleep & power"
+                                                       : current == Screen::PowerHub ? tr(ui,"Sleep & power")
                                                        : ui.text(UiText::Device),
                                                    screen, current == Screen::Device ? Screen::Settings : Screen::Device);
                 action != Action::None) return action;
             if (current == Screen::Device) {
-                const std::string_view language = ui.locale() == "en" ? "English" : ui.locale() == "de" ? "Deutsch"
+                const std::string_view language = ui.locale() == "en" ? tr(ui,"English") : ui.locale() == "de" ? "Deutsch"
                                                : ui.locale() == "ro" ? "Română" : ui.locale();
-                if (button(ui,{12,51,198,53},"Storage",Style::Secondary,true,storageStatus)) return Action::StorageStatus;
+                if (button(ui,{12,51,198,53},tr(ui,"Storage"),Style::Secondary,true,storageStatus)) return Action::StorageStatus;
                 if (button(ui,{220,51,198,53},ui.text(UiText::Language),Style::Secondary,true,language)) return Action::CycleLanguage;
-                if (button(ui,{428,51,200,53},"Firmware & updates",Style::Secondary,true,"Version and updates",13)) screen=Screen::Ota;
-                if (button(ui,{12,111,300,53},"Settings encryption",Style::Secondary,true,encryptionStatus)) {
+                if (button(ui,{428,51,200,53},tr(ui,"Firmware & updates"),Style::Secondary,true,tr(ui,"Version and updates"),13)) screen=Screen::Ota;
+                if (button(ui,{12,111,300,53},tr(ui,"Settings encryption"),Style::Secondary,true,encryptionStatus)) {
                     encryptionAcknowledged=false;encryptionControlsVisible=false;screen=Screen::StorageEncryption;
                 }
-                if (button(ui,{328,111,300,53},"Power off",Style::Secondary,true,"Save your place and shut down")) return Action::PowerOff;
+                if (button(ui,{328,111,300,53},tr(ui,"Power off"),Style::Secondary,true,tr(ui,"Save your place and shut down"))) return Action::PowerOff;
                 return Action::None;
             }
             if (current == Screen::PowerHub) {
-                ui.label({16, 56, 330, 34}, "A place to pause.", 21);
-                ui.label({16, 96, 330, 58}, "Your reading place stays saved.\nChoose when the screen rests.", 13, ui::themes::Muted, ui::TextAlign::Start, 2);
-                if (button(ui, {374, 58, 250, 44}, "Sleep & screensaver →")) screen = Screen::InterfaceSettings;
+                ui.label({16, 56, 330, 34}, tr(ui,"A place to pause."), 21);
+                ui.label({16, 96, 330, 58}, tr(ui,"Your reading place stays saved.\nChoose when the screen rests."), 13, ui::themes::Muted, ui::TextAlign::Start, 2);
+                if (button(ui, {374, 58, 250, 44}, tr(ui,"Sleep & screensaver →"))) screen = Screen::InterfaceSettings;
                 if (button(ui, {374, 116, 250, 44}, ui.text(UiText::PowerOff), Style::Primary)) return Action::PowerOff;
                 return Action::None;
             }
             ui.label({16, 56, 330, 34}, storageStatus, 26);
-            ui.label({16, 94, 330, 27}, storageReady ? "Your library, ready to read." : ui.text(UiText::CheckSdCard), 13, ui::themes::Muted);
+            ui.label({16, 94, 330, 27}, storageReady ? tr(ui,"Your library, ready to read.") : ui.text(UiText::CheckSdCard), 13, ui::themes::Muted);
             if (button(ui, {16, 128, 330, 36}, ui.text(UiText::RefreshRss), Style::Accent)) return Action::RssRefresh;
-            if (button(ui, {374, 52, 250, 34}, "Check storage")) return Action::StorageStatus;
+            if (button(ui, {374, 52, 250, 34}, tr(ui,"Check storage"))) return Action::StorageStatus;
             const ui::Rect encryption{374, 91, 250, 34};
             const bool editEncryption = button(ui, encryption, ui.text(UiText::Encryption), Style::Secondary,
                                                true, {}, 13);
@@ -137,11 +141,11 @@ namespace screens {
             const auto back = [&] {
                 encryptionAcknowledged=false;encryptionControlsVisible=false;screen=Screen::Device;
             };
-            if (button(ui,{8,0,94,44},"‹ Device",Style::Plain)) back();
-            ui.label({112,0,340,44},"Settings encryption",16);
+            if (button(ui,{8,0,94,44},tr(ui,"‹ Device"),Style::Plain)) back();
+            ui.label({112,0,340,44},tr(ui,"Settings encryption"),16);
             ui::modern::rule(ui,{0,43,640,1});
             if (!encryptionControlsVisible) {
-                if (button(ui,{480,0,152,44},"Continue →",Style::Accent)) {
+                if (button(ui,{480,0,152,44},tr(ui,"Continue →"),Style::Accent)) {
                     encryptionControlsVisible=true;ui.invalidate();
                 }
                 ui::modern::rule(ui,{0,43,640,1});
@@ -151,10 +155,10 @@ namespace screens {
                 return Action::None;
             }
             const bool available=encryptionState==settings::NvsEncryptionState::Available;
-            ui.label({16,53,306,34},encryptionState==settings::NvsEncryptionState::Enabled?"Protection is enabled":available?"A permanent device change":"Protection unavailable",17);
+            ui.label({16,53,306,34},encryptionState==settings::NvsEncryptionState::Enabled?tr(ui,"Protection is enabled"):available?tr(ui,"A permanent device change"):tr(ui,"Protection unavailable"),17);
             ui.label({16,92,306,72},ui.text(UiText::StorageEncryptionPermanent),13,ui::themes::Muted,ui::TextAlign::Start,4);
-            if (button(ui,{342,51,286,53},encryptionAcknowledged?"Acknowledged":"I understand",Style::Secondary,available,
-                       "Hardware fuse · NVS reset")) encryptionAcknowledged=!encryptionAcknowledged;
+            if (button(ui,{342,51,286,53},encryptionAcknowledged?tr(ui,"Acknowledged"):tr(ui,"I understand"),Style::Secondary,available,
+                       tr(ui,"Hardware fuse · NVS reset"))) encryptionAcknowledged=!encryptionAcknowledged;
             if (button(ui,{342,111,286,53},ui.text(UiText::EnableProtection),Style::Secondary,available && encryptionAcknowledged)) {
                 encryptionAcknowledged=false;encryptionControlsVisible=false;
                 return Action::EnableStorageEncryption;

@@ -2,7 +2,11 @@
 #include <freertos/task.h>
 #include "ui/screens/ReaderScreen.h"
 #include "ui/screens/ModernScreens.h"
+#include "ui/screens/OnboardingCopy.h"
 #include <cctype>
+
+using screens::modern::tr;
+using screens::modern::trf;
 
 namespace screens {
 namespace {
@@ -38,7 +42,7 @@ void ReaderScreen::drawPage(ui::Context& ui) {
     if(pageSelected_==SIZE_MAX) pageSelected_=browse_.first;
     for(size_t i=0;i<std::size(pageButtons);++i) {
         const auto& item=pageButtons[i];
-        ui.label(item.rect,item.label,13,i==1||i==2?ui::themes::Accent:ui::themes::Muted,ui::TextAlign::Center);
+        ui.label(item.rect,tr(ui,item.label),13,i==1||i==2?ui::themes::Accent:ui::themes::Muted,ui::TextAlign::Center);
     }
     ui::modern::rule(ui,{0,43,640,1});
     ui.label({584,148,52,24},std::to_string(ReadingProgress::percent(browse_.first,ReadingLoop::wordCount(session)))+"%",11,ui::themes::Muted,ui::TextAlign::Center);
@@ -108,7 +112,7 @@ void ReaderScreen::drawLocator(ui::Context& ui,Screen& screen,Preferences& prefe
     using ui::modern::button;using ui::modern::Style;
     if(candidate_==SIZE_MAX) candidate_=browse_.first;
     if(screen==Screen::BookSearchKeyboard) {
-        const auto result=ui.keyboard({0,0,640,172},searchDraft_,64,searchKeyboard_,"Find in book");
+        const auto result=ui.keyboard({0,0,640,172},searchDraft_,64,searchKeyboard_,tr(ui,"Find in book"));
         if(result==ui::KeyboardAction::Cancel) screen=Screen::BookSearch;
         if(result==ui::KeyboardAction::Submit) {
             searchQuery_=searchDraft_;searchResults_.clear();searchCursor_=0;searchPage_=0;
@@ -121,21 +125,21 @@ void ReaderScreen::drawLocator(ui::Context& ui,Screen& screen,Preferences& prefe
         const int swipe=locatorSwipe_.update(ui,{12,48,550,120})+modern::takeListStep();
         if(swipe>0 && (searchPage_+1)*2<searchResults_.size()) ++searchPage_;
         if(swipe<0 && searchPage_>0) --searchPage_;
-        if(button(ui,{8,0,102,44},"‹ Find place",Style::Plain)) screen=Screen::FindPlace;
-        ui.label({120,0,286,44},searchQuery_.empty()?"Search this book":searchQuery_,15);
-        if(button(ui,{468,0,164,44},"Edit query",Style::Accent)) {searchDraft_=searchQuery_;searchKeyboard_={};screen=Screen::BookSearchKeyboard;}
+        if(button(ui,{8,0,102,44},tr(ui,"‹ Find place"),Style::Plain)) screen=Screen::FindPlace;
+        ui.label({120,0,286,44},searchQuery_.empty()?tr(ui,"Search this book"):searchQuery_,15);
+        if(button(ui,{468,0,164,44},tr(ui,"Edit query"),Style::Accent)) {searchDraft_=searchQuery_;searchKeyboard_={};screen=Screen::BookSearchKeyboard;}
         for(size_t row=0;row<2;++row) {
             const size_t result=searchPage_*2+row;
             if(result>=searchResults_.size()) break;
             const size_t word=searchResults_[result];
             const auto* chapter=session.metadata.chapterAt(word);
             if(button(ui,{12,int16_t(48+row*60),550,54},placeExcerpt(word,16),Style::Secondary,true,
-                      std::to_string(ReadingProgress::percent(word,ReadingLoop::wordCount(session)))+"% · "+(chapter?chapter->title:"Book"),13,ui::TextAlign::Start)) {candidate_=word;screen=Screen::FindPlace;}
+                      std::to_string(ReadingProgress::percent(word,ReadingLoop::wordCount(session)))+"% · "+(chapter?chapter->title:std::string{tr(ui,"Book")}),13,ui::TextAlign::Start)) {candidate_=word;screen=Screen::FindPlace;}
         }
-        if(searchResults_.empty()) ui.label({16,60,534,92},searchRunning_?"Searching…":searchQuery_.empty()?"Search words or a phrase.\nThe keyboard opens on its own screen.":"No matches found. Try another word or phrase.",17,ui::themes::Muted,ui::TextAlign::Start,3);
+        if(searchResults_.empty()) ui.label({16,60,534,92},searchRunning_?tr(ui,"Searching…"):searchQuery_.empty()?tr(ui,"Search words or a phrase.\nThe keyboard opens on its own screen."):tr(ui,"No matches found. Try another word or phrase."),17,ui::themes::Muted,ui::TextAlign::Start,3);
         if(button(ui,{576,48,52,50},"↑",Style::Plain,searchPage_>0)) --searchPage_;
         const bool hasNext=(searchPage_+1)*2<searchResults_.size();
-        if(button(ui,{576,104,52,50},hasNext?"↓":"More",Style::Plain,hasNext || (!searchRunning_ && searchCursor_<ReadingLoop::wordCount(session) && !searchQuery_.empty()),{},hasNext?20:11)) {
+        if(button(ui,{576,104,52,50},hasNext?"↓":tr(ui,"More"),Style::Plain,hasNext || (!searchRunning_ && searchCursor_<ReadingLoop::wordCount(session) && !searchQuery_.empty()),{},hasNext?20:11)) {
             if(hasNext) ++searchPage_;
             else {searchResults_.clear();searchPage_=0;searchRunning_=true;}
         }
@@ -143,8 +147,8 @@ void ReaderScreen::drawLocator(ui::Context& ui,Screen& screen,Preferences& prefe
         return;
     }
     if(screen==Screen::FindChapters) {
-        if(button(ui,{8,0,102,44},"‹ Find place",Style::Plain)) screen=Screen::FindPlace;
-        ui.label({124,0,364,44},"Choose a chapter to preview",16);
+        if(button(ui,{8,0,102,44},tr(ui,"‹ Find place"),Style::Plain)) screen=Screen::FindPlace;
+        ui.label({124,0,364,44},tr(ui,"Choose a chapter to preview"),16);
         const auto& chapters=session.metadata.chapters;
         const size_t pages=std::max<size_t>(1,(chapters.size()+1)/2);
         const int swipe=locatorSwipe_.update(ui,{12,48,550,120})+modern::takeListStep();
@@ -154,34 +158,34 @@ void ReaderScreen::drawLocator(ui::Context& ui,Screen& screen,Preferences& prefe
         for(size_t row=0;row<2 && findChapterPage_*2+row<chapters.size();++row) {
             const auto index=findChapterPage_*2+row;const auto& chapter=chapters[index];
             if(button(ui,{12,int16_t(48+row*60),550,54},std::to_string(index+1)+"  "+chapter.title,Style::Secondary,true,
-                      std::to_string(ReadingProgress::percent(chapter.wordIndex,ReadingLoop::wordCount(session)))+"% through book",14,ui::TextAlign::Start)) {candidate_=chapter.wordIndex;screen=Screen::FindPlace;}
+                      trf(ui,"{}% through book",{std::to_string(ReadingProgress::percent(chapter.wordIndex,ReadingLoop::wordCount(session)))}),14,ui::TextAlign::Start)) {candidate_=chapter.wordIndex;screen=Screen::FindPlace;}
         }
-        if(chapters.empty()) ui.label({16,58,540,80},"This book has no chapter markers.\nUse the book slider or search to find a place.",17,ui::themes::Muted,ui::TextAlign::Start,2);
+        if(chapters.empty()) ui.label({16,58,540,80},tr(ui,"This book has no chapter markers.\nUse the book slider or search to find a place."),17,ui::themes::Muted,ui::TextAlign::Start,2);
         if(button(ui,{576,48,52,50},"↑",Style::Plain,findChapterPage_>0)) --findChapterPage_;
         if(button(ui,{576,108,52,50},"↓",Style::Plain,findChapterPage_+1<pages)) ++findChapterPage_;
         return;
     }
-    if(button(ui,{8,0,90,44},"‹ Cancel",Style::Plain)) screen=Screen::Reader;
-    if (returnWord_ == SIZE_MAX) ui.label({108,0,186,44},"Find your place",16);
-    else if (button(ui,{108,0,178,44},"↶ Previous place",Style::Plain,true,{},13)) candidate_=returnWord_;
-    if(button(ui,{296,0,92,44},"Search",Style::Accent)) {screen=searchQuery_.empty()?Screen::BookSearchKeyboard:Screen::BookSearch;searchDraft_=searchQuery_;}
-    if(button(ui,{394,0,100,44},"Chapters",Style::Accent)) screen=Screen::FindChapters;
-    if(button(ui,{504,0,128,44},"Read here ↗",Style::Primary,ReadingLoop::wordCount(session)>0)) {
+    if(button(ui,{8,0,90,44},tr(ui,"‹ Cancel"),Style::Plain)) screen=Screen::Reader;
+    if (returnWord_ == SIZE_MAX) ui.label({108,0,186,44},tr(ui,"Find your place"),16);
+    else if (button(ui,{108,0,178,44},tr(ui,"↶ Previous place"),Style::Plain,true,{},13)) candidate_=returnWord_;
+    if(button(ui,{296,0,92,44},tr(ui,"Search"),Style::Accent)) {screen=searchQuery_.empty()?Screen::BookSearchKeyboard:Screen::BookSearch;searchDraft_=searchQuery_;}
+    if(button(ui,{394,0,100,44},tr(ui,"Chapters"),Style::Accent)) screen=Screen::FindChapters;
+    if(button(ui,{504,0,128,44},tr(ui,"Read here ↗"),Style::Primary,ReadingLoop::wordCount(session)>0)) {
         commitPlace(candidate_,preferences,nowMs);pageBrowsing_=false;screen=Screen::Reader;
     }
     ui::modern::rule(ui,{0,43,640,1});
     const auto* chapter=session.metadata.chapterAt(candidate_);
-    ui.label({16,49,324,24},chapter?chapter->title:"Book preview",12,ui::themes::Accent);
+    ui.label({16,49,324,24},chapter?chapter->title:tr(ui,"Book preview"),12,ui::themes::Accent);
     ui.label({16,77,324,83},placeExcerpt(candidate_),17,ui::themes::Foreground,ui::TextAlign::Start,3,session.metadata.localeAt(candidate_));
     int progress=int((uint64_t(candidate_)*100)/std::max<size_t>(1,ReadingLoop::wordCount(session)-1));
-    if(ui.slider({362,47,262,46},"Through book",progress,0,100,1,"%")) candidate_=(uint64_t(progress)*std::max<size_t>(1,ReadingLoop::wordCount(session)-1))/100;
+    if(ui.slider({362,47,262,46},tr(ui,"Through book"),progress,0,100,1,"%")) candidate_=(uint64_t(progress)*std::max<size_t>(1,ReadingLoop::wordCount(session)-1))/100;
     const auto& starts=session.metadata.paragraphStarts;
-    if(button(ui,{362,102,126,44},"‹ Paragraph",Style::Secondary,candidate_>0,{},12)) {
+    if(button(ui,{362,102,126,44},tr(ui,"‹ Paragraph"),Style::Secondary,candidate_>0,{},12)) {
         auto it=std::ranges::lower_bound(starts,candidate_);candidate_=it==starts.begin()?0:*std::prev(it);
     }
-    if(button(ui,{498,102,126,44},"Paragraph ›",Style::Secondary,candidate_+1<ReadingLoop::wordCount(session),{},12)) {
+    if(button(ui,{498,102,126,44},tr(ui,"Paragraph ›"),Style::Secondary,candidate_+1<ReadingLoop::wordCount(session),{},12)) {
         auto it=std::ranges::upper_bound(starts,candidate_);candidate_=it==starts.end()?ReadingLoop::wordCount(session)-1:*it;
     }
-    ui.label({362,148,262,24},"Preview only · your place is saved",11,ui::themes::Muted,ui::TextAlign::Center);
+    ui.label({362,148,262,24},tr(ui,"Preview only · your place is saved"),11,ui::themes::Muted,ui::TextAlign::Center);
 }
 } // namespace screens

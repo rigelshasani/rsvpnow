@@ -50,7 +50,7 @@ namespace screens::modern {
                 bool hasBook, settings::InterfaceSettings& interface, Screen& screen, size_t chapter = 0,
                 std::string_view bookStatus = {});
     // "3 h 20 min left · 1 h 10 min read" for the menu, from the book's totals and words left.
-    std::string bookStatus(const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm);
+    std::string bookStatus(const ui::Context& ui, const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm);
     Action readingStats(ui::Context& ui, const ReadingStats& book, uint32_t wordsLeft, uint32_t fallbackWpm,
                         bool hasBook, const ReadingStats& all, Screen& screen);
     Action hub(ui::Context& ui, Screen& screen);

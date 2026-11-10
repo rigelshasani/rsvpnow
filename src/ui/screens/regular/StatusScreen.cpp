@@ -2,6 +2,10 @@
 #include <freertos/task.h>
 #include "ui/screens/Screens.h"
 #include "ui/Modern.h"
+#include "ui/screens/OnboardingCopy.h"
+
+using screens::modern::tr;
+using screens::modern::trf;
 
 namespace screens {
 
@@ -10,7 +14,7 @@ namespace screens {
                            std::string_view line2, int progressValue) {
             using namespace ui::themes;
             ui::modern::logo(ui, 22, 24, millis());
-            ui.label({304, 12, 316, 27}, ui.startupPresentation() ? "STARTING UP" : "YOUR READING SPACE", 11, Muted);
+            ui.label({304, 12, 316, 27}, ui.startupPresentation() ? tr(ui,"STARTING UP") : tr(ui,"YOUR READING SPACE"), 11, Muted);
             // Own all text regions on every call, including empty lines, so
             // changing stages cannot leave an old filename or failure behind.
             ui.label({304, 43, 316, 38}, title, 2, Foreground, ui::TextAlign::Start, 2);
@@ -35,6 +39,10 @@ namespace screens {
 
     void status(ui::Context& ui, std::string_view title, std::string_view line1, std::string_view line2,
                 int progressValue) {
+        // Messages often come from background tasks, which cannot see the interface language.
+        title = modern::tr(ui, title);
+        line1 = modern::tr(ui, line1);
+        line2 = modern::tr(ui, line2);
         rememberStatus(title, line1, line2, progressValue);
         if (ui.width() == 640 && ui.height() == 172) {
             ui.setModernPresentation(true);

@@ -139,8 +139,8 @@ void test_menu_routes_brightness_bounds_and_unchanged_frame() {
     TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::ReadingStats),static_cast<int>(f.screen));
     // 21,000 words in 84 minutes is 250 wpm, so 50,000 words take 200 minutes.
     TEST_ASSERT_EQUAL_STRING("3 h 20 min left · 1 h 24 min read",
-        screens::modern::bookStatus({.wordsRead=21000,.secondsRead=5040},50000,300).c_str());
-    TEST_ASSERT_EQUAL_STRING("2 h 46 min left",screens::modern::bookStatus({},50000,300).c_str());
+        screens::modern::bookStatus(f.ui,{.wordsRead=21000,.secondsRead=5040},50000,300).c_str());
+    TEST_ASSERT_EQUAL_STRING("2 h 46 min left",screens::modern::bookStatus(f.ui,{},50000,300).c_str());
     f.screen=screens::Screen::Read;
     settings::ReadingSettings reading;f.screen=screens::Screen::QuickControls;
     const auto controls=[&]{return screens::modern::quickControls(f.ui,reading,interface,f.screen);};
@@ -301,6 +301,26 @@ void test_hardware_buttons_step_through_chapters_without_seeking() {
     TEST_ASSERT_TRUE(screens::modern::steppedByButtons(screens::Screen::Library));
     TEST_ASSERT_FALSE(screens::modern::steppedByButtons(screens::Screen::Reader));
     TEST_ASSERT_FALSE(screens::modern::steppedByButtons(screens::Screen::Read));
+}
+
+void test_interface_text_follows_the_language() {
+    Fixture f;
+    using screens::modern::tr;
+    using screens::modern::trf;
+    TEST_ASSERT_EQUAL_STRING("Reading stats", std::string{tr(f.ui, "Reading stats")}.c_str());
+    f.ui.setLocale("de");
+    TEST_ASSERT_EQUAL_STRING("Lesestatistik", std::string{tr(f.ui, "Reading stats")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("noch 3 h", trf(f.ui, "{} left", {"3 h"}).c_str());
+    TEST_ASSERT_EQUAL_STRING("25 Min. Fokus · 5 Min. Pause · ×4",
+                             trf(f.ui, "{}m focus · {}m break · ×{}", {"25", "5", "4"}).c_str());
+    // The approved table wins over a later phrase with the same English.
+    TEST_ASSERT_EQUAL_STRING("Zurück zum Buch", std::string{tr(f.ui, "Back to book")}.c_str());
+    // Unknown text, such as a book title, passes through.
+    TEST_ASSERT_EQUAL_STRING("Middlemarch", std::string{tr(f.ui, "Middlemarch")}.c_str());
+    f.ui.setLocale("ro-RO");
+    TEST_ASSERT_EQUAL_STRING("Cărți gratuite", std::string{tr(f.ui, "Free books")}.c_str());
+    TEST_ASSERT_EQUAL_STRING("2 h 46 min rămase", screens::modern::bookStatus(f.ui, {}, 50000, 300).c_str());
+    f.ui.setLocale("en");
 }
 
 void test_settings_and_connections_keep_existing_actions() {
@@ -679,6 +699,7 @@ int main() {
     RUN_TEST(test_free_shelf_downloads_the_selected_title_or_opens_an_owned_one);
     RUN_TEST(test_chapter_browsing_only_seeks_on_explicit_open);
     RUN_TEST(test_hardware_buttons_step_through_chapters_without_seeking);
+    RUN_TEST(test_interface_text_follows_the_language);
     RUN_TEST(test_settings_and_connections_keep_existing_actions);
     RUN_TEST(test_preview_fonts_navigation_symbols_and_two_line_book_title);
     RUN_TEST(test_reader_controls_respect_visibility_and_do_not_cover_the_word);

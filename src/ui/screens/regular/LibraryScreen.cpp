@@ -10,6 +10,10 @@
 #include "text/AsciiText.h"
 #include "ui/screens/ScreenCommon.h"
 #include "ui/screens/ModernScreens.h"
+#include "ui/screens/OnboardingCopy.h"
+
+using screens::modern::tr;
+using screens::modern::trf;
 
 namespace screens {
     namespace {
@@ -147,7 +151,7 @@ namespace screens {
                 action != Action::None) return action;
             if (items.empty()) {
                 ui.label({16, 52, 408, 60}, ui.text(UiText::NoLibraryItems), 3);
-                ui.label({16, 118, 408, 42}, "Download free classics, or add your own over USB.", 2, ui::themes::Muted,
+                ui.label({16, 118, 408, 42}, tr(ui,"Download free classics, or add your own over USB."), 2, ui::themes::Muted,
                          ui::TextAlign::Start, 2);
                 if (button(ui, {448, 80, 176, 56}, ui.text(UiText::Add), Style::Primary)) screen = Screen::GetBooks;
                 return Action::None;
@@ -167,9 +171,9 @@ namespace screens {
             ui.label({194, 139, 202, 24}, std::to_string(item.progress) + "% · " + std::string{item.chapter}, 11,
                          ui::themes::Muted);
             ui::modern::rule(ui, {476, 56, 1, 104});
-            if (button(ui, {480, 52, 144, 36}, modern::caption(ui, UiText::Read, "Open book"), Style::Primary, item.book != nullptr))
+            if (button(ui, {480, 52, 144, 36}, modern::caption(ui, UiText::Read, tr(ui,"Open book")), Style::Primary, item.book != nullptr))
                 return Action::OpenBook;
-            if (button(ui, {480, 96, 144, 32}, "Book settings", Style::Secondary, item.book != nullptr, {}, 13))
+            if (button(ui, {480, 96, 144, 32}, tr(ui,"Book settings"), Style::Secondary, item.book != nullptr, {}, 13))
                 return Action::OpenBookSettings;
             if (button(ui, {480, 136, 144, 28}, "+ " + std::string{ui.text(UiText::Add)}, Style::Accent))
                 screen = Screen::GetBooks;

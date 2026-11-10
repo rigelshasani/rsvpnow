@@ -6,6 +6,9 @@
 #include "ui/ClippedGfx.h"
 #include "text/Utf8Text.h"
 
+using screens::modern::tr;
+using screens::modern::trf;
+
 namespace screens {
 using C=modern::Copy;
 using ui::modern::button;
@@ -191,8 +194,8 @@ Action OnboardingScreen::draw(ui::Context& ui,settings::DeviceSettings& settings
     else if(step_==10)books(ui);
     else if(step_==11){
         ui.label({16,54,224,36},t(C::Dictionary),21,Foreground);
-        ui.label({16,91,224,28},"Offline English · about 48 MiB",12,Muted);
-        if(button(ui,{16,122,224,42},"Install dictionary",Style::Primary,true,{},13))return Action::OpenDictionarySetup;
+        ui.label({16,91,224,28},tr(ui,"Offline English · about 48 MiB"),12,Muted);
+        if(button(ui,{16,122,224,42},tr(ui,"Install dictionary"),Style::Primary,true,{},13))return Action::OpenDictionarySetup;
         ui.label({268,48,356,22},t(C::DictionaryOffline),15,Accent);
         ui.label({268,70,356,42},t(C::DictionaryOfflineBody),11,Muted,ui::TextAlign::Start,3);
         ui.label({268,114,356,20},t(C::DictionaryOnline),14,Accent);
