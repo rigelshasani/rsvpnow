@@ -16,6 +16,9 @@ namespace OtaUpdater {
         bool rebootRequired = false;
     };
 
+    // The check's message when the release catalog itself cannot be fetched.
+    inline constexpr char kCatalogUnavailable[] = "Update catalog unavailable; retry after publication";
+
     std::string_view currentVersion();
     Result checkOnly(const settings::DeviceSettings& settings, const settings::DeviceSecrets& secrets,
                      StatusCallback callback = nullptr, void* context = nullptr,

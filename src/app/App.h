@@ -101,6 +101,13 @@ private:
         return jobKind_ == JobKind::Typography;
     }
     bool onboardingJobActive() const {return jobKind_==JobKind::OnboardingStorage;}
+    // The startup update check runs unseen while the reader stays usable. Any other job, or
+    // leaving the reading screens, brings it to the foreground until it finishes.
+    bool quietJobActive() const { return backgroundJobActive() && jobQuiet_; }
+    bool blockingJobActive() const { return backgroundJobActive() && !jobQuiet_; }
+    static bool quietCheckScreen(screens::Screen screen);
+    void startQuietUpdateCheck();
+    void finishQuietUpdateCheck(bool wasQuiet);
 
     ui::Context immediateUi_{Board::Display::gfx()};
     settings::SettingsStore settingsStore_;
@@ -126,6 +133,11 @@ private:
     std::atomic<bool> freeBookCancel_{false};
     OtaUpdater::Offer otaOffer_;
     bool otaAutomatic_ = false;
+    OtaUpdater::Offer quietOffer_;
+    bool jobQuiet_ = false;
+    bool quietCheckRunning_ = false;
+    bool otaOfferWaiting_ = false;
+    JobKind deferredJob_ = JobKind::None;
     OtaUpdater::Target otaTarget_ = OtaUpdater::Target::Current;
     CompanionApi companionApi_{settingsStore_,   storage_,       localeCatalog_, immediateUi_, readerScreen_,
                                interfaceScreen_, networkScreen_, libraryScreen_, focusScreen_};

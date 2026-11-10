@@ -28,6 +28,8 @@
 #include "update/AppSwitch.h"
 
 namespace {
+    constexpr char kUpdateCheckSkipsKey[] = "otaSkip";
+    constexpr uint8_t kUpdateCheckSkips = 9;
 
     constexpr uint32_t kBootSplashMs = 650;
     constexpr std::array<uint32_t, 5> kStandbyMs = {
@@ -132,7 +134,7 @@ void App::update(uint32_t nowMs) {
     if (focusScreen_.active()) {
         if (focusScreen_.update(nowMs)) Board::Audio::beep();
         if (focusScreen_.breakVisible()) {
-            if (!backgroundJobActive() && readerScreen_.session.playing)
+            if (!blockingJobActive() && readerScreen_.session.playing)
                 readerScreen_.pauseImmediately(prefs_, nowMs);
             screen_ = screens::Screen::FocusSession;
         }
@@ -143,7 +145,7 @@ void App::update(uint32_t nowMs) {
             || !onboardingScreen_.storageChecking() || onboardingScreen_.storageRequest()!=onboardingJobRequest_)
             onboardingStorageCancel_.store(true);
     }
-    immediateUi_.setBackgroundBusy(backgroundJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding));
+    immediateUi_.setBackgroundBusy(blockingJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding));
     immediateUi_.setFocusBadge(focusScreen_.badge(nowMs));
     if(!backgroundJobActive())serialCompanion_.update(nowMs);
     Input::ActionMask actions;
@@ -159,7 +161,12 @@ void App::update(uint32_t nowMs) {
     }
 
     updateBackgroundJob();
-    immediateUi_.setBackgroundBusy(backgroundJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding));
+    if (quietJobActive() && !quietCheckScreen(screen_)) {
+        // Settings, Wi-Fi and transfers share what the check is using; finish it in view.
+        jobQuiet_ = false;
+        screens::status(immediateUi_, "Firmware update", immediateUi_.text(UiText::Checking));
+    }
+    immediateUi_.setBackgroundBusy(blockingJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding));
     const bool preparingTypography = typographyJobActive();
     if (focusScreen_.breakVisible()) {
         screen_ = screens::Screen::FocusSession;
@@ -174,7 +181,7 @@ void App::update(uint32_t nowMs) {
         return;
     }
 
-    if (backgroundJobActive() && !preparingTypography) {
+    if (blockingJobActive() && !preparingTypography) {
         if(onboardingJobActive()&&screen_==screens::Screen::Onboarding)renderScreen(nowMs);
         else screens::animateStatus(immediateUi_, nowMs);
         return;
@@ -189,11 +196,23 @@ void App::update(uint32_t nowMs) {
             return;
         }
         screen_ = statusDestination_;
-        if (networkScreen_.startupCheckPending && screen_ != screens::Screen::Onboarding) {
-            networkScreen_.startupCheckPending = false;
-            runOtaCheck(false, false, true);
-            return;
-        }
+    }
+    if (networkScreen_.startupCheckPending && !backgroundJobActive() && quietCheckScreen(screen_)
+        && screen_ != screens::Screen::Status) {
+        networkScreen_.startupCheckPending = false;
+        // With no catalog published there is nothing to find: look again only every tenth start
+        // instead of spending a Wi-Fi connection on every one.
+        if (const uint8_t skips = prefs_.getUChar(kUpdateCheckSkipsKey, 0); skips > 0)
+            prefs_.putUChar(kUpdateCheckSkipsKey, static_cast<uint8_t>(skips - 1));
+        else
+            startQuietUpdateCheck();
+    }
+    // An update found while reading waits for the menu instead of interrupting the book.
+    if (otaOfferWaiting_ && screen_ == screens::Screen::Read && !backgroundJobActive()) {
+        otaOfferWaiting_ = false;
+        screen_ = screens::Screen::Ota;
+        immediateUi_.cancelTouchUntilRelease();
+        immediateUi_.invalidate();
     }
 
     if (screen_ == screens::Screen::Standby) {
@@ -576,7 +595,7 @@ void App::handleScreenAction(screens::Action action, uint32_t nowMs) {
         // open the library or a second storage operation over an unfinished job.
         onboardingStorageCancel_.store(true);onboardingScreen_.waitForStorage();renderScreen(nowMs);return;
     }
-    if (backgroundJobActive() && action != screens::Action::None)
+    if (blockingJobActive() && action != screens::Action::None)
         return;
     switch (action) {
     case screens::Action::None:
@@ -744,7 +763,7 @@ void App::handleInput(Input::ActionMask actions, uint32_t nowMs) {
         freeBookCancel_.store(true);
         return;
     }
-    if ((backgroundJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding)) || screen_ == screens::Screen::Status)
+    if ((blockingJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding)) || screen_ == screens::Screen::Status)
         return;
     if (focusScreen_.breakVisible() && !Input::hasAction(actions, Input::ActionPowerOff)) return;
     if (usbTransfer_.active() && Input::hasAction(actions, Input::ActionPowerOff)) {
@@ -893,7 +912,7 @@ void App::handleTouch(uint32_t nowMs) {
         return;
     }
     if (companionApi_.active() || usbTransfer_.active()
-        || (backgroundJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding)) || screen_ == screens::Screen::Status)
+        || (blockingJobActive()&&!(onboardingJobActive()&&screen_==screens::Screen::Onboarding)) || screen_ == screens::Screen::Status)
         return;
     if (screen_ == screens::Screen::Reader) {
         if (!readerScreen_.handleModernControls(immediateUi_, nowMs, prefs_, settingsStore_, screen_))
@@ -916,6 +935,8 @@ void App::updateBackgroundJob() {
     JobUpdate update;
     while (jobQueue_ != nullptr && xQueueReceive(jobQueue_, &update, 0) == pdTRUE) {
         if (!update.complete) {
+            if (jobQuiet_)
+                continue;
             if(onboardingJobActive()){
                 if(screen_==screens::Screen::Onboarding)onboardingScreen_.acceptStorageProgress(update.storageRequest,update.storage,millis());
             }else screens::status(immediateUi_, update.title, update.line1, update.line2, update.progressPercent);
@@ -927,6 +948,13 @@ void App::updateBackgroundJob() {
         vQueueDelete(jobQueue_);
         jobQueue_ = nullptr;
         Logger::checkpoint("running");
+        if (quietCheckRunning_) {
+            const bool wasQuiet = jobQuiet_;
+            quietCheckRunning_ = false;
+            jobQuiet_ = false;
+            finishQuietUpdateCheck(wasQuiet);
+            return;
+        }
         if (completed == JobKind::BookSettings) {
             if (bookSettings_.ready()) {
                 if (bookSettings_.path == readerScreen_.session.sourcePath())
@@ -1066,6 +1094,12 @@ void App::updateBackgroundJob() {
 }
 
 bool App::startBackgroundJob(JobKind kind) {
+    if (quietCheckRunning_ && backgroundJobActive() && deferredJob_ == JobKind::None) {
+        // Run the request as soon as the update check lets go of the worker.
+        deferredJob_ = kind;
+        jobQuiet_ = false;
+        return true;
+    }
     if (backgroundJobActive())
         return false;
     if (jobQueue_ == nullptr)
@@ -1155,9 +1189,11 @@ void App::runBackgroundJob() {
     }
     case JobKind::OtaCheck: {
         Logger::checkpoint("ota_check");
+        const bool quiet = quietCheckRunning_;
         const OtaUpdater::Result result =
             OtaUpdater::checkOnly(settingsStore_.settings(), settingsStore_.secrets(), &App::renderStorageStatus, this,
-                                  otaTarget_, &otaOffer_);
+                                  quiet ? OtaUpdater::Target::Current : otaTarget_,
+                                  quiet ? &quietOffer_ : &otaOffer_);
         copyText(complete.line1, result.summary.c_str());
         copyText(complete.line2, result.detail.c_str());
         break;
@@ -1225,10 +1261,10 @@ bool App::requestTypographyRefresh() {
         typographyRefreshPending_ = true;
         return true;
     }
-    if (backgroundJobActive())
+    if (blockingJobActive())
         return false;
 
-    if (startBackgroundJob(JobKind::Typography))
+    if (!quietJobActive() && startBackgroundJob(JobKind::Typography))
         return true;
 
     ESP_LOGW("reader", "typography task unavailable; preparing synchronously");
@@ -1270,7 +1306,7 @@ void App::runBookOpen(size_t index, uint32_t nowMs) {
         statusUntilMs_ = 0;
         return;
     }
-    if (backgroundJobActive())
+    if (blockingJobActive())
         return;
 
     jobBookIndex_ = index;
@@ -1400,6 +1436,55 @@ void App::reloadUiAssets() {
     immediateUi_.setLanguageAssets(std::move(assets));
 }
 
+bool App::quietCheckScreen(screens::Screen screen) {
+    switch (screen) {
+    case screens::Screen::Reader: case screens::Screen::Read: case screens::Screen::QuickControls:
+    case screens::Screen::Chapters: case screens::Screen::FindPlace: case screens::Screen::FindChapters:
+    case screens::Screen::BookSearch: case screens::Screen::BookSearchKeyboard: case screens::Screen::Library:
+    case screens::Screen::Dictionary: case screens::Screen::DictionarySearch: case screens::Screen::Status:
+        return true;
+    default:
+        return false;
+    }
+}
+
+void App::startQuietUpdateCheck() {
+    quietOffer_ = {};
+    quietCheckRunning_ = true;
+    jobQuiet_ = true;
+    if (!startBackgroundJob(JobKind::OtaCheck)) {
+        quietCheckRunning_ = false;
+        jobQuiet_ = false;
+    }
+}
+
+void App::finishQuietUpdateCheck(bool wasQuiet) {
+    if (quietOffer_.message == OtaUpdater::kCatalogUnavailable)
+        prefs_.putUChar(kUpdateCheckSkipsKey, kUpdateCheckSkips);
+    const JobKind deferred = deferredJob_;
+    deferredJob_ = JobKind::None;
+    if (deferred == JobKind::OtaCheck || deferred == JobKind::OtaInstall) {
+        // A check the user asked for replaces the automatic result.
+        quietOffer_ = {};
+    } else if (quietOffer_.ready) {
+        otaOffer_ = std::move(quietOffer_);
+        otaTarget_ = OtaUpdater::Target::Current;
+        otaOfferWaiting_ = true;
+    }
+    quietOffer_ = {};
+    if (deferred != JobKind::None) {
+        if (!startBackgroundJob(deferred))
+            showTransientStatus(immediateUi_.text(UiText::CouldNotStart), "Please try again", {}, 1200,
+                                screens::Screen::Read);
+        return;
+    }
+    if (!wasQuiet) {
+        immediateUi_.cancelTouchUntilRelease();
+        immediateUi_.invalidate();
+        renderScreen(millis());
+    }
+}
+
 void App::runOtaCheck(bool install, bool switching, bool automatic) {
     otaAutomatic_ = automatic;
     if (install && !otaOffer_.ready) return;
@@ -1421,6 +1506,8 @@ void App::runOtaCheck(bool install, bool switching, bool automatic) {
 
 void App::enterStandby(uint32_t nowMs) {
     if (focusScreen_.active()) return;
+    // Sleeping would strand the update check's Wi-Fi; it finishes within seconds.
+    if (quietJobActive()) return;
     if (companionApi_.active()) {
         companionApi_.end();
     } else {

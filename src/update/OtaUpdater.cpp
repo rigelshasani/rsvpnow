@@ -123,7 +123,7 @@ OtaUpdater::Result OtaUpdater::checkOnly(const settings::DeviceSettings& s,
     if (custom) release = customRelease(source);
     else {
         auto catalog = net::downloadText(update::kCatalogUrl, 16384);
-        if (!catalog) return fail("Update catalog unavailable; retry after publication");
+        if (!catalog) return fail(kCatalogUnavailable);
         release = update::selectRelease(*catalog, offer.switching ? update::kOtherChannel : update::kCurrentChannel,
                                        Board::Config::BOARD_ID, Board::Config::OTA_ASSET_NAME);
     }
