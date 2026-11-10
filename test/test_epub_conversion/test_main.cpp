@@ -88,6 +88,26 @@ namespace {
         TEST_ASSERT_EQUAL_STRING("chapter-1", entries[0].fragment.c_str());
     }
 
+    void test_toc_keeps_chapters_that_only_begin_like_the_book_title() {
+        constexpr std::string_view ncx = R"(<ncx><navMap>
+            <navPoint><navLabel><text>Introduction</text></navLabel><content src="intro.xhtml"/></navPoint>
+            <navPoint><navLabel><text>Sorting</text></navLabel><content src="one.xhtml"/></navPoint>
+            </navMap></ncx>)";
+        const auto kept = EpubPackage::parseNcxTocEntries(ncx, "toc.ncx", "Introduction to Algorithms");
+        TEST_ASSERT_EQUAL_UINT32(2, kept.size());
+        TEST_ASSERT_EQUAL_STRING("Introduction", kept[0].title.c_str());
+
+        // The title without its subtitle is still the title page, not a chapter.
+        constexpr std::string_view shortTitle = R"(<ncx><navMap>
+            <navPoint><navLabel><text>Sapiens</text></navLabel><content src="title.xhtml"/></navPoint>
+            <navPoint><navLabel><text>An Animal of No Significance</text></navLabel><content src="one.xhtml"/></navPoint>
+            </navMap></ncx>)";
+        const auto dropped =
+            EpubPackage::parseNcxTocEntries(shortTitle, "toc.ncx", "Sapiens: A Brief History of Humankind");
+        TEST_ASSERT_EQUAL_UINT32(1, dropped.size());
+        TEST_ASSERT_EQUAL_STRING("An Animal of No Significance", dropped[0].title.c_str());
+    }
+
     void test_parser_uses_ordered_toc_labels_and_paragraph_markers() {
         File output;
         const std::vector<EpubPackage::TocEntry> toc = {
@@ -227,6 +247,7 @@ int main(int, char**) {
     RUN_TEST(test_package_parses_nav_metadata_and_encoded_manifest_paths);
     RUN_TEST(test_nav_toc_flattens_nested_entries_and_decodes_fragments);
     RUN_TEST(test_ncx_toc_ignores_non_content_labels);
+    RUN_TEST(test_toc_keeps_chapters_that_only_begin_like_the_book_title);
     RUN_TEST(test_parser_uses_ordered_toc_labels_and_paragraph_markers);
     RUN_TEST(test_parser_skips_project_gutenberg_boilerplate);
     RUN_TEST(test_parser_preserves_punctuation_only_inline_fragments_without_counting_them_as_words);

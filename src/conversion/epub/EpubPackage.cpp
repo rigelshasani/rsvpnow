@@ -47,6 +47,25 @@ namespace EpubPackage {
             return RsvpText::readableKey(EpubContent::plainTextFromXmlFragment(value));
         }
 
+        // "Sapiens" for "Sapiens: A Brief History of Humankind": the title without its subtitle.
+        // "Introduction" is not that for "Introduction to Algorithms", nor "I" for "It".
+        bool isShortBookTitle(std::string_view loweredLabel, std::string_view bookTitle) {
+            const std::string title = toLowerCopy(EpubContent::plainTextFromXmlFragment(bookTitle));
+            if (!title.starts_with(loweredLabel))
+                return false;
+            std::string_view rest = std::string_view{title}.substr(loweredLabel.size());
+            while (!rest.empty() && rest.front() == ' ')
+                rest.remove_prefix(1);
+            for (const std::string_view separator: {std::string_view{":"}, std::string_view{";"},
+                                                    std::string_view{"("}, std::string_view{"-"},
+                                                    std::string_view{"\xE2\x80\x93"},
+                                                    std::string_view{"\xE2\x80\x94"}}) {
+                if (rest.starts_with(separator))
+                    return true;
+            }
+            return false;
+        }
+
         bool isContentTocTitle(std::string_view value, std::string_view bookTitle) {
             const std::string cleaned = EpubContent::plainTextFromXmlFragment(value);
             const std::string lowered = toLowerCopy(cleaned);
@@ -55,7 +74,7 @@ namespace EpubPackage {
             return !cleaned.empty() && lowered != "contents" && lowered != "cover" && lowered != "title page"
                 && normalized != "tableofcontents" && !normalized.empty()
                 && (normalizedBookTitle.empty() || normalized != normalizedBookTitle)
-                && (normalizedBookTitle.empty() || !normalizedBookTitle.starts_with(normalized));
+                && !isShortBookTitle(lowered, bookTitle);
         }
 
         std::string collapseZipPath(std::string_view path) {
