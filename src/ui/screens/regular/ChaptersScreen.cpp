@@ -59,6 +59,9 @@ namespace screens {
             using ui::modern::button;
             using ui::modern::Style;
             using ui::modern::Direction;
+            // Page view lives here now that the quick controls open the dictionary instead.
+            if (button(ui, {350, 0, 122, 43}, "Page view", Style::Plain, reader.stored(), {}, 13))
+                return Action::OpenPage;
             if (chapters.empty()) {
                 if (button(ui, {16, 72, 608, 72}, ui.text(UiText::StartReading), Style::Primary)) {
                     ReadingLoop::seekTo(reader, 0);

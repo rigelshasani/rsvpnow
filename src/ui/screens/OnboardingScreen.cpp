@@ -113,8 +113,9 @@ Action OnboardingScreen::draw(ui::Context& ui,settings::DeviceSettings& settings
     // The discovered panel fills the display just like the everyday controls.
     if(step_==2&&controlsFound_){
         if(button(ui,{16,8,104,72},t(C::Menu),Style::Secondary)){next(3);return Action::None;}
-        if(button(ui,{128,8,104,72},t(C::Page),Style::Secondary)){next(4);return Action::None;}
-        if(button(ui,{16,90,216,74},t(C::Dictionary),Style::Secondary)){next(9);return Action::None;}
+        // Same places as the everyday controls: Chapters leads on to page view and finding a place.
+        if(button(ui,{128,8,104,72},t(C::Dictionary),Style::Secondary)){next(9);return Action::None;}
+        if(button(ui,{16,90,216,74},t(C::Chapters),Style::Secondary)){next(4);return Action::None;}
         ui::modern::rule(ui,{246,8,1,156});
         ui.label({260,8,190,20},"2 / 11 · "+std::string{t(C::TrayTitle)},11,Muted);
         if(button(ui,{468,4,100,32},t(C::SkipTour),Style::Plain,true,{},11))return Action::SkipIntroduction;

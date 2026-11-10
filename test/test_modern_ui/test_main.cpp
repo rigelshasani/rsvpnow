@@ -139,9 +139,12 @@ void test_menu_routes_brightness_bounds_and_unchanged_frame() {
     f.frame(controls,true,560,0);TEST_ASSERT_EQUAL(100,static_cast<int>(interface.brightnessPercent));f.frame(controls,false,560,0);
     f.tap(controls,540,70);TEST_ASSERT_EQUAL(310,static_cast<int>(reading.wpm));
     f.tap(controls,286,70);TEST_ASSERT_EQUAL(300,static_cast<int>(reading.wpm));
-    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::OpenPage),static_cast<int>(f.tap(controls,180,44)));
-    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::OpenDictionary),static_cast<int>(f.tap(controls,50,127)));
-    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::OpenDictionary),static_cast<int>(f.tap(controls,180,127)));
+    // The small button opens the dictionary; the wide one goes to the book's chapters.
+    TEST_ASSERT_EQUAL(static_cast<int>(screens::Action::OpenDictionary),static_cast<int>(f.tap(controls,180,44)));
+    f.tap(controls,50,127);TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::Chapters),static_cast<int>(f.screen));
+    f.screen=screens::Screen::QuickControls;
+    f.tap(controls,180,127);TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::Chapters),static_cast<int>(f.screen));
+    f.screen=screens::Screen::QuickControls;
     f.tap(controls,65,44);TEST_ASSERT_EQUAL(static_cast<int>(screens::Screen::Read),static_cast<int>(f.screen));
 
 }

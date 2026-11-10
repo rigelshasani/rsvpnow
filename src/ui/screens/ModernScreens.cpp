@@ -123,8 +123,8 @@ namespace screens::modern {
 Action quickControls(ui::Context& ui,settings::ReadingSettings& reading,settings::InterfaceSettings& interface,Screen& screen){
     using ui::modern::button;using ui::modern::Style;
     if(button(ui,{16,8,104,72},copy(ui,Copy::Menu),Style::Secondary,true,{},13))screen=Screen::Read;
-    if(button(ui,{128,8,104,72},copy(ui,Copy::Page),Style::Secondary,true,{},13))return Action::OpenPage;
-    if(button(ui,{16,90,216,74},copy(ui,Copy::Dictionary),Style::Secondary,true,{},13))return Action::OpenDictionary;
+    if(button(ui,{128,8,104,72},copy(ui,Copy::Dictionary),Style::Secondary,true,{},13))return Action::OpenDictionary;
+    if(button(ui,{16,90,216,74},ui.text(UiText::Chapters),Style::Secondary,true,{},13))screen=Screen::Chapters;
     ui::modern::rule(ui,{246,8,1,156});
     ui.label({260,8,308,20},copy(ui,Copy::TrayTitle),11,ui::themes::Muted);
     if(button(ui,{260,42,58,58},"−",Style::Secondary,true,{},26))reading.wpm=std::max<int>(reading.wpm.min(),int(reading.wpm)-10);
